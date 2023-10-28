@@ -26,6 +26,14 @@ const MovieSchema = new Schema({
     imdbLink: {
         type: String,
         required: true
+    },
+    top25: {
+        type: Boolean,
+        required: true
+    },
+    worse20: {
+        type: Boolean,
+        required: true
     }
 })
 
