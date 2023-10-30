@@ -14,6 +14,7 @@ export default function Header() {
                         <Link className='headerLink' to='/recenzije'>Recenzije</Link>
                         <Link className='headerLink' to='/top20smeca'>Top 20 Smeća</Link>
                         <Link className='headerLink' to='/o-blogu'>O Blogu</Link>
+                        <Link className='headerLink' to='/dashboard'>ADMIN</Link>
                     </ul>
                     <ul>
                         <li>Login</li>

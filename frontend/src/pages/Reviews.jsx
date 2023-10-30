@@ -3,8 +3,8 @@ import ReviewCard from '../components/ReviewCard'
 
 
 // Styled Components
-import { ReviewsSection } from './Reviews.styles'
 import { Grid } from '../components/PostsGrid.styled'
+import { ReviewsSection } from './Pages.styles'
 
 
 export default function Recenzije() {

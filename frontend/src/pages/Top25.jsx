@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ReviewCard from '../components/ReviewCard'
 import { Grid } from '../components/PostsGrid.styled'
-import { Top25Section } from './Top25.styled'
+import { Top25Section } from './Pages.styles'
 
 export default function Top25() {
     const [reviews, setReviews] = useState(null)

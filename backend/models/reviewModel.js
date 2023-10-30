@@ -9,42 +9,42 @@ const MovieSchema = new Schema({
     },
     year: {
         type: Number,
-        required: true
+        required: false
     },
     rating: {
         type: Number,
-        required: true
+        required: false
     },
     coverImage: {
         type: String,
-        required: true
+        required: false
     },
     reviewContent: {
         type: String,
-        required: true
+        required: false
     },
     imdbLink: {
         type: String,
-        required: true
+        required: false
     },
     top25: {
         type: Boolean,
-        required: true
+        required: false
     },
     worse20: {
         type: Boolean,
-        required: true
+        required: false
     }
 })
 
 const CommentSchema = new Schema({
     username: {
         type: String,
-        required: true
+        required: false
     },
     commentContent: {
         type: String,
-        required: true
+        required: false
     }
 }, {
     timestamps: true

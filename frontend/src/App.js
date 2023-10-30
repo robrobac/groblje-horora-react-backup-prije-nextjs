@@ -15,6 +15,8 @@ import { AppContainer, AppPage } from './App.styles';
 
 // Components
 import Header from './components/Header';
+import Dashboard from './pages/Dashboard/Dashboard';
+import Dashboard2 from './pages/Dashboard/Dashboard2';
 
 
 function App() {
@@ -31,6 +33,8 @@ function App() {
                             <Route path='/recenzije/:id/' element={<RecenzijaSingle />} />
                             <Route path='/top20smeca/' element={<Top20smeca />} />
                             <Route path='/o-blogu/' element={<About />} />
+                            <Route path='/dashboard/' element={<Dashboard />} />
+                            <Route path='/dashboard2/' element={<Dashboard2 />} />
                         </Routes>
                     </AppPage>
                 </BrowserRouter>

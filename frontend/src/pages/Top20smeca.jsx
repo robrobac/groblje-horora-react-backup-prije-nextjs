@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Top25smecaSection } from './Top20smeca.styled'
 import { Grid } from '../components/PostsGrid.styled'
 import ReviewCard from '../components/ReviewCard'
+import { Top25smecaSection } from './Pages.styles'
 
 export default function Top20smeca() {
     const [reviews, setReviews] = useState(null)

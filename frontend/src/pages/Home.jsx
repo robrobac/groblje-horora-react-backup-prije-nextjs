@@ -1,7 +1,7 @@
 import React from 'react'
 
 import homeCoverImage from '../images/groblje-horora-main-image.jpg';
-import { ContentSection, CoverSection, HomeIntroSection, LatestSection, Section1280, SectionFullWidth } from './Home.styles';
+import { HomeIntroSection } from './Pages.styles';
 
 
 export default function Home() {
