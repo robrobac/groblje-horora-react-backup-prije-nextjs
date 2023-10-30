@@ -6,20 +6,27 @@ const {
     getReview,
     getReviews,
     deleteReview,
-    updateReview
+    updateReview,
+    getTop25,
+    getWorse20
 } = require('../controllers/reviewsController')
 
 const router = express.Router()
 
-
 // GET all Reviews
-router.get('/reviews/', getReviews)
+router.get('/reviews', getReviews)
+
+// GET Top25 Reviews
+router.get('/reviews/top25', getTop25)
+
+// GET Worse20 Reviews
+router.get('/reviews/worse20', getWorse20)
 
 // GET a SINGLE Review
 router.get('/reviews/:id', getReview)
 
 // POST a NEW Review
-router.post('/reviews/', createReview)
+router.post('/reviews', createReview)
 
 // DELETE a Review
 router.delete('/reviews/:id', deleteReview)

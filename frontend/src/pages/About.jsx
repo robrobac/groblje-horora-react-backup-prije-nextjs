@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function Recenzije() {
+export default function About() {
   return (
     <div>
-      Recenzije
+      About
     </div>
   )
 }

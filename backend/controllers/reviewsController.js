@@ -8,6 +8,20 @@ const getReviews = async (req, res) => {
     res.status(200).json(reviews)
 }
 
+// Get Top25 reviews
+const getTop25 = async (req, res) => {
+    const reviews = await Review.find({ 'movies.0.top25': true }).sort({ createdAt: -1 })
+
+    res.status(200).json(reviews)
+}
+
+// Get Worse20 reviews
+const getWorse20 = async (req, res) => {
+    const reviews = await Review.find({ 'movies.0.worse20': true }).sort({ createdAt: -1 })
+
+    res.status(200).json(reviews)
+}
+
 // Get a single review
 const getReview = async (req, res) => {
     const { id } = req.params
@@ -27,11 +41,11 @@ const getReview = async (req, res) => {
 
 // Create a new review
 const createReview = async (req, res) => {
-    const { movies, comments, likes } = req.body
+    const { reviewTitle, movies, comments, likes } = req.body
 
     // add doc to db
     try {
-        const review = await Review.create({ movies, comments, likes })
+        const review = await Review.create({ reviewTitle, movies, comments, likes })
         res.status(200).json(review)
     } catch (error) {
         res.status(400).json({ error: error.message })
@@ -80,5 +94,7 @@ module.exports = {
     getReviews,
     getReview,
     deleteReview,
-    updateReview
+    updateReview,
+    getTop25,
+    getWorse20
 }

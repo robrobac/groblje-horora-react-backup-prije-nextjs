@@ -51,6 +51,10 @@ const CommentSchema = new Schema({
 })
 
 const ReviewSchema = new Schema({
+    reviewTitle: {
+        type: String,
+        required: true
+    },
     movies: [MovieSchema],
     comments: [CommentSchema],
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
