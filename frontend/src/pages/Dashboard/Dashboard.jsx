@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import TextEditor from '../../components/TextEditor'
 
 export default function Dashboard() {
     const [reviewTitle, setReviewTitle] = useState('This field is not used in single review')
@@ -11,6 +12,7 @@ export default function Dashboard() {
     const [top25, setTop25] = useState(false)
     const [worse20, setWorse20] = useState(false)
     const [error, setError] = useState(null)
+
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -97,6 +99,11 @@ export default function Dashboard() {
                         onChange={(e) => setCoverImage(e.target.value)}
                     />
                 </div>
+
+
+                <TextEditor />
+
+
                 <div>
                     <label htmlFor='reviewContent'>Review Content</label>
                     <textarea
