@@ -19,6 +19,10 @@ const MovieSchema = new Schema({
         type: String,
         required: false
     },
+    coverImagePath: {
+        type: String,
+        required: false
+    },
     reviewContent: {
         type: String,
         required: false

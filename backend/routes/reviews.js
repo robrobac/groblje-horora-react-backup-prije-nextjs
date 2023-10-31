@@ -3,7 +3,6 @@ const Review = require('../models/reviewModel')
 
 const {
     createReview,
-    createQuadReview,
     getReview,
     getReviews,
     deleteReview,
