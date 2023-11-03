@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import ReviewCard from '../components/ReviewCard'
-import { Grid } from '../components/PostsGrid.styled'
-import { Top25Section } from './Pages.styles'
+import ReviewCard from '../components/postsGrid/ReviewCard'
+import { Grid } from '../components/postsGrid/PostsGrid.styles'
+import { PageContainer } from './Pages.styles'
 
 export default function Top25() {
     const [reviews, setReviews] = useState(null)
@@ -22,12 +22,12 @@ export default function Top25() {
     }, [])
 
     return (
-        <Top25Section>       
+        <PageContainer>       
             <Grid>
                 {reviews && reviews.map((review) => (
                     <ReviewCard key={review._id} review={review} />
                 ))}
             </Grid>
-        </Top25Section>
+        </PageContainer>
     )
 }

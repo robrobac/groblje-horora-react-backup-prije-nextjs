@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Grid } from '../components/PostsGrid.styled'
-import ReviewCard from '../components/ReviewCard'
-import { Top25smecaSection } from './Pages.styles'
+import { Grid } from '../components/postsGrid/PostsGrid.styles'
+import ReviewCard from '../components/postsGrid/ReviewCard'
+import { PageContainer } from './Pages.styles'
 
-export default function Top20smeca() {
+export default function Worse20() {
     const [reviews, setReviews] = useState(null)
     console.log(reviews)
 
@@ -21,12 +21,12 @@ export default function Top20smeca() {
     }, [])
 
     return (
-        <Top25smecaSection>       
+        <PageContainer>       
             <Grid>
                 {reviews && reviews.map((review) => (
                     <ReviewCard key={review._id} review={review} />
                 ))}
             </Grid>
-        </Top25smecaSection>
+        </PageContainer>
     )
 }

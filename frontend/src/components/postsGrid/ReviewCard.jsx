@@ -1,7 +1,9 @@
 import React from 'react'
-import { PreviewContainer, PreviewDetails, PreviewImage, QuadImage, QuadImageContainer } from './ReviewCard.styles'
-import { ReadMoreButton } from './Button.styles'
+import { ReadMoreButton } from '../Button.styles'
 import { Link } from 'react-router-dom'
+
+import Rating from '../Rating';
+import { PreviewContainer, PreviewDetails, PreviewImage, QuadImage, QuadImageContainer } from './ReviewCard.styles';
 
 export default function ReviewCard({review}) {
 
@@ -14,7 +16,7 @@ export default function ReviewCard({review}) {
                 <PreviewDetails>
                     <div>
                         <h3>{review.movies[0].title} <span>({review.movies[0].year})</span></h3>
-                        <p>Ocjena: {review.movies[0].rating}</p>
+                        <Rating rating={review.movies[0].rating} detailed={false}/>
                     </div>
                     <Link to={`/recenzije/${review._id}`}><ReadMoreButton>Pročitaj više</ReadMoreButton></Link> 
                 </PreviewDetails>
@@ -56,3 +58,4 @@ export default function ReviewCard({review}) {
             </PreviewContainer>
     )
 }
+

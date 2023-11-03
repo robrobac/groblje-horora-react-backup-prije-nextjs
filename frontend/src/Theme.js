@@ -3,13 +3,15 @@ import { ThemeProvider } from 'styled-components'
 const theme = {
     dark: {
         background: '#191919',
-        primary: '#fff',
+
         darkText: '#191919',
+        lightText: '#fff',
+
+        primary: '#fff',
         secondary: '#860000',
-        header: '#929292',
 
         contentWidth: '1200px',
-        contentPadding: '0 100px'
+        readingWidth: '700px',
     }
 }
 

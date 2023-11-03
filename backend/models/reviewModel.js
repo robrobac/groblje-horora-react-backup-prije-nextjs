@@ -24,7 +24,7 @@ const MovieSchema = new Schema({
         required: false
     },
     reviewContent: {
-        type: String,
+        type: Object,
         required: false
     },
     imdbLink: {
@@ -49,7 +49,7 @@ const CommentSchema = new Schema({
     commentContent: {
         type: String,
         required: false
-    }
+    },
 }, {
     timestamps: true
 })
@@ -58,6 +58,10 @@ const ReviewSchema = new Schema({
     reviewTitle: {
         type: String,
         required: true
+    },
+    contentImages: {
+        type: Array,
+        required: false,
     },
     movies: [MovieSchema],
     comments: [CommentSchema],

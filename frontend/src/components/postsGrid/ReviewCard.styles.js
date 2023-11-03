@@ -24,11 +24,13 @@ export const PreviewDetails = styled.div`
     flex-direction: column;
     justify-content: space-between;
     padding: 20px 0;
-    gap: auto;
+    
 
     div {
         display: flex;
         flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
 
         h3 {
             font-size: 20px;

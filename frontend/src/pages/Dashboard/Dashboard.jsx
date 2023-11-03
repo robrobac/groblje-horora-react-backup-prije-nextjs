@@ -1,28 +1,44 @@
 import React, { useRef, useState } from 'react'
-import TextEditor from '../../components/TextEditor'
 import Compressor from 'compressorjs';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from '../../firebase/config';
+import { EditorState, convertToRaw } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import './textEditor.css'
+import ImageRepo from './ImageRepo';
+import stringFormatting from '../../helpers/stringFormatting';
 
 export default function Dashboard() {
     const [reviewTitle, setReviewTitle] = useState('This field is not used in single review')
     const [title, setTitle] = useState('')
     const [year, setYear] = useState('')
     const [rating, setRating] = useState('')
+    const [contentImages, setContentImages] = useState([])
     const [reviewContent, setReviewContent] = useState('')
+    const [editorState, setEditorState] = useState(EditorState.createEmpty())
     const [imdbLink, setImdbLink] = useState('')
     const [top25, setTop25] = useState(false)
     const [worse20, setWorse20] = useState(false)
-
     const [compressedCoverImage, setCompressedCoverImage] = useState(null);
     const fileInputRef = useRef(null);
 
     const [error, setError] = useState(null)
 
-    function stringFormatting(inputString, sufix) {
-        const formattedString = inputString.replace(/\s+/g, '-');
-        const result = formattedString + sufix;
-        return result;
+    console.log(compressedCoverImage)
+
+    console.log(contentImages)
+
+    // function stringFormatting(inputString, sufix) {
+    //     const formattedString = inputString.replace(/\s+/g, '-');
+    //     const result = formattedString + sufix;
+    //     return result;
+    // }
+
+    const onEditorStateChange = (newEditorState) => {
+        setEditorState(newEditorState)
+        const textEditorData = convertToRaw(newEditorState.getCurrentContent())
+        setReviewContent(textEditorData)
     }
 
     //  Compressing the image before uploading to Firebase Storage
@@ -44,7 +60,7 @@ export default function Dashboard() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        let url = "noURL"
+        let url = ""
         let filePath = ""
 
         if (compressedCoverImage) {
@@ -73,7 +89,8 @@ export default function Dashboard() {
                 imdbLink,
                 top25,
                 worse20
-            }
+            },
+            contentImages: contentImages,
         }
 
         const response = await fetch('/api/reviews', {
@@ -93,7 +110,9 @@ export default function Dashboard() {
             setTitle('')
             setYear('')
             setRating('')
+            
             setReviewContent('')
+            setEditorState(EditorState.createEmpty())
             setImdbLink('')
             setTop25(false)
             setWorse20(false)
@@ -101,7 +120,24 @@ export default function Dashboard() {
             fileInputRef.current.value = null;
             setError(null)
             console.log('New Review Added')
+
+            // Deleting images from temp images
+            contentImages.forEach(async(image) => {
+                const deleteResponse = await fetch(`/api/tempMedia/${image.id}`, {
+                    method: 'DELETE'
+                })
+                const json = await deleteResponse.json()
+
+                if (response.ok) {
+                    console.log("deleted from tempImages", json)
+                }
+            })
+            setContentImages([])
         }
+    }
+
+    const handleContentImages = (value) => {
+        setContentImages(value)
     }
 
     return (
@@ -128,6 +164,7 @@ export default function Dashboard() {
                 <div>
                     <label htmlFor='rating'>Rating</label>
                     <input
+                        step='0.5' min='1' max='5'
                         id='rating'
                         type='number'
                         value={rating}
@@ -144,19 +181,25 @@ export default function Dashboard() {
                         onChange={handleCompressImage}
                     />
                 </div>
-
-                <TextEditor />
-
                 <div>
-                    <label htmlFor='reviewContent'>Review Content</label>
-                    <textarea
-                        id='reviewContent'
-                        type='text'
-                        value={reviewContent}
-                        onChange={(e) => setReviewContent(e.target.value)}
-                        rows='10'
-                        cols='50'
-                    />
+                <Editor
+                    editorState={editorState}
+                    onEditorStateChange={onEditorStateChange}
+                    toolbar={{
+                        options: ['inline', 'image', 'link', 'history'],
+                        inline: {
+                            options: ['bold', 'italic']
+                        },
+                        image: {
+                            urlEnabled: true,
+                            uploadEnabled: true,
+                            alignmentEnabled: true,
+                            className: 'imageButton',
+                            popupClassName: 'imagePopup',
+
+                        }
+                    }}
+                />
                 </div>
                 <div>
                     <label htmlFor='imdbLink'>Imdb Link</label>
@@ -187,11 +230,7 @@ export default function Dashboard() {
                 </div>
                 <button>Add!</button>
             </form>
+            <ImageRepo handleContentImages={handleContentImages} contentImages={contentImages}/>
         </div>
     )
 }
-
-
-
-        
-

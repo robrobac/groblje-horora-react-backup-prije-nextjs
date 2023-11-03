@@ -41,11 +41,11 @@ const getReview = async (req, res) => {
 
 // Create a new review
 const createReview = async (req, res) => {
-    const { reviewTitle, movies, comments, likes } = req.body
+    const { reviewTitle, movies, comments, likes, contentImages } = req.body
 
     // add doc to db
     try {
-        const review = await Review.create({ reviewTitle, movies, comments, likes })
+        const review = await Review.create({ reviewTitle, movies, comments, likes, contentImages })
         res.status(200).json(review)
     } catch (error) {
         res.status(400).json({ error: error.message })

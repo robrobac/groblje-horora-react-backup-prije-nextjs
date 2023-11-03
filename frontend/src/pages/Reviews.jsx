@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import ReviewCard from '../components/ReviewCard'
+import ReviewCard from '../components/postsGrid/ReviewCard'
 
 
 // Styled Components
-import { Grid } from '../components/PostsGrid.styled'
-import { ReviewsSection } from './Pages.styles'
+import { Grid } from '../components/postsGrid/PostsGrid.styles'
+import { PageContainer, PageSection } from './Pages.styles'
 
 
 export default function Recenzije() {
@@ -25,12 +25,14 @@ export default function Recenzije() {
     }, [])
 
     return (
-        <ReviewsSection>
-            <Grid>
-                {reviews && reviews.map((review) => (
+        <PageContainer>
+            <PageSection>
+                <Grid>
+                    {reviews && reviews.map((review) => (
                         <ReviewCard key={review._id} review={review} />
-                ))}
-            </Grid>
-        </ReviewsSection>
+                    ))}
+                </Grid>
+            </PageSection>
+        </PageContainer>
     )
 }
