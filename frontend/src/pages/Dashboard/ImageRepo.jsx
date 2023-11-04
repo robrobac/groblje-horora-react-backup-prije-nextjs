@@ -1,8 +1,7 @@
 import React, { useRef, useState } from 'react'
 import Compressor from 'compressorjs';
 import stringFormatting from '../../helpers/stringFormatting';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { storage } from '../../firebase/config';
+import { uploadImageToFirebaseStorage } from '../../helpers/firebaseUtils';
 
 export default function ImageRepo({handleContentImages, contentImages}) {
     // State that holds compressed images that are later uploaded to Firebase Storage, once upload is successful clear the state.
@@ -51,14 +50,13 @@ export default function ImageRepo({handleContentImages, contentImages}) {
             let url = ''
             let path = ''
 
-            // get firestore storage path and filename
+            // create firebase storage path
             path = `postImages/${stringFormatting('post-image', Date.now())}`
-            const fileRef = ref(storage, path)
-
-            // Try to upload to Firebase Storage
             try {
-                const snapshot = await uploadBytes(fileRef, image)
-                url = await getDownloadURL(snapshot.ref)
+                // Upload to Firebase and retrieve image's url and path
+                const result = await uploadImageToFirebaseStorage(image, path)
+                url = result.url
+                path = result.path
             } catch (error) {
                 console.log(error)
             }
@@ -99,27 +97,24 @@ export default function ImageRepo({handleContentImages, contentImages}) {
 
   return (
     <div>
-        <label htmlFor='coverImage'>Cover Image</label>
-        <input multiple
-            ref={fileInputRef}
-            id='coverImage'
-            type='file'
-            accept='image/'
-            onChange={handleCompressImage}
-        />
+        <label htmlFor='coverImage'>Content Images</label>
+        <input multiple ref={fileInputRef} id='coverImage' type='file' accept='image/' onChange={handleCompressImage}/>
+
         {compressedImages.map((image, index) => (
             <div className='compressedImages'>
                 <img style={{width: '50px'}} key={index} src={URL.createObjectURL(image)} alt='uploadedImage'/>
             </div>
-         ))}
-         <button onClick={getLinks}>Get Links</button>
-         {contentImages.map((image, index) => (
+        ))}
+
+        <button onClick={getLinks}>Get Links</button>
+
+        {contentImages.map((image, index) => (
             <div className='uploadedImages'>
                 <img style={{width: '200px'}} key={index} src={image.url} alt='uploadedImage'/>
                 <p>{image.url}</p>
             </div>
-         ))}
-         <button>Simulate SUbmit</button>
+        ))}
+
     </div>
   )
 }

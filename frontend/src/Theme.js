@@ -12,6 +12,9 @@ const theme = {
 
         contentWidth: '1200px',
         readingWidth: '700px',
+
+        inputBackground: '#FFFFFF1A',
+        inputBorder: '#FFFFFF1A',
     }
 }
 

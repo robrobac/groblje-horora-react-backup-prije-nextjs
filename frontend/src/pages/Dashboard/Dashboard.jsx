@@ -1,13 +1,12 @@
 import React, { useRef, useState } from 'react'
 import Compressor from 'compressorjs';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { storage } from '../../firebase/config';
 import { EditorState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import './textEditor.css'
 import ImageRepo from './ImageRepo';
 import stringFormatting from '../../helpers/stringFormatting';
+import { uploadImageToFirebaseStorage } from '../../helpers/firebaseUtils';
+import { Checkbox, CheckboxLabel, File, FileLabel, FormContainer, FormContent, FormImage, InputContainer, InputField, InputLabel, StyledEditor } from './Dashboard.styles';
 
 export default function Dashboard() {
     const [reviewTitle, setReviewTitle] = useState('This field is not used in single review')
@@ -25,20 +24,16 @@ export default function Dashboard() {
 
     const [error, setError] = useState(null)
 
-    console.log(compressedCoverImage)
-
-    console.log(contentImages)
-
-    // function stringFormatting(inputString, sufix) {
-    //     const formattedString = inputString.replace(/\s+/g, '-');
-    //     const result = formattedString + sufix;
-    //     return result;
-    // }
-
+    // function that handles text editor state in Editor child component
     const onEditorStateChange = (newEditorState) => {
         setEditorState(newEditorState)
         const textEditorData = convertToRaw(newEditorState.getCurrentContent())
         setReviewContent(textEditorData)
+    }
+
+    // State that holds data about images that are uploaded and compressed from ImageRepo component
+    const handleContentImages = (value) => {
+        setContentImages(value)
     }
 
     //  Compressing the image before uploading to Firebase Storage
@@ -58,25 +53,29 @@ export default function Dashboard() {
         }
     };
 
+
+    // handling form submit
     const handleSubmit = async (e) => {
         e.preventDefault()
+        // url and path used for cover image
         let url = ""
         let filePath = ""
 
+        // if cover image is uploaded and compressed upload it to firebase storage
         if (compressedCoverImage) {
-            // get firestore storage path and filename
+            // create firebase storage path
             const path = `coverImages/${stringFormatting(title, "-cover-image")}`
-            filePath = path
-            const fileRef = ref(storage, path)
-
             try {
-                const snapshot = await uploadBytes(fileRef, compressedCoverImage)
-                url = await getDownloadURL(snapshot.ref)
+                // Upload to Firebase and retrieve image's url and path
+                const result = await uploadImageToFirebaseStorage(compressedCoverImage, path)
+                url = result.url
+                filePath = result.path
             } catch (error) {
                 console.log(error)
             }
         }
 
+        // Review Object, containing everything that goes to MongoDB
         const review = {
             reviewTitle: reviewTitle,
             movies: {
@@ -93,6 +92,7 @@ export default function Dashboard() {
             contentImages: contentImages,
         }
 
+        // Posting to MongoDB
         const response = await fetch('/api/reviews', {
             method: 'POST',
             body: JSON.stringify(review),
@@ -100,9 +100,7 @@ export default function Dashboard() {
                 'Content-Type': 'application/json'
             }
         })
-
         const json = await response.json()
-
         if (!response.ok) {
             setError(json.error)
         }
@@ -110,7 +108,6 @@ export default function Dashboard() {
             setTitle('')
             setYear('')
             setRating('')
-            
             setReviewContent('')
             setEditorState(EditorState.createEmpty())
             setImdbLink('')
@@ -121,7 +118,7 @@ export default function Dashboard() {
             setError(null)
             console.log('New Review Added')
 
-            // Deleting images from temp images
+            // Deleting images from temp images, the data about images is stored in the post document
             contentImages.forEach(async(image) => {
                 const deleteResponse = await fetch(`/api/tempMedia/${image.id}`, {
                     method: 'DELETE'
@@ -136,101 +133,81 @@ export default function Dashboard() {
         }
     }
 
-    const handleContentImages = (value) => {
-        setContentImages(value)
+    const testClick = () => {
+        fileInputRef.current.click()
     }
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor='title'>Title</label>
-                    <input
-                        id='title'
-                        type='text'
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <label htmlFor='year'>Year</label>
-                    <input
-                        id='year'
-                        type='number'
-                        value={year}
-                        onChange={(e) => setYear(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <label htmlFor='rating'>Rating</label>
-                    <input
-                        step='0.5' min='1' max='5'
-                        id='rating'
-                        type='number'
-                        value={rating}
-                        onChange={(e) => setRating(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <label htmlFor='coverImage'>Cover Image</label>
-                    <input
-                        id='coverImage'
-                        type='file'
-                        accept='image/'
-                        ref={fileInputRef}
-                        onChange={handleCompressImage}
-                    />
-                </div>
-                <div>
-                <Editor
-                    editorState={editorState}
-                    onEditorStateChange={onEditorStateChange}
-                    toolbar={{
-                        options: ['inline', 'image', 'link', 'history'],
-                        inline: {
-                            options: ['bold', 'italic']
-                        },
-                        image: {
-                            urlEnabled: true,
-                            uploadEnabled: true,
-                            alignmentEnabled: true,
-                            className: 'imageButton',
-                            popupClassName: 'imagePopup',
+            <form style={{maxWidth: '700px'}} onSubmit={handleSubmit}>
+                <FormContainer>
+                    <FormImage>
+                        <div>
+                            {compressedCoverImage
+                            ?
+                                <img src={URL.createObjectURL(compressedCoverImage)} alt='uploadedImage' onClick={testClick}/>
+                            :
+                                <FileLabel htmlFor='coverImage'>Cover Image</FileLabel>
+                            }
+                            <File id='coverImage' type='file' accept='image/' ref={fileInputRef} onChange={handleCompressImage}/>
+                        </div>
+                        
+                        
+                    </FormImage>
+                    <FormContent>
+                        <InputContainer>
+                            <InputLabel htmlFor='title'>Title</InputLabel>
+                            <InputField id='title' type='text' value={title} onChange={(e) => setTitle(e.target.value)}/>
+                        </InputContainer>
+                        <InputContainer>
+                            <InputLabel htmlFor='year'>Year</InputLabel>
+                            <InputField id='year' type='number' value={year} onChange={(e) => setYear(e.target.value)}/>
+                        </InputContainer>
 
-                        }
-                    }}
-                />
-                </div>
+                        <InputContainer>
+                            <InputLabel htmlFor='rating'>Rating</InputLabel>
+                            <InputField id='rating' type='number' value={rating} onChange={(e) => setRating(e.target.value)} step='0.5' min='1' max='5'/>
+                        </InputContainer>
+                        <InputContainer>
+                            <InputLabel htmlFor='imdbLink'>Imdb Link</InputLabel>
+                            <InputField id='imdbLink'  type='text' value={imdbLink} onChange={(e) => setImdbLink(e.target.value)}/>
+                        </InputContainer>
+                        <div className="dualInput">
+                        <div>
+                            <label htmlFor='top25'>Top25</label>
+                            <input id='top25' type='checkbox' value={top25} onChange={(e) => setTop25(e.target.value)}/>
+                        </div>
+                        <div>
+                            <CheckboxLabel htmlFor='worse20'>
+                                Worse20
+                                <Checkbox id='worse20' type='checkbox' value={worse20} onChange={(e) => setWorse20(e.target.value)}/>
+                            </CheckboxLabel>
+                        </div>
+                        </div>
+                    </FormContent>
+                </FormContainer>
+                
                 <div>
-                    <label htmlFor='imdbLink'>Imdb Link</label>
-                    <input
-                        id='imdbLink'
-                        type='text'
-                        value={imdbLink}
-                        onChange={(e) => setImdbLink(e.target.value)}
-                    />
+                    <InputLabel>Post Content</InputLabel>
+                    <StyledEditor>
+                        <Editor editorState={editorState} onEditorStateChange={onEditorStateChange}
+                            toolbar={{
+                                options: ['inline', 'image', 'link', 'history'],
+                                inline: {
+                                    options: ['bold', 'italic']
+                                },
+                                image: {
+                                    urlEnabled: true,
+                                    uploadEnabled: true,
+                                    alignmentEnabled: true,
+                                    className: 'imageButton',
+                                    popupClassName: 'imagePopup',
+                                }
+                            }}
+                        />
+                    </StyledEditor>
                 </div>
-                <div>
-                    <label htmlFor='top25'>Top25</label>
-                    <input
-                        id='top25'
-                        type='checkbox'
-                        value={top25}
-                        onChange={(e) => setTop25(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <label htmlFor='worse20'>Worse20</label>
-                    <input
-                        id='worse20'
-                        type='checkbox'
-                        value={worse20}
-                        onChange={(e) => setWorse20(e.target.value)}
-                    />
-                </div>
-                <button>Add!</button>
+                <ImageRepo handleContentImages={handleContentImages} contentImages={contentImages}/>
+                <button>Publish</button>
             </form>
-            <ImageRepo handleContentImages={handleContentImages} contentImages={contentImages}/>
-        </div>
     )
 }
