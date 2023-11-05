@@ -32,7 +32,7 @@ export default function Dashboard() {
         setReviewContent(textEditorData)
     }
 
-    // State that holds data about images that are uploaded and compressed from ImageRepo component
+    // Function that handles data about images that are uploaded and compressed from ImageRepo component
     const handleContentImages = (value) => {
         setContentImages(value)
     }

@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Editor } from 'react-draft-wysiwyg';
 
 export const FormContainer = styled.div`
     max-width: ${(props) => props.theme.dark.readingWidth};

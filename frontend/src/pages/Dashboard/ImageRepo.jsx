@@ -8,6 +8,7 @@ import UploadedImage from './UploadedImage';
 export default function ImageRepo({handleContentImages, contentImages}) {
     // State that holds compressed images that are later uploaded to Firebase Storage, once upload is successful clear the state.
     const [compressedImages, setCompressedImages] = useState([])
+    console.log(compressedImages)
     const imagesInputRef = useRef(null);
     const [error, setError] = useState(null)
 
@@ -92,8 +93,10 @@ export default function ImageRepo({handleContentImages, contentImages}) {
         })
     }
 
-    const handleDeleteCompressed = (indexToDelete) => {
-        const newArray = compressedImages.filter((index) => index !== indexToDelete)
+    console.log(compressedImages)
+
+    const handleDeleteCompressed = (imageToDelete) => {
+        const newArray = compressedImages.filter((image) => image !== imageToDelete)
         setCompressedImages(newArray)
     };
 
@@ -125,26 +128,23 @@ export default function ImageRepo({handleContentImages, contentImages}) {
             <RepoImages>
             {compressedImages.map((image, index) => (
                 
-                    <img className='compressedImage' key={index} src={URL.createObjectURL(image)} alt='CompressedImage' onClick={() => handleDeleteCompressed(index)}/>
+                    <img className='compressedImage' key={index} src={URL.createObjectURL(image)} alt='CompressedImage' onClick={() => handleDeleteCompressed(image)}/>
                 
             ))}
             </RepoImages>
-            <RepoSection>
-                <GetLinks onClick={getLinks}>Get Links</GetLinks>
-            </RepoSection>
-            <RepoImages>
-            {contentImages.map((image, index) => (
-                <UploadedImage image={image} index={index} handleDeleteUploaded={handleDeleteUploaded}/>
-                // <CopyToClipboard text={image.url} onCopy={handleCopy}>
-                //     <div className='uploadedImage' onClick={() => console.log('copy')}>
-                //         <span className='deleteButton' onClick={(e) => handleDeleteUploaded(e, image, index)}>X</span>
-                //         {copied ? <span className='copySuccess'>COPIED</span> : ''}
-                //         <img key={index} src={image.url} alt='UploadedImage'/>
-                //         <p>Copy URL</p>
-                //     </div>
-                // </CopyToClipboard>
-            ))}
-            </RepoImages>
+            {compressedImages.length  !== 0 ? (
+                <RepoSection>
+                    <GetLinks onClick={getLinks}>Get Links</GetLinks>
+                </RepoSection>
+            ) : ''}
+            {contentImages.length !== 0 ? (
+                <RepoImages>
+                {contentImages.map((image, index) => (
+                    <UploadedImage image={image} index={index} handleDeleteUploaded={handleDeleteUploaded}/>
+                ))}
+                </RepoImages>
+            ) : ''}
+            
         </Repo>
     </StickyContainer>
   )
