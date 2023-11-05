@@ -28,6 +28,7 @@ export const RepoImages = styled.div`
         position: relative;
         display: flex;
         flex-direction: column;
+        align-items: center;
         gap: 5px;
         padding: 5px;
         border: 1px solid ${(props) => props.theme.dark.inputBorder};
@@ -38,7 +39,7 @@ export const RepoImages = styled.div`
             background-color: ${(props) => props.theme.dark.secondary};
         }
     
-        span {
+        .deleteButton {
             cursor: pointer;
             position: absolute;
             top: 10px;
@@ -48,6 +49,27 @@ export const RepoImages = styled.div`
             font-weight: 800;
             background-color: ${(props) => props.theme.dark.secondary};
             padding: 7px;
+        }
+
+        .copySuccess {
+            @keyframes appearAnimation {
+                0% {
+                    opacity: 0;
+                }
+                50% {
+                    opacity: 1;
+                }
+                100% {
+                    opacity: 0;
+                }
+            }
+
+            position: absolute;
+            width: 100px;
+            text-align: center;
+            top: 70px;
+            background-color: green;
+            animation: appearAnimation 1s ease-out;
         }
 
 

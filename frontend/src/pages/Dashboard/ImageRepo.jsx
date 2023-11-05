@@ -2,18 +2,13 @@ import React, { useRef, useState } from 'react'
 import Compressor from 'compressorjs';
 import stringFormatting from '../../helpers/stringFormatting';
 import { deleteImageFromFirebaseStorage, uploadImageToFirebaseStorage } from '../../helpers/firebaseUtils';
-import { GetLinks, LinkContainer, Repo, RepoFile, RepoFileLabel, RepoImages, RepoSection, StickyContainer } from './ImageRepo.styles';
+import { GetLinks, Repo, RepoFile, RepoFileLabel, RepoImages, RepoSection, StickyContainer } from './ImageRepo.styles';
+import UploadedImage from './UploadedImage';
 
 export default function ImageRepo({handleContentImages, contentImages}) {
     // State that holds compressed images that are later uploaded to Firebase Storage, once upload is successful clear the state.
     const [compressedImages, setCompressedImages] = useState([])
-    console.log(compressedImages)
-    console.log(contentImages)
-
-    // State that hold uploaded images data like url, path and id to store it in coresponding document in order to delete them along with the document etc.
-
     const imagesInputRef = useRef(null);
-
     const [error, setError] = useState(null)
 
 
@@ -139,11 +134,15 @@ export default function ImageRepo({handleContentImages, contentImages}) {
             </RepoSection>
             <RepoImages>
             {contentImages.map((image, index) => (
-                    <div className='uploadedImage' onClick={() => console.log('copy')}>
-                        <span onClick={(e) => handleDeleteUploaded(e, image, index)}>X</span>
-                        <img key={index} src={image.url} alt='UploadedImage'/>
-                        <p>Copy URL</p>
-                    </div>
+                <UploadedImage image={image} index={index} handleDeleteUploaded={handleDeleteUploaded}/>
+                // <CopyToClipboard text={image.url} onCopy={handleCopy}>
+                //     <div className='uploadedImage' onClick={() => console.log('copy')}>
+                //         <span className='deleteButton' onClick={(e) => handleDeleteUploaded(e, image, index)}>X</span>
+                //         {copied ? <span className='copySuccess'>COPIED</span> : ''}
+                //         <img key={index} src={image.url} alt='UploadedImage'/>
+                //         <p>Copy URL</p>
+                //     </div>
+                // </CopyToClipboard>
             ))}
             </RepoImages>
         </Repo>
