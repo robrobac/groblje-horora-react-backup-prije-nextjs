@@ -6,7 +6,8 @@ import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import ImageRepo from './ImageRepo';
 import stringFormatting from '../../helpers/stringFormatting';
 import { uploadImageToFirebaseStorage } from '../../helpers/firebaseUtils';
-import { Checkbox, CheckboxLabel, File, FileLabel, FormContainer, FormContent, FormImage, InputContainer, InputField, InputLabel, StyledEditor } from './Dashboard.styles';
+import { Checkbox, CheckboxLabel, File, FileLabel, FormContainer, FormContent, FormImage, InputContainer, InputField, InputLabel, StyledEditor, StyledForm, TextEditorContainer } from './Dashboard.styles';
+import { FormSection, PageContainer } from '../Pages.styles';
 
 export default function Dashboard() {
     const [reviewTitle, setReviewTitle] = useState('This field is not used in single review')
@@ -133,81 +134,81 @@ export default function Dashboard() {
         }
     }
 
-    const testClick = () => {
+    const handleUploadClick = () => {
         fileInputRef.current.click()
     }
 
     return (
-            <form style={{maxWidth: '700px'}} onSubmit={handleSubmit}>
-                <FormContainer>
-                    <FormImage>
-                        <div>
-                            {compressedCoverImage
-                            ?
-                                <img src={URL.createObjectURL(compressedCoverImage)} alt='uploadedImage' onClick={testClick}/>
-                            :
-                                <FileLabel htmlFor='coverImage'>Cover Image</FileLabel>
-                            }
-                            <File id='coverImage' type='file' accept='image/' ref={fileInputRef} onChange={handleCompressImage}/>
-                        </div>
-                        
-                        
-                    </FormImage>
-                    <FormContent>
-                        <InputContainer>
-                            <InputLabel htmlFor='title'>Title</InputLabel>
-                            <InputField id='title' type='text' value={title} onChange={(e) => setTitle(e.target.value)}/>
-                        </InputContainer>
-                        <InputContainer>
-                            <InputLabel htmlFor='year'>Year</InputLabel>
-                            <InputField id='year' type='number' value={year} onChange={(e) => setYear(e.target.value)}/>
-                        </InputContainer>
-
-                        <InputContainer>
-                            <InputLabel htmlFor='rating'>Rating</InputLabel>
-                            <InputField id='rating' type='number' value={rating} onChange={(e) => setRating(e.target.value)} step='0.5' min='1' max='5'/>
-                        </InputContainer>
-                        <InputContainer>
-                            <InputLabel htmlFor='imdbLink'>Imdb Link</InputLabel>
-                            <InputField id='imdbLink'  type='text' value={imdbLink} onChange={(e) => setImdbLink(e.target.value)}/>
-                        </InputContainer>
-                        <div className="dualInput">
-                        <div>
-                            <label htmlFor='top25'>Top25</label>
-                            <input id='top25' type='checkbox' value={top25} onChange={(e) => setTop25(e.target.value)}/>
-                        </div>
-                        <div>
-                            <CheckboxLabel htmlFor='worse20'>
-                                Worse20
-                                <Checkbox id='worse20' type='checkbox' value={worse20} onChange={(e) => setWorse20(e.target.value)}/>
-                            </CheckboxLabel>
-                        </div>
-                        </div>
-                    </FormContent>
-                </FormContainer>
-                
-                <div>
-                    <InputLabel>Post Content</InputLabel>
-                    <StyledEditor>
-                        <Editor editorState={editorState} onEditorStateChange={onEditorStateChange}
-                            toolbar={{
-                                options: ['inline', 'image', 'link', 'history'],
-                                inline: {
-                                    options: ['bold', 'italic']
-                                },
-                                image: {
-                                    urlEnabled: true,
-                                    uploadEnabled: true,
-                                    alignmentEnabled: true,
-                                    className: 'imageButton',
-                                    popupClassName: 'imagePopup',
+        <PageContainer>
+            <FormSection>
+                <StyledForm onSubmit={handleSubmit}>
+                    <FormContainer>
+                        <FormImage>
+                            <div>
+                                {compressedCoverImage
+                                ?
+                                    <img src={URL.createObjectURL(compressedCoverImage)} alt='uploadedImage' onClick={handleUploadClick}/>
+                                :
+                                    <FileLabel htmlFor='coverImage'>Cover Image</FileLabel>
                                 }
-                            }}
-                        />
-                    </StyledEditor>
-                </div>
+                                <File id='coverImage' type='file' accept='image/' ref={fileInputRef} onChange={handleCompressImage}/>
+                            </div>
+                        </FormImage>
+                        <FormContent>
+                            <InputContainer>
+                                <InputLabel htmlFor='title'>Title</InputLabel>
+                                <InputField id='title' type='text' value={title} onChange={(e) => setTitle(e.target.value)}/>
+                            </InputContainer>
+                            <InputContainer>
+                                <InputLabel htmlFor='year'>Year</InputLabel>
+                                <InputField id='year' type='number' value={year} onChange={(e) => setYear(e.target.value)}/>
+                            </InputContainer>
+                            <InputContainer>
+                                <InputLabel htmlFor='rating'>Rating</InputLabel>
+                                <InputField id='rating' type='number' value={rating} onChange={(e) => setRating(e.target.value)} step='0.5' min='1' max='5'/>
+                            </InputContainer>
+                            <InputContainer>
+                                <InputLabel htmlFor='imdbLink'>Imdb Link</InputLabel>
+                                <InputField id='imdbLink'  type='text' value={imdbLink} onChange={(e) => setImdbLink(e.target.value)}/>
+                            </InputContainer>
+                            <div className="dualInput">
+                            <div>
+                                <label htmlFor='top25'>Top25</label>
+                                <input id='top25' type='checkbox' value={top25} onChange={(e) => setTop25(e.target.value)}/>
+                            </div>
+                            <div>
+                                <CheckboxLabel htmlFor='worse20'>
+                                    Worse20
+                                    <Checkbox id='worse20' type='checkbox' value={worse20} onChange={(e) => setWorse20(e.target.value)}/>
+                                </CheckboxLabel>
+                            </div>
+                            </div>
+                        </FormContent>
+                    </FormContainer>
+                    <TextEditorContainer>
+                        <InputLabel>Post Content</InputLabel>
+                        <StyledEditor>
+                            <Editor editorState={editorState} onEditorStateChange={onEditorStateChange}
+                                toolbar={{
+                                    options: ['inline', 'image', 'link', 'history'],
+                                    inline: {
+                                        options: ['bold', 'italic']
+                                    },
+                                    image: {
+                                        urlEnabled: true,
+                                        uploadEnabled: false,
+                                        alignmentEnabled: true,
+                                        className: 'imageButton',
+                                        popupClassName: 'imagePopup',
+                                    }
+                                }}
+                            />
+                        </StyledEditor>
+                    </TextEditorContainer>
+                    <button>Publish</button>
+                </StyledForm>
                 <ImageRepo handleContentImages={handleContentImages} contentImages={contentImages}/>
-                <button>Publish</button>
-            </form>
+            </FormSection>
+        </PageContainer>
     )
 }

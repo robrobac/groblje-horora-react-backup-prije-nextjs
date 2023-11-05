@@ -1,16 +1,18 @@
 import React, { useRef, useState } from 'react'
 import Compressor from 'compressorjs';
 import stringFormatting from '../../helpers/stringFormatting';
-import { uploadImageToFirebaseStorage } from '../../helpers/firebaseUtils';
+import { deleteImageFromFirebaseStorage, uploadImageToFirebaseStorage } from '../../helpers/firebaseUtils';
+import { GetLinks, LinkContainer, Repo, RepoFile, RepoFileLabel, RepoImages, RepoSection, StickyContainer } from './ImageRepo.styles';
 
 export default function ImageRepo({handleContentImages, contentImages}) {
     // State that holds compressed images that are later uploaded to Firebase Storage, once upload is successful clear the state.
     const [compressedImages, setCompressedImages] = useState([])
     console.log(compressedImages)
+    console.log(contentImages)
 
     // State that hold uploaded images data like url, path and id to store it in coresponding document in order to delete them along with the document etc.
 
-    const fileInputRef = useRef(null);
+    const imagesInputRef = useRef(null);
 
     const [error, setError] = useState(null)
 
@@ -89,32 +91,62 @@ export default function ImageRepo({handleContentImages, contentImages}) {
 
                 // setting uploaded images state and clearing compressed images state because all compressed images are uploaded to Storage.
                 setCompressedImages([])
-                fileInputRef.current.value = null;
+                imagesInputRef.current.value = null;
                 handleContentImages(prev => [...prev, uploaded])
             }
         })
     }
 
+    const handleDeleteCompressed = (indexToDelete) => {
+        const newArray = compressedImages.filter((index) => index !== indexToDelete)
+        setCompressedImages(newArray)
+    };
+
+    const handleDeleteUploaded = async (e, imageToDelete, indexToDelete) => {
+        e.stopPropagation()
+        const path = imageToDelete.path
+        deleteImageFromFirebaseStorage(path)
+
+        handleContentImages(contentImages.filter((image) => image.path !== imageToDelete.path))
+        
+        const deleteResponse = await fetch(`/api/tempMedia/${imageToDelete.id}`, {
+            method: 'DELETE'
+        })
+        const json = await deleteResponse.json()
+
+        if (deleteResponse.ok) {
+            console.log("deleted from tempImages", json)
+        }
+    }
+ 
   return (
-    <div>
-        <label htmlFor='coverImage'>Content Images</label>
-        <input multiple ref={fileInputRef} id='coverImage' type='file' accept='image/' onChange={handleCompressImage}/>
+    <StickyContainer>
+        <Repo>
+            <RepoSection>
+                <RepoFileLabel htmlFor='contentImage'>UPLOAD Images</RepoFileLabel>
+                <RepoFile multiple={true} ref={imagesInputRef} id='contentImage' type='file' accept='image/' onChange={handleCompressImage}/>
+            </RepoSection>
 
-        {compressedImages.map((image, index) => (
-            <div className='compressedImages'>
-                <img style={{width: '50px'}} key={index} src={URL.createObjectURL(image)} alt='uploadedImage'/>
-            </div>
-        ))}
-
-        <button onClick={getLinks}>Get Links</button>
-
-        {contentImages.map((image, index) => (
-            <div className='uploadedImages'>
-                <img style={{width: '200px'}} key={index} src={image.url} alt='uploadedImage'/>
-                <p>{image.url}</p>
-            </div>
-        ))}
-
-    </div>
+            <RepoImages>
+            {compressedImages.map((image, index) => (
+                
+                    <img className='compressedImage' key={index} src={URL.createObjectURL(image)} alt='CompressedImage' onClick={() => handleDeleteCompressed(index)}/>
+                
+            ))}
+            </RepoImages>
+            <RepoSection>
+                <GetLinks onClick={getLinks}>Get Links</GetLinks>
+            </RepoSection>
+            <RepoImages>
+            {contentImages.map((image, index) => (
+                    <div className='uploadedImage' onClick={() => console.log('copy')}>
+                        <span onClick={(e) => handleDeleteUploaded(e, image, index)}>X</span>
+                        <img key={index} src={image.url} alt='UploadedImage'/>
+                        <p>Copy URL</p>
+                    </div>
+            ))}
+            </RepoImages>
+        </Repo>
+    </StickyContainer>
   )
 }

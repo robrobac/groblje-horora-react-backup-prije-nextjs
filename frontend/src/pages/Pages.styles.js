@@ -20,3 +20,9 @@ export const ReadingSection = styled.section`
     text-align: justify;
     gap: 1rem;
 `
+export const FormSection = styled.div`
+    width: 100%;
+    max-width: ${(props) => props.theme.dark.contentWidth};
+    display: flex;
+    flex-wrap: wrap;
+`

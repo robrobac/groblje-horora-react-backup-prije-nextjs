@@ -1,4 +1,4 @@
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from '../firebase/config';
 
 export const uploadImageToFirebaseStorage = async (file, path) => {
@@ -10,5 +10,17 @@ export const uploadImageToFirebaseStorage = async (file, path) => {
     } catch (error) {
         console.error('Error uploading image to Firebase Storage:', error);
         throw error;
+    }
+}
+
+export const deleteImageFromFirebaseStorage = async (path) => {
+    if (path) {
+        const oldFileRef = ref(storage, path)
+
+        deleteObject(oldFileRef).then(() => {
+
+        }).catch((error) => {
+            console.log(error)
+        });
     }
 }
