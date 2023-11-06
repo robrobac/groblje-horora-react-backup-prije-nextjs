@@ -5,8 +5,11 @@ import { Checkbox, CheckboxLabel, File, FileLabel, FormContainer, FormContent, F
 import Compressor from 'compressorjs';
 import { Editor } from 'react-draft-wysiwyg';
 import ImageRepo from './ImageRepo';
+import { deleteImageFromFirebaseStorage, uploadImageToFirebaseStorage } from '../../helpers/firebaseUtils';
+import stringFormatting from '../../helpers/stringFormatting';
 
 export default function Dashboard2() {
+    const [formSubmitted, setFormSubmitted] = useState(false)
     const [reviewTitle, setReviewTitle] = useState('')
     const [contentImages, setContentImages] = useState([])
     const [error, setError] = useState(null)
@@ -109,11 +112,146 @@ export default function Dashboard2() {
         setContentImages(value)
     }
 
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        console.log(movies)
+        const deleteCoverPaths = []
+
+        const movieReviews = movies.map( async (movie) => {
+            return new Promise(async (resolve, reject) => {
+                let url = ""
+                let filePath = ""
+
+                // if cover image is uploaded and compressed upload it to firebase storage
+                if (movie.compressedCoverImage) {
+                    // create firebase storage path
+                    const path = `coverImages/${stringFormatting(movie.title, "-cover-image")}`
+                    try {
+                        // Upload to Firebase and retrieve image's url and path
+                        const result = await uploadImageToFirebaseStorage(movie.compressedCoverImage, path)
+                        url = result.url
+                        filePath = result.path
+                        deleteCoverPaths.push(url)
+                        resolve({
+                            title: movie.title,
+                            year: movie.year,
+                            rating: movie.rating,
+                            reviewContent: movie.reviewContent,
+                            imdbLink: movie.imdbLink,
+                            coverImage: url,
+                            coverImagePath: filePath,
+                            top25: movie.top25,
+                            worse20: movie.worse20,
+                            compressedCoverImage: movie.compressedCoverImage,
+                        })
+                    } catch (error) {
+                        reject(error)
+                    }
+                }
+            })
+        })
+        
+
+        Promise.all(movieReviews)
+            .then(async(resolvedMovieReviews) => {
+                const review = {
+                    reviewTitle: reviewTitle,
+                    movies: resolvedMovieReviews,
+                    contentImages: contentImages,
+                }
+
+                console.log(review)
+                // Posting to MongoDB
+                const response = await fetch('/api/reviews', {
+                    method: 'POST',
+                    body: JSON.stringify(review),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                const json = await response.json()
+                if (!response.ok) {
+                    setError(json.error)
+                    console.log(error)
+                    deleteCoverPaths.forEach(async(path) => await deleteImageFromFirebaseStorage(path))
+                }
+                if(response.ok) {
+                    setReviewTitle('')
+                    setError(null)
+                    setMovies([
+                        {
+                            title: '',
+                            year: '',
+                            rating: '',
+                            reviewContent: '',
+                            editorState: EditorState.createEmpty(),
+                            imdbLink: '',
+                            top25: false,
+                            worse20: false,
+                            compressedCoverImage: null,
+                            
+                        },
+                        {
+                            title: '',
+                            year: '',
+                            rating: '',
+                            reviewContent: '',
+                            editorState: EditorState.createEmpty(),
+                            imdbLink: '',
+                            top25: false,
+                            worse20: false,
+                            compressedCoverImage: null,
+                            
+                        },
+                        {
+                            title: '',
+                            year: '',
+                            rating: '',
+                            reviewContent: '',
+                            editorState: EditorState.createEmpty(),
+                            imdbLink: '',
+                            top25: false,
+                            worse20: false,
+                            compressedCoverImage: null,
+                            
+                        },
+                        {
+                            title: '',
+                            year: '',
+                            rating: '',
+                            reviewContent: '',
+                            editorState: EditorState.createEmpty(),
+                            imdbLink: '',
+                            top25: false,
+                            worse20: false,
+                            compressedCoverImage: null,
+                        }
+                    ])
+                    setFormSubmitted(!formSubmitted)
+                    console.log('New Review Added')
+
+                    // Deleting images from temp images, the data about images is stored in the post document
+                    contentImages.forEach(async(image) => {
+                        const deleteResponse = await fetch(`/api/tempMedia/${image.id}`, {
+                            method: 'DELETE'
+                        })
+                        const json = await deleteResponse.json()
+
+                        if (response.ok) {
+                            console.log("deleted from tempImages", json)
+                        }
+                    })
+                    setContentImages([])
+                }
+                
+            })
+    }
+
 
     return (
         <PageContainer>
             <FormSection>
-                <StyledForm>
+                <StyledForm onSubmit={handleSubmit}>
                     <InputContainer>
                         <InputLabel htmlFor='reviewTitle'>Review Title</InputLabel>
                         <InputField id='reviewTitle' type='text' value={reviewTitle} onChange={(e) => setReviewTitle(e.target.value)}/>
@@ -185,8 +323,9 @@ export default function Dashboard2() {
                         </TextEditorContainer>  
                         </>
                     ))}
+                    <button>Publish</button>
                 </StyledForm>
-                <ImageRepo handleContentImages={handleContentImages} contentImages={contentImages}/>
+                <ImageRepo handleContentImages={handleContentImages} contentImages={contentImages} formSubmitted={formSubmitted}/>
             </FormSection>
         </PageContainer>
     )

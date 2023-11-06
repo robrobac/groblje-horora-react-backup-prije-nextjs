@@ -9,7 +9,7 @@ const MovieSchema = new Schema({
     },
     year: {
         type: Number,
-        required: false
+        required: true
     },
     rating: {
         type: Number,

@@ -5,7 +5,7 @@ import { Editor } from 'react-draft-wysiwyg';
 import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import ImageRepo from './ImageRepo';
 import stringFormatting from '../../helpers/stringFormatting';
-import { uploadImageToFirebaseStorage } from '../../helpers/firebaseUtils';
+import { deleteImageFromFirebaseStorage, uploadImageToFirebaseStorage } from '../../helpers/firebaseUtils';
 import { Checkbox, CheckboxLabel, File, FileLabel, FormContainer, FormContent, FormImage, InputContainer, InputField, InputLabel, StyledEditor, StyledForm, TextEditorContainer } from './Dashboard.styles';
 import { FormSection, PageContainer } from '../Pages.styles';
 
@@ -22,6 +22,8 @@ export default function Dashboard() {
     const [worse20, setWorse20] = useState(false)
     const [compressedCoverImage, setCompressedCoverImage] = useState(null);
     const fileInputRef = useRef(null);
+
+    const [formSubmitted, setFormSubmitted] = useState(false)
 
     const [error, setError] = useState(null)
 
@@ -93,6 +95,7 @@ export default function Dashboard() {
             contentImages: contentImages,
         }
 
+        console.log(review)
         // Posting to MongoDB
         const response = await fetch('/api/reviews', {
             method: 'POST',
@@ -104,6 +107,8 @@ export default function Dashboard() {
         const json = await response.json()
         if (!response.ok) {
             setError(json.error)
+            deleteImageFromFirebaseStorage(filePath)
+
         }
         if(response.ok) {
             setTitle('')
@@ -131,6 +136,7 @@ export default function Dashboard() {
                 }
             })
             setContentImages([])
+            setFormSubmitted(!formSubmitted)
         }
     }
 
@@ -207,7 +213,7 @@ export default function Dashboard() {
                     </TextEditorContainer>
                     <button>Publish</button>
                 </StyledForm>
-                <ImageRepo handleContentImages={handleContentImages} contentImages={contentImages}/>
+                <ImageRepo handleContentImages={handleContentImages} contentImages={contentImages} formSubmitted={formSubmitted}/>
             </FormSection>
         </PageContainer>
     )

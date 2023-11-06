@@ -1,16 +1,20 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Compressor from 'compressorjs';
 import stringFormatting from '../../helpers/stringFormatting';
 import { deleteImageFromFirebaseStorage, uploadImageToFirebaseStorage } from '../../helpers/firebaseUtils';
 import { GetLinks, Repo, RepoFile, RepoFileLabel, RepoImages, RepoSection, StickyContainer } from './ImageRepo.styles';
 import UploadedImage from './UploadedImage';
 
-export default function ImageRepo({handleContentImages, contentImages}) {
+export default function ImageRepo({handleContentImages, contentImages, formSubmitted}) {
     // State that holds compressed images that are later uploaded to Firebase Storage, once upload is successful clear the state.
     const [compressedImages, setCompressedImages] = useState([])
     console.log(compressedImages)
     const imagesInputRef = useRef(null);
     const [error, setError] = useState(null)
+
+    useEffect(() => {
+        setCompressedImages([])
+    }, [formSubmitted])
 
 
     // COmpressing images once uploaded to frontend in order to send them to Firebase Storage
