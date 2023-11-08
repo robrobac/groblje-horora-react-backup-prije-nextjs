@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import ReviewCard from '../components/postsGrid/ReviewCard'
 
 
@@ -29,7 +29,9 @@ export default function Recenzije() {
             <PageSection>
                 <Grid>
                     {reviews && reviews.map((review) => (
+                        <Suspense fallback={<p>loading</p>}>
                         <ReviewCard key={review._id} review={review} />
+                        </Suspense>
                     ))}
                 </Grid>
             </PageSection>

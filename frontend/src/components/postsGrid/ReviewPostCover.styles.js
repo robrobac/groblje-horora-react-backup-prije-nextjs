@@ -7,7 +7,7 @@ export const CoverContainer = styled.div`
     grid-template-columns: repeat(4, 1fr);
 
 `
-export const CoverImage = styled.div`
+export const CoverImageContainer = styled.div`
     img {
         
         object-fit: cover;

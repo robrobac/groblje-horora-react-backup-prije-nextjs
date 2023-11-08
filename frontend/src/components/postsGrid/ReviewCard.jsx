@@ -44,12 +44,11 @@ export default function ReviewCard({review}) {
                 <PreviewDetails>
                     <div>
                         <h3>{review.reviewTitle}</h3>
-                        <p>
-                            {review.movies[0].title} ({review.movies[0].year}), {review.movies[1].title} ({review.movies[1].year}), 
-                        </p>
-                        <p>
-                            {review.movies[2].title} ({review.movies[2].year}), {review.movies[3].title} ({review.movies[3].year}),
-                        </p>
+                        <div className='movieTitles'>
+                            <p>
+                                {review.movies[0].title}({review.movies[0].year}), {review.movies[1].title}({review.movies[1].year}), {review.movies[2].title}({review.movies[2].year}), {review.movies[3].title}({review.movies[3].year})
+                            </p>
+                        </div>
                     </div>
                     <Link to={`/recenzije/${review._id}`}>
                         <ReadMoreButton>Pročitaj više</ReadMoreButton>

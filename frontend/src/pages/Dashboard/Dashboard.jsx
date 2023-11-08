@@ -180,12 +180,12 @@ export default function Dashboard() {
                             <div className="dualInput">
                             <div>
                                 <label htmlFor='top25'>Top25</label>
-                                <input id='top25' type='checkbox' value={top25} onChange={(e) => setTop25(e.target.value)}/>
+                                <input id='top25' type='checkbox' value={top25} onChange={(e) => setTop25(!top25)}/>
                             </div>
                             <div>
                                 <CheckboxLabel htmlFor='worse20'>
                                     Worse20
-                                    <Checkbox id='worse20' type='checkbox' value={worse20} onChange={(e) => setWorse20(e.target.value)}/>
+                                    <Checkbox id='worse20' type='checkbox' value={worse20} onChange={(e) => setWorse20(!worse20)}/>
                                 </CheckboxLabel>
                             </div>
                             </div>

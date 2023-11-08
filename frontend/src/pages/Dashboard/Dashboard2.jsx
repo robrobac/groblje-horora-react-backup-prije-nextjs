@@ -64,6 +64,8 @@ export default function Dashboard2() {
         }
     ])
 
+    console.log(movies[0].top25)
+
     console.log(movies)
 
     //  Compressing the image before uploading to Firebase Storage
@@ -290,12 +292,12 @@ export default function Dashboard2() {
                             <div className="dualInput">
                             <div>
                                 <label htmlFor='top25'>Top25</label>
-                                <input id='top25' type='checkbox' value={movie.top25} onChange={(e) => handleChange(index, 'top25', e.target.value)}/>
+                                <input id='top25' type='checkbox' value={movie.top25} onChange={(e) => handleChange(index, 'top25', !movie.top25)}/>
                             </div>
                                 <div>
                                     <CheckboxLabel htmlFor='worse20'>
                                         Worse20
-                                        <Checkbox id='worse20' type='checkbox' value={movie.worse20} onChange={(e) => handleChange(index, 'worse20', e.target.value)}/>
+                                        <Checkbox id='worse20' type='checkbox' value={movie.worse20} onChange={(e) => handleChange(index, 'worse20', !movie.worse20)}/>
                                     </CheckboxLabel>
                                 </div>
                             </div>

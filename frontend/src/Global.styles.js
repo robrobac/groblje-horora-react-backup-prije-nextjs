@@ -1,8 +1,9 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
+
     body {
-        background-color: #191919;
+        background-color: ${(props) => props.theme.dark.background};
         color: #fff;
     }
 
@@ -21,10 +22,37 @@ const GlobalStyles = createGlobalStyle`
         width: 0;
     }
 
-    h1 {
+    p {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    h1.mainTitle {
+        font-family: 'Creepster', sans-serif;
+        font-size: 128px;
+        margin-bottom: 50px;
+        text-align: center;
+        color: ${(props) => props.theme.dark.secondary};
+        line-height: 120px;
+    }
+
+    h1.reviewTitleH1 {
+        width: 100%;
+        font-size: 40px;
+        line-height: 60px;
+    }
+
+    h2 {
+        font-size: 25px;
+        line-height: 36px;
+    }
+
+    h2.movieTitleH2 {
         font-size: 32px;
         line-height: 48px;
     }
+
+    
 `
 
 export default GlobalStyles

@@ -8,7 +8,9 @@ const {
     deleteReview,
     updateReview,
     getTop25,
-    getWorse20
+    getWorse20,
+    getLatestSingle,
+    getLatestQuad,
 } = require('../controllers/reviewsController')
 
 const router = express.Router()
@@ -21,6 +23,12 @@ router.get('/reviews/top25', getTop25)
 
 // GET Worse20 Reviews
 router.get('/reviews/worse20', getWorse20)
+
+// GET Worse20 Reviews
+router.get('/reviews/latestSingle', getLatestSingle)
+
+// GET Worse20 Reviews
+router.get('/reviews/latestQuad', getLatestQuad)
 
 // GET a SINGLE Review
 router.get('/reviews/:id', getReview)

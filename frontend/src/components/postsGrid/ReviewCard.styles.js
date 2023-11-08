@@ -32,6 +32,14 @@ export const PreviewDetails = styled.div`
         align-items: flex-start;
         gap: 10px;
 
+        .movieTitles {
+            gap: unset;
+            p {
+                font-size: 14px;
+                line-height: 21px;
+            }
+        }
+
         h3 {
             font-size: 20px;
             font-weight: 500;
@@ -63,9 +71,9 @@ export const QuadImage = styled.div`
     height: calc(230px / 2);
 
     img {
-        
-        object-fit: cover;
         height: 100%;
         width: 100%;
+        object-fit: cover;
+        
     }
 `

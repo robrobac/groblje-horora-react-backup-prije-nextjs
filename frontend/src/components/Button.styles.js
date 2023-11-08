@@ -15,3 +15,14 @@ export const ReadMoreButton = styled.button`
         border: 1px solid ${(props) => props.theme.dark.secondary};
     }
 `
+
+export const ReadMoreButtonRed = styled(ReadMoreButton)`
+    background-color: ${(props) => props.theme.dark.secondary};
+    border: 1px solid ${(props) => props.theme.dark.secondary};
+
+    &:hover {
+        background-color: unset;
+        border: 1px solid ${(props) => props.theme.dark.primary};
+        color: ${(props) => props.theme.dark.primary};
+    }
+`

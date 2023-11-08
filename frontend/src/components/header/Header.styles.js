@@ -2,10 +2,11 @@ import styled from "styled-components";
 import { NavLink } from 'react-router-dom';
 
 export const MainHeader = styled.header`
+    position: sticky;
+    top: 0;
     background-color: ${(props) => props.theme.dark.background};
     color: ${(props) => props.theme.dark.lightText};
     padding: 20px 0;
-    
     display: flex;
     justify-content: center;
 `

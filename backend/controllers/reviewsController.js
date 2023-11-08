@@ -22,6 +22,20 @@ const getWorse20 = async (req, res) => {
     res.status(200).json(reviews)
 }
 
+// Get LatestQuad review
+const getLatestQuad = async (req, res) => {
+    const reviews = await Review.find({ 'movies': { $size: 4 } }).sort({ createdAt: -1 }).limit(1)
+
+    res.status(200).json(reviews)
+}
+
+// Get LatestSingle review
+const getLatestSingle = async (req, res) => {
+    const reviews = await Review.find({ 'movies': { $size: 1 } }).sort({ createdAt: -1 }).limit(1)
+
+    res.status(200).json(reviews)
+}
+
 // Get a single review
 const getReview = async (req, res) => {
     const { id } = req.params
@@ -96,5 +110,7 @@ module.exports = {
     deleteReview,
     updateReview,
     getTop25,
-    getWorse20
+    getWorse20,
+    getLatestSingle,
+    getLatestQuad,
 }

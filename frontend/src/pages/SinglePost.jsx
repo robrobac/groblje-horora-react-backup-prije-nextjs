@@ -1,16 +1,17 @@
 import draftToHtml from 'draftjs-to-html'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { PageContainer, PageSection, ReadingSection } from './Pages.styles'
+import { PageContainer, PageSection, ReadingSection, SinglePostContainer } from './Pages.styles'
 import ReviewPostCover from '../components/postsGrid/ReviewPostCover'
 import Rating from '../components/Rating'
+import Movie from '../components/Movie'
 
 export default function SinglePost() {
     const { id } = useParams()
     const [post, setPost] = useState(null)
     const [reviewContent, setReviewContent] = useState({})
-    console.log(post)
-    console.log(reviewContent)
+    console.log(post, 'post')
+    console.log(reviewContent, 'reviewContent')
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -33,15 +34,17 @@ export default function SinglePost() {
         fetchPost()
     }, [id])
   return (
-    <PageContainer>
-        <ReviewPostCover movie={post?.movies[0]}/>
-        <PageSection>
-            <h1>{post?.movies[0].title} ({post?.movies[0].year})</h1>
-            <Rating rating={post?.movies[0].rating} detailed={true}/>
-        </PageSection>
-        <PageSection>
-                <ReadingSection className='textEditorContent' dangerouslySetInnerHTML={{__html: reviewContent}}/>
-        </PageSection>
-    </PageContainer>
+    <SinglePostContainer>
+        <ReviewPostCover post={post}/>
+        {post?.movies.length === 4 ? (
+            <PageSection>
+                <h1 className='reviewTitleH1'>{post?.reviewTitle}</h1>
+            </PageSection>
+        ) : ''}
+        
+        {post?.movies.map((movie) => (
+            <Movie movie={movie}/>
+        ))}
+    </SinglePostContainer>
   )
 }

@@ -20,8 +20,6 @@ export default function Rating({rating, detailed}) {
     }
 
     const image = images(`./${formatRating(rating)}.png`)
-    console.log(image)
-    console.log(`./${formatRating(rating)}.png`)
 
     return (
         <RatingContainer>
