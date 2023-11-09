@@ -9,9 +9,7 @@ import Movie from '../components/Movie'
 export default function SinglePost() {
     const { id } = useParams()
     const [post, setPost] = useState(null)
-    const [reviewContent, setReviewContent] = useState({})
     console.log(post, 'post')
-    console.log(reviewContent, 'reviewContent')
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -20,14 +18,6 @@ export default function SinglePost() {
 
             if (response.ok) {
                 setPost(data)
-
-                // Formatting react-draft-wysiwyg editor data for 
-                const rawContent = data.movies[0].reviewContent
-                const markup = draftToHtml(
-                        rawContent,
-                )
-                // Setting state that will be 
-                setReviewContent(markup)
             }
         }
 

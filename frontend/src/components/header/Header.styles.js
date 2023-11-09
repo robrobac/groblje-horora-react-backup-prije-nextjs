@@ -9,6 +9,7 @@ export const MainHeader = styled.header`
     padding: 20px 0;
     display: flex;
     justify-content: center;
+    z-index: 100;
 `
 
 export const NavigationWrap = styled.div`

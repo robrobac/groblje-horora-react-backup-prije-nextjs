@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Compressor from 'compressorjs';
 import { EditorState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
@@ -6,8 +6,10 @@ import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import ImageRepo from './ImageRepo';
 import stringFormatting from '../../helpers/stringFormatting';
 import { deleteImageFromFirebaseStorage, uploadImageToFirebaseStorage } from '../../helpers/firebaseUtils';
-import { Checkbox, CheckboxLabel, File, FileLabel, FormContainer, FormContent, FormImage, InputContainer, InputField, InputLabel, StyledEditor, StyledForm, TextEditorContainer } from './Dashboard.styles';
+import { File, FileLabel, FormContainer, FormContent, FormImage, InputContainer, InputField, InputLabel, StyledEditor, StyledForm, TextEditorContainer } from './Dashboard.styles';
 import { FormSection, PageContainer } from '../Pages.styles';
+import PreviewDialog from './PreviewDialog';
+import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
     const [reviewTitle, setReviewTitle] = useState('This field is not used in single review')
@@ -18,14 +20,37 @@ export default function Dashboard() {
     const [reviewContent, setReviewContent] = useState('')
     const [editorState, setEditorState] = useState(EditorState.createEmpty())
     const [imdbLink, setImdbLink] = useState('')
-    const [top25, setTop25] = useState(false)
-    const [worse20, setWorse20] = useState(false)
+    const [top25, setTop25] = useState(true)
+    const [worse20, setWorse20] = useState(true)
     const [compressedCoverImage, setCompressedCoverImage] = useState(null);
     const fileInputRef = useRef(null);
 
     const [formSubmitted, setFormSubmitted] = useState(false)
 
     const [error, setError] = useState(null)
+
+    const [postPreview, setPostPreview] = useState(null)
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const reviewPreview = {
+            reviewTitle: reviewTitle,
+            movies: [{
+                title,
+                year,
+                rating,
+                compressedCoverImage,
+                reviewContent,
+                imdbLink,
+                top25,
+                worse20
+            }],
+            contentImages: contentImages,
+        }
+
+        setPostPreview(reviewPreview)
+    }, [compressedCoverImage, contentImages, imdbLink, rating, reviewContent, reviewTitle, title, top25, worse20, year])
 
     // function that handles text editor state in Editor child component
     const onEditorStateChange = (newEditorState) => {
@@ -122,7 +147,7 @@ export default function Dashboard() {
             setCompressedCoverImage(null)
             fileInputRef.current.value = null;
             setError(null)
-            console.log('New Review Added')
+            console.log('New Review Added', response)
 
             // Deleting images from temp images, the data about images is stored in the post document
             contentImages.forEach(async(image) => {
@@ -137,6 +162,7 @@ export default function Dashboard() {
             })
             setContentImages([])
             setFormSubmitted(!formSubmitted)
+            navigate(`/recenzije/${json._id}`)
         }
     }
 
@@ -171,7 +197,7 @@ export default function Dashboard() {
                             </InputContainer>
                             <InputContainer>
                                 <InputLabel htmlFor='rating'>Rating</InputLabel>
-                                <InputField id='rating' type='number' value={rating} onChange={(e) => setRating(e.target.value)} step='0.5' min='1' max='5'/>
+                                <InputField id='rating' type='number' value={rating} onChange={(e) => setRating(parseFloat(e.target.value))} step='0.5' min='1' max='5'/>
                             </InputContainer>
                             <InputContainer>
                                 <InputLabel htmlFor='imdbLink'>Imdb Link</InputLabel>
@@ -180,13 +206,13 @@ export default function Dashboard() {
                             <div className="dualInput">
                             <div>
                                 <label htmlFor='top25'>Top25</label>
-                                <input id='top25' type='checkbox' value={top25} onChange={(e) => setTop25(!top25)}/>
+                                <input id='top25' type='checkbox' checked={top25} onChange={(e) => setTop25(!top25)}/>
                             </div>
                             <div>
-                                <CheckboxLabel htmlFor='worse20'>
+                                <label htmlFor='worse20'>
                                     Worse20
-                                    <Checkbox id='worse20' type='checkbox' value={worse20} onChange={(e) => setWorse20(!worse20)}/>
-                                </CheckboxLabel>
+                                    <input id='worse20' type='checkbox' checked={worse20} onChange={(e) => setWorse20(!worse20)}/>
+                                </label>
                             </div>
                             </div>
                         </FormContent>
@@ -211,7 +237,9 @@ export default function Dashboard() {
                             />
                         </StyledEditor>
                     </TextEditorContainer>
-                    <button>Publish</button>
+                    
+                    {postPreview ? <PreviewDialog postPreview={postPreview}/> : ''}
+                    
                 </StyledForm>
                 <ImageRepo handleContentImages={handleContentImages} contentImages={contentImages} formSubmitted={formSubmitted}/>
             </FormSection>

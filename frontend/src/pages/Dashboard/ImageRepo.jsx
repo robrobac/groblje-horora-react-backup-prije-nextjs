@@ -8,7 +8,6 @@ import UploadedImage from './UploadedImage';
 export default function ImageRepo({handleContentImages, contentImages, formSubmitted}) {
     // State that holds compressed images that are later uploaded to Firebase Storage, once upload is successful clear the state.
     const [compressedImages, setCompressedImages] = useState([])
-    console.log(compressedImages)
     const imagesInputRef = useRef(null);
     const [error, setError] = useState(null)
 
@@ -96,8 +95,6 @@ export default function ImageRepo({handleContentImages, contentImages, formSubmi
             }
         })
     }
-
-    console.log(compressedImages)
 
     const handleDeleteCompressed = (imageToDelete) => {
         const newArray = compressedImages.filter((image) => image !== imageToDelete)

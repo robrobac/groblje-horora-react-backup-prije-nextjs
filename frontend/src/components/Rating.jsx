@@ -6,6 +6,14 @@ export default function Rating({rating, detailed}) {
     
 
     const formatRating = (number) => {
+        if (isNaN(number)) {
+            return 'rating0'
+        }
+
+        if (number > 5) {
+            return 'rating0'
+        }
+
         if (typeof number !== 'number') {
             return 'rating0'
         }
@@ -13,6 +21,8 @@ export default function Rating({rating, detailed}) {
         if (number === 5) {
             return 'rating5';
         }
+
+        
 
         const numberString = number.toString();
         const replaced = numberString.replace('.', '')
@@ -39,6 +49,7 @@ const RatingContainer = styled.div`
 
     span {
         font-size: 14px;
+        color: #fff;
         opacity: .5;
     }
 `

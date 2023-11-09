@@ -13,8 +13,8 @@ export default function Home() {
                 <HomeImage style={{backgroundImage: `url(${homeCoverImage})`}}>
                 <h1 className='mainTitle'>Groblje Horora</h1>
                 </HomeImage>
-                <LatestSingle />
                 <LatestQuad />
+                <LatestSingle />
                 <Carousel />
         </PageContainer>
         

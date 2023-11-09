@@ -34,12 +34,13 @@ export const ReadingSection = styled.section`
     max-width: ${(props) => props.theme.dark.readingWidth};
     text-align: justify;
     gap: 1rem;
+    color: ${(props) => props.theme.dark.lightText};
 `
 export const FormSection = styled.div`
     width: 100%;
     max-width: ${(props) => props.theme.dark.contentWidth};
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap-reverse;
 `
 
 export const MovieInfo = styled.div`

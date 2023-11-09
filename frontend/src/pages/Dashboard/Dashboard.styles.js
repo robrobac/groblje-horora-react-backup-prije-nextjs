@@ -76,21 +76,6 @@ export const InputLabel = styled.label`
     font-weight: 600;
 `
 
-// CHECKBOX
-export const CheckboxLabel = styled.label`
-    display: flex;
-    align-items: center;
-    gap: 10px;
-`
-export const Checkbox = styled.input`
-    -webkit-appearance: none;
-    appearance: none;
-    color: red;
-    width: 16px;
-    height: 16px;
-    padding: 10px;
-    border: 1px solid black;
-`
 // TEXT EDITOR
 export const StyledEditor = styled.div`
     .rdw-editor-wrapper {

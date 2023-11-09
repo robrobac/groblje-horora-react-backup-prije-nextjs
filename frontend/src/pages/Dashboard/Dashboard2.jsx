@@ -1,12 +1,13 @@
 import React, { useRef, useState } from 'react'
 import { EditorState, convertToRaw } from 'draft-js';
 import { FormSection, PageContainer } from '../Pages.styles'
-import { Checkbox, CheckboxLabel, File, FileLabel, FormContainer, FormContent, FormImage, InputContainer, InputField, InputLabel, StyledEditor, StyledForm, TextEditorContainer } from './Dashboard.styles'
+import { File, FileLabel, FormContainer, FormContent, FormImage, InputContainer, InputField, InputLabel, StyledEditor, StyledForm, TextEditorContainer } from './Dashboard.styles'
 import Compressor from 'compressorjs';
 import { Editor } from 'react-draft-wysiwyg';
 import ImageRepo from './ImageRepo';
 import { deleteImageFromFirebaseStorage, uploadImageToFirebaseStorage } from '../../helpers/firebaseUtils';
 import stringFormatting from '../../helpers/stringFormatting';
+import PreviewDialog from './PreviewDialog';
 
 export default function Dashboard2() {
     const [formSubmitted, setFormSubmitted] = useState(false)
@@ -63,10 +64,6 @@ export default function Dashboard2() {
             
         }
     ])
-
-    console.log(movies[0].top25)
-
-    console.log(movies)
 
     //  Compressing the image before uploading to Firebase Storage
     const handleCompressImage = (e, index) => {
@@ -295,10 +292,10 @@ export default function Dashboard2() {
                                 <input id='top25' type='checkbox' value={movie.top25} onChange={(e) => handleChange(index, 'top25', !movie.top25)}/>
                             </div>
                                 <div>
-                                    <CheckboxLabel htmlFor='worse20'>
+                                    <label htmlFor='worse20'>
                                         Worse20
-                                        <Checkbox id='worse20' type='checkbox' value={movie.worse20} onChange={(e) => handleChange(index, 'worse20', !movie.worse20)}/>
-                                    </CheckboxLabel>
+                                        <input id='worse20' type='checkbox' value={movie.worse20} onChange={(e) => handleChange(index, 'worse20', !movie.worse20)}/>
+                                    </label>
                                 </div>
                             </div>
                         </FormContent>
@@ -326,6 +323,7 @@ export default function Dashboard2() {
                         </>
                     ))}
                     <button>Publish</button>
+                    <PreviewDialog />
                 </StyledForm>
                 <ImageRepo handleContentImages={handleContentImages} contentImages={contentImages} formSubmitted={formSubmitted}/>
             </FormSection>
