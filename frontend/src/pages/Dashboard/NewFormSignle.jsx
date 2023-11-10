@@ -6,12 +6,12 @@ import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import ImageRepo from './ImageRepo';
 import stringFormatting from '../../helpers/stringFormatting';
 import { deleteImageFromFirebaseStorage, uploadImageToFirebaseStorage } from '../../helpers/firebaseUtils';
-import { File, FileLabel, FormContainer, FormContent, FormImage, InputContainer, InputField, InputLabel, StyledEditor, StyledForm, TextEditorContainer } from './Dashboard.styles';
+import { File, FileLabel, FormContainer, FormContent, FormImage, InputContainer, InputField, InputLabel, StyledEditor, StyledForm, TextEditorContainer } from './NewForm.styles';
 import { FormSection, PageContainer } from '../Pages.styles';
 import PreviewDialog from './PreviewDialog';
 import { useNavigate } from 'react-router-dom';
 
-export default function Dashboard() {
+export default function NewFormSingle() {
     const [reviewTitle, setReviewTitle] = useState('This field is not used in single review')
     const [title, setTitle] = useState('')
     const [year, setYear] = useState('')

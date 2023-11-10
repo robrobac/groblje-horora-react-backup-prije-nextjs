@@ -11,7 +11,6 @@ export const FormContainer = styled.div`
         gap: 10px;
     }
 `
-
 export const StyledForm = styled.form`
     width: ${(props) => props.theme.dark.readingWidth};
 `

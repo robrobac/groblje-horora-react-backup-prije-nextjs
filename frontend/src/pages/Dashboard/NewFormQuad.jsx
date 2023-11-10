@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { EditorState, convertToRaw } from 'draft-js';
 import { FormSection, PageContainer } from '../Pages.styles'
-import { File, FileLabel, FormContainer, FormContent, FormImage, InputContainer, InputField, InputLabel, StyledEditor, StyledForm, TextEditorContainer } from './Dashboard.styles'
+import { File, FileLabel, FormContainer, FormContent, FormImage, InputContainer, InputField, InputLabel, StyledEditor, StyledForm, TextEditorContainer } from './NewForm.styles'
 import Compressor from 'compressorjs';
 import { Editor } from 'react-draft-wysiwyg';
 import ImageRepo from './ImageRepo';
@@ -9,7 +9,7 @@ import { deleteImageFromFirebaseStorage, uploadImageToFirebaseStorage } from '..
 import stringFormatting from '../../helpers/stringFormatting';
 import PreviewDialog from './PreviewDialog';
 
-export default function Dashboard2() {
+export default function NewFormQuad() {
     const [formSubmitted, setFormSubmitted] = useState(false)
     const [reviewTitle, setReviewTitle] = useState('')
     const [contentImages, setContentImages] = useState([])

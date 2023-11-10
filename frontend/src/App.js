@@ -14,10 +14,10 @@ import Theme from './Theme';
 
 // Components
 
-import Dashboard from './pages/Dashboard/Dashboard';
-import Dashboard2 from './pages/Dashboard/Dashboard2';
 import GlobalStyles from './Global.styles';
 import Header from './components/header/Header';
+import NewFormSingle from './pages/Dashboard/NewFormSignle';
+import NewFormQuad from './pages/Dashboard/NewFormQuad';
 
 
 
@@ -38,8 +38,8 @@ function App() {
                         <Route path='/recenzije/:id/' element={<SinglePost />} />
                         <Route path='/top20smeca/' element={<Worse20 />} />
                         <Route path='/o-blogu/' element={<About />} />
-                        <Route path='/dashboard/' element={<Dashboard />} />
-                        <Route path='/dashboard2/' element={<Dashboard2 />} />
+                        <Route path='/dashboard/' element={<NewFormSingle />} />
+                        <Route path='/dashboard2/' element={<NewFormQuad />} />
                     </Routes>
                 </AppPage>
             </BrowserRouter>
