@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { EditorState, convertToRaw } from 'draft-js';
 import { FormSection, PageContainer } from '../Pages.styles'
 import { File, FileLabel, FormContainer, FormContent, FormImage, InputContainer, InputField, InputLabel, StyledEditor, StyledForm, TextEditorContainer } from './Dashboard.styles'
@@ -64,6 +64,19 @@ export default function Dashboard2() {
             
         }
     ])
+
+    const [postPreview, setPostPreview] = useState(null)
+
+    useEffect(() => {
+        const reviewPreview = {
+            reviewTitle: reviewTitle,
+            movies,
+            contentImages: contentImages,
+        }
+
+        setPostPreview(reviewPreview)
+    }, [contentImages, movies, reviewTitle])
+
 
     //  Compressing the image before uploading to Firebase Storage
     const handleCompressImage = (e, index) => {
@@ -280,7 +293,7 @@ export default function Dashboard2() {
                             </InputContainer>
                             <InputContainer>
                                 <InputLabel htmlFor='rating'>Rating</InputLabel>
-                                <InputField id='rating' type='number' value={movie.rating} onChange={(e) => handleChange(index, 'rating', e.target.value)} step='0.5' min='1' max='5'/>
+                                <InputField id='rating' type='number' value={movie.rating} onChange={(e) => handleChange(index, 'rating', parseFloat(e.target.value))} step='0.5' min='1' max='5'/>
                             </InputContainer>
                             <InputContainer>
                                 <InputLabel htmlFor='imdbLink'>Imdb Link</InputLabel>
@@ -322,8 +335,7 @@ export default function Dashboard2() {
                         </TextEditorContainer>  
                         </>
                     ))}
-                    <button>Publish</button>
-                    <PreviewDialog />
+                    {postPreview ? <PreviewDialog postPreview={postPreview}/> : ''}
                 </StyledForm>
                 <ImageRepo handleContentImages={handleContentImages} contentImages={contentImages} formSubmitted={formSubmitted}/>
             </FormSection>

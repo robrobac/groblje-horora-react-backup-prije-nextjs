@@ -237,9 +237,7 @@ export default function Dashboard() {
                             />
                         </StyledEditor>
                     </TextEditorContainer>
-                    
                     {postPreview ? <PreviewDialog postPreview={postPreview}/> : ''}
-                    
                 </StyledForm>
                 <ImageRepo handleContentImages={handleContentImages} contentImages={contentImages} formSubmitted={formSubmitted}/>
             </FormSection>
