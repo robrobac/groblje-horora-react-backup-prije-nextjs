@@ -1,5 +1,24 @@
 import styled from "styled-components";
 
+export const Tabs = styled.div`
+
+`
+
+export const TabList = styled.div`
+    display: flex;
+    text-align: center;
+`
+
+export const Tab = styled.div`
+cursor: pointer;
+    flex: 1;
+    color: ${props => (props.$isActive ? props.theme.dark.lightText : props.theme.dark.grayText)};
+`
+
+export const TabPanel = styled.div`
+    display: ${props => (props.$isActive ? 'block' : 'none')};
+`
+
 export const FormContainer = styled.div`
     max-width: ${(props) => props.theme.dark.readingWidth};
     display: flex;
@@ -89,7 +108,12 @@ export const StyledEditor = styled.div`
         background-color: ${(props) => props.theme.dark.background};
         border: none;
         border-bottom: 1px solid ${(props) => props.theme.dark.inputBorder};
+        border-top: 1px solid ${(props) => props.theme.dark.inputBorder};
         padding: 10px 20px 5px 20px;
+        position: sticky;
+        top: 64px;
+        background-color: ${(props) => props.theme.dark.background};
+        z-index: 80;
     }
     .rdw-image-modal, .rdw-link-modal {
         background-color: ${(props) => props.theme.dark.background};

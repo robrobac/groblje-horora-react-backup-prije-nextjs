@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Repo = styled.div`
     position: sticky;
-    top: 66px;
+    top: 64px;
 `
 
 export const RepoSection = styled.div`

@@ -16,7 +16,7 @@ import Theme from './Theme';
 
 import GlobalStyles from './Global.styles';
 import Header from './components/header/Header';
-import NewFormSingle from './pages/Dashboard/NewFormSignle';
+import NewFormSingle from './pages/Dashboard/NewFormSingle';
 import NewFormQuad from './pages/Dashboard/NewFormQuad';
 
 

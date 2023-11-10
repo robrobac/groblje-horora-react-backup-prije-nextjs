@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { EditorState, convertToRaw } from 'draft-js';
 import { FormSection, PageContainer } from '../Pages.styles'
-import { File, FileLabel, FormContainer, FormContent, FormImage, InputContainer, InputField, InputLabel, StyledEditor, StyledForm, TextEditorContainer } from './NewForm.styles'
+import { File, FileLabel, FormContainer, FormContent, FormImage, InputContainer, InputField, InputLabel, StyledEditor, StyledForm, Tab, TabList, TabPanel, Tabs, TextEditorContainer } from './NewForm.styles'
 import Compressor from 'compressorjs';
 import { Editor } from 'react-draft-wysiwyg';
 import ImageRepo from './ImageRepo';
@@ -66,6 +66,7 @@ export default function NewFormQuad() {
     ])
 
     const [postPreview, setPostPreview] = useState(null)
+    const [selectedTab, setSelectedTab] = useState('movie1')
 
     useEffect(() => {
         const reviewPreview = {
@@ -268,8 +269,16 @@ export default function NewFormQuad() {
                         <InputLabel htmlFor='reviewTitle'>Review Title</InputLabel>
                         <InputField id='reviewTitle' type='text' value={reviewTitle} onChange={(e) => setReviewTitle(e.target.value)}/>
                     </InputContainer>
+                    <Tabs>
+                        <TabList>
+                            {movies.map((movie, index) => (
+                                <Tab $isActive={selectedTab === `movie${index + 1}`} onClick={() => setSelectedTab(`movie${index + 1}`)}>Movie {index + 1}</Tab>
+                            ))}
+                        </TabList>
+                    </Tabs>
                     {movies.map((movie, index) => (
-                        <>
+                        <TabPanel $isActive={selectedTab === `movie${index + 1}`}>
+                            <h3>Movie {index + 1}</h3>
                         <FormContainer>
                         <FormImage>
                             <div>
@@ -332,8 +341,8 @@ export default function NewFormQuad() {
                                     }}
                                 />
                             </StyledEditor>
-                        </TextEditorContainer>  
-                        </>
+                        </TextEditorContainer>
+                        </TabPanel>
                     ))}
                     {postPreview ? <PreviewDialog postPreview={postPreview}/> : ''}
                 </StyledForm>
