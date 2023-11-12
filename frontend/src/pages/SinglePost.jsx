@@ -1,9 +1,7 @@
-import draftToHtml from 'draftjs-to-html'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { PageContainer, PageSection, ReadingSection, SinglePostContainer } from './Pages.styles'
+import { PageSection, SinglePostContainer } from './Pages.styles'
 import ReviewPostCover from '../components/postsGrid/ReviewPostCover'
-import Rating from '../components/Rating'
 import Movie from '../components/Movie'
 
 export default function SinglePost() {

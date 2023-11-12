@@ -24,7 +24,7 @@ const MovieSchema = new Schema({
         required: false
     },
     reviewContent: {
-        type: Object,
+        type: String,
         required: false
     },
     imdbLink: {

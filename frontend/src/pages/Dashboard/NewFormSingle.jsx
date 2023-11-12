@@ -24,6 +24,7 @@ export default function NewFormSingle() {
     const [worse20, setWorse20] = useState(true)
     const [compressedCoverImage, setCompressedCoverImage] = useState(null);
     const fileInputRef = useRef(null);
+    console.log(reviewContent)
 
     const [formSubmitted, setFormSubmitted] = useState(false)
 
@@ -41,7 +42,7 @@ export default function NewFormSingle() {
                 year,
                 rating,
                 compressedCoverImage,
-                reviewContent,
+                reviewContent: convertToRaw(editorState.getCurrentContent()),
                 imdbLink,
                 top25,
                 worse20
@@ -55,7 +56,7 @@ export default function NewFormSingle() {
     // function that handles text editor state in Editor child component
     const onEditorStateChange = (newEditorState) => {
         setEditorState(newEditorState)
-        const textEditorData = convertToRaw(newEditorState.getCurrentContent())
+        const textEditorData = JSON.stringify(convertToRaw(editorState.getCurrentContent()))
         setReviewContent(textEditorData)
     }
 
@@ -92,7 +93,7 @@ export default function NewFormSingle() {
         // if cover image is uploaded and compressed upload it to firebase storage
         if (compressedCoverImage) {
             // create firebase storage path
-            const path = `coverImages/${stringFormatting(title, "-cover-image")}`
+            const path = `coverImages/${stringFormatting(title, `-cover-image-${Date.now()}`)}`
             try {
                 // Upload to Firebase and retrieve image's url and path
                 const result = await uploadImageToFirebaseStorage(compressedCoverImage, path)

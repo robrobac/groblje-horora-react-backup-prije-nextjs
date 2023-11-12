@@ -7,6 +7,7 @@ import { DialogContainer, PreviewDialogBox } from './PreviewDialog.styles'
 
 export default function PreviewDialog({postPreview}) {
     const [post, setPost] = useState(null)
+    console.log(post)
 
     useEffect(() => {
         const openButton = document.getElementById('previewDialogOpenButton')
@@ -43,23 +44,23 @@ export default function PreviewDialog({postPreview}) {
                         <CoverContainer>
                         {post?.movies.map((movie) => (
                             <CoverImageContainer>
-                            <img src={movie.compressedCoverImage && URL.createObjectURL(movie.compressedCoverImage)} alt='movie-cover'></img>
+                            <img src={movie.compressedCoverImage ? URL.createObjectURL(movie.compressedCoverImage) : movie.coverImage} alt='movie-cover'></img>
                             </CoverImageContainer>
                         ))}
                     </CoverContainer>
                 ) : (
                     <CoverContainer>
                     <CoverImageContainer>
-                        <img src={post?.movies[0].compressedCoverImage && URL.createObjectURL(post?.movies[0].compressedCoverImage)} alt='movie-cover'></img>
+                        <img src={post?.movies[0].compressedCoverImage ? URL.createObjectURL(post?.movies[0].compressedCoverImage) : post?.movies[0].coverImage} alt='movie-cover'></img>
                     </CoverImageContainer>
                     <CoverImageContainer>
-                        <img src={post?.movies[0].compressedCoverImage && URL.createObjectURL(post?.movies[0].compressedCoverImage)} alt='movie-cover'></img>
+                        <img src={post?.movies[0].compressedCoverImage ? URL.createObjectURL(post?.movies[0].compressedCoverImage) : post?.movies[0].coverImage} alt='movie-cover'></img>
                     </CoverImageContainer>
                     <CoverImageContainer>
-                        <img src={post?.movies[0].compressedCoverImage && URL.createObjectURL(post?.movies[0].compressedCoverImage)} alt='movie-cover'></img>
+                        <img src={post?.movies[0].compressedCoverImage ? URL.createObjectURL(post?.movies[0].compressedCoverImage) : post?.movies[0].coverImage} alt='movie-cover'></img>
                     </CoverImageContainer>
                     <CoverImageContainer>
-                        <img src={post?.movies[0].compressedCoverImage && URL.createObjectURL(post?.movies[0].compressedCoverImage)} alt='movie-cover'></img>
+                        <img src={post?.movies[0].compressedCoverImage ? URL.createObjectURL(post?.movies[0].compressedCoverImage) : post?.movies[0].coverImage} alt='movie-cover'></img>
                     </CoverImageContainer>
                 </CoverContainer>
                 )}
@@ -73,7 +74,7 @@ export default function PreviewDialog({postPreview}) {
                     <MovieContainer>
                         <MovieInfo>
                             <h2 className='movieTitleH2'>{movie.title} ({movie.year})</h2>
-                            <img style={{maxWidth:'500px', height: 'auto'}} src={movie.compressedCoverImage && URL.createObjectURL(movie.compressedCoverImage)} alt='movie-cover'></img>
+                            <img style={{maxWidth:'500px', height: 'auto'}} src={movie.compressedCoverImage ? URL.createObjectURL(movie.compressedCoverImage): movie.coverImage} alt='movie-cover'></img>
                             
                             <Rating rating={movie.rating} detailed={true}/>
                         </MovieInfo>

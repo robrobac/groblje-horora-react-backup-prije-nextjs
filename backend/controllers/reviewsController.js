@@ -93,7 +93,7 @@ const updateReview = async (req, res) => {
 
     const review = await Review.findOneAndUpdate({ _id: id }, {
         ...req.body
-    })
+    }, { new: true })
 
     if (!review) {
         return res.status(404).json({ error: 'No such review' })

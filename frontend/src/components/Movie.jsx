@@ -9,7 +9,7 @@ export default function Movie({movie}) {
     
     useEffect(() => {
         // Formatting react-draft-wysiwyg editor data for 
-        const rawContent = movie.reviewContent
+        const rawContent = JSON.parse(movie.reviewContent)
         const markup = draftToHtml(
                 rawContent,
         )

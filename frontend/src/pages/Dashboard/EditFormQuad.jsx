@@ -1,20 +1,24 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { EditorState, convertToRaw } from 'draft-js';
-import { FormSection, PageContainer } from '../Pages.styles'
-import { File, FileLabel, FormContainer, FormContent, FormImage, InputContainer, InputField, InputLabel, StyledEditor, StyledForm, Tab, TabList, TabPanel, Tabs, TextEditorContainer } from './NewForm.styles'
-import Compressor from 'compressorjs';
+import React, { useEffect, useState } from 'react'
+import { EditorState, convertFromRaw, convertToRaw } from 'draft-js';
+import { useParams } from 'react-router-dom'
+import { File, FileLabel, FormContainer, FormContent, FormImage, InputContainer, InputField, InputLabel, StyledEditor, StyledForm, Tab, TabList, TabPanel, Tabs, TextEditorContainer } from './NewForm.styles';
 import { Editor } from 'react-draft-wysiwyg';
-import ImageRepo from './ImageRepo';
-import { deleteImageFromFirebaseStorage, uploadImageToFirebaseStorage } from '../../helpers/firebaseUtils';
-import stringFormatting from '../../helpers/stringFormatting';
+import { FormSection, PageContainer } from '../Pages.styles';
 import PreviewDialog from './PreviewDialog';
+import ImageRepo from './ImageRepo';
+import Compressor from 'compressorjs';
+import stringFormatting from '../../helpers/stringFormatting';
+import { deleteImageFromFirebaseStorage, uploadImageToFirebaseStorage } from '../../helpers/firebaseUtils';
 import { useNavigate } from 'react-router-dom';
 
-export default function NewFormQuad() {
-    const [formSubmitted, setFormSubmitted] = useState(false)
+export default function EditFormQuad() {
+    const { id } = useParams()
+    const [post, setPost] = useState({})
     const [reviewTitle, setReviewTitle] = useState('')
     const [contentImages, setContentImages] = useState([])
+    const [formSubmitted, setFormSubmitted] = useState(false)
     const [error, setError] = useState(null)
+
     const [movies, setMovies] = useState([
         {
             title: '',
@@ -65,11 +69,11 @@ export default function NewFormQuad() {
             
         }
     ])
-    console.log('movies', movies[0].reviewContent)
-    const navigate = useNavigate();
 
     const [postPreview, setPostPreview] = useState(null)
     const [selectedTab, setSelectedTab] = useState('movie1')
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const reviewPreview = {
@@ -83,7 +87,10 @@ export default function NewFormQuad() {
                     reviewContent: convertToRaw(movie.editorState.getCurrentContent()),
                     imdbLink: movie.imdbLink,
                     top25: movie.top25,
-                    worse20: movie.worse20
+                    worse20: movie.worse20,
+                    coverImage: movie.coverImage,
+                    coverImagePath: movie.coverImagePath,
+
                 }
             }),
             contentImages: contentImages,
@@ -92,40 +99,52 @@ export default function NewFormQuad() {
         setPostPreview(reviewPreview)
     }, [contentImages, movies, reviewTitle])
 
+    console.log('post', post)
+    console.log('reviewTitle', reviewTitle)
+    console.log('contentImages', contentImages)
+    console.log('movies', movies)
 
-    //  Compressing the image before uploading to Firebase Storage
-    const handleCompressImage = (e, index) => {
-        const image = e.target.files[0];
-        if (image) {
-            new Compressor(image, {
-                quality: 0.5,
-                width: 700,
-                convertSize: 100,
-                success: (compressedResult) => {
-                    const updatedMovies = [...movies]
-                    updatedMovies[index].compressedCoverImage = compressedResult
-                    setMovies(updatedMovies)
+    useEffect(() => {
+        const fetchPost = async () => {
+            try {
+                const response = await fetch(`/api/reviews/${id}`)
+                const data = await response.json()
+                
+                if (response.ok) {
+                    setPost(data)
+                    setReviewTitle(data.reviewTitle)
+                    setContentImages(data.contentImages)
+                    console.log('data:', data)
+
+
+                    setMovies(data.movies.map((movie) => {
+                        return {
+                            title: movie.title || '',
+                            year: movie.year || '',
+                            rating: movie.rating || '',
+                            reviewContent: movie.reviewContent || '',
+                            editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(movie.reviewContent))),
+                            imdbLink: movie.imdbLink || '',
+                            coverImage: movie.coverImage || '',
+                            coverImagePath: movie.coverImagePath || '',
+                            top25: movie.top25,
+                            worse20: movie.worse20,
+                            compressedCoverImage: movie.compressedCoverImage,
+                        }
+                    }))
+
+                } else {
+                    console.log(response.status)
                 }
-            });
-        } else {
-            const updatedMovies = [...movies]
-            updatedMovies[index].compressedCoverImage = null
-            setMovies(updatedMovies)
+    
+            } catch (err) {
+                console.log(err)
+            }
+            
         }
-    };
 
-    const handleChange = (index, field, value) => {
-        const updatedMovies = [...movies];
-        updatedMovies[index][field] = value;
-        setMovies(updatedMovies);
-    };
-
-    const handleUploadClick = (index) => {
-        const clickedElement = document.getElementById(`coverImage${index}`)
-        if (clickedElement) {
-            clickedElement.click()
-        }
-    }
+        fetchPost()
+    }, [id])
 
     const handleEditorStateChange = (index, newEditorState) => {
         const updatedMovies = [...movies]
@@ -135,49 +154,47 @@ export default function NewFormQuad() {
         setMovies(updatedMovies)
     }
 
-    const handleContentImages = (value) => {
-        setContentImages(value)
-    }
-
     const handleSubmit = async (e) => {
         e.preventDefault()
         console.log(movies)
         const deleteCoverPaths = []
+        let oldCoverPath = ''
 
         const movieReviews = movies.map( async (movie) => {
             return new Promise(async (resolve, reject) => {
-                let url = ""
-                let filePath = ""
+                let url = movie.coverImage
+                let filePath = movie.coverImagePath
+                oldCoverPath = movie.coverImagePath
 
                 // if cover image is uploaded and compressed upload it to firebase storage
                 if (movie.compressedCoverImage) {
                     // create firebase storage path
-                    const path = `coverImages/${stringFormatting(movie.title, `-cover-image-${Date.now()}`)}`
+                    const path = `coverImages/${stringFormatting(movie.title, `-coverImage-${Date.now()}`)}`
                     try {
-                        // Upload to Firebase and retrieve image's url and path
+                        //  Upload to Firebase and retrieve image's url and path
+                        await deleteImageFromFirebaseStorage(oldCoverPath)
                         const result = await uploadImageToFirebaseStorage(movie.compressedCoverImage, path)
                         url = result.url
                         filePath = result.path
                         deleteCoverPaths.push(url)
                         console.log('pushed')
-                        resolve({
-                            title: movie.title,
-                            year: movie.year,
-                            rating: movie.rating,
-                            reviewContent: movie.reviewContent,
-                            imdbLink: movie.imdbLink,
-                            coverImage: url,
-                            coverImagePath: filePath,
-                            top25: movie.top25,
-                            worse20: movie.worse20,
-                            compressedCoverImage: movie.compressedCoverImage,
-                        })
-                        console.log('resolved')
                     } catch (error) {
                         reject(error)
                         console.log(error)
                     }
                 }
+
+                resolve({
+                    title: movie.title,
+                    year: movie.year,
+                    rating: movie.rating,
+                    reviewContent: movie.reviewContent,
+                    imdbLink: movie.imdbLink,
+                    coverImage: url,
+                    coverImagePath: filePath,
+                    top25: movie.top25,
+                    worse20: movie.worse20,
+                })
             })
         })
         
@@ -192,8 +209,8 @@ export default function NewFormQuad() {
                 console.log('promised?')
                 console.log(review)
                 // Posting to MongoDB
-                const response = await fetch('/api/reviews', {
-                    method: 'POST',
+                const response = await fetch(`/api/reviews/${post._id}`, {
+                    method: 'PATCH',
                     body: JSON.stringify(review),
                     headers: {
                         'Content-Type': 'application/json'
@@ -259,7 +276,7 @@ export default function NewFormQuad() {
                     ])
                     setFormSubmitted(!formSubmitted)
                     navigate(`/recenzije/${json._id}`)
-                    console.log('New Review Added')
+                    console.log('Review Updated')
 
                     // Deleting images from temp images, the data about images is stored in the post document
                     contentImages.forEach(async(image) => {
@@ -278,6 +295,58 @@ export default function NewFormQuad() {
             })
     }
 
+    const handleUploadClick = (index) => {
+        const clickedElement = document.getElementById(`coverImage${index}`)
+        if (clickedElement) {
+            clickedElement.click()
+        }
+    }
+    const handleCompressImage = (e, index) => {
+        const image = e.target.files[0];
+        if (image) {
+            new Compressor(image, {
+                quality: 0.5,
+                width: 700,
+                convertSize: 100,
+                success: (compressedResult) => {
+                    const updatedMovies = [...movies]
+                    updatedMovies[index].compressedCoverImage = compressedResult
+                    setMovies(updatedMovies)
+                }
+            });
+        } else {
+            const updatedMovies = [...movies]
+            updatedMovies[index].compressedCoverImage = null
+            setMovies(updatedMovies)
+        }
+    };
+    const handleChange = (index, field, value) => {
+        const updatedMovies = [...movies];
+        updatedMovies[index][field] = value;
+        setMovies(updatedMovies);
+    }
+    const handleContentImages = (value) => {
+
+        setContentImages(value)
+        
+    }
+
+
+    // useEffect(() => {
+    //     const fetchedMovies = post.movies.map((movie) => {
+    //         const editorData = convertFromRaw(movie.reviewContent)
+    //         return {
+    //             title: movie.title || '',
+    //             year: movie.year || '',
+    //             rating: movie.rating || '',
+    //             reviewContent: movie.reviewContent || '',
+    //             editorState: editorData,
+    //             imdbLink: movie.imdbLink || '',
+    //         }
+                
+    //     })
+    //     setMovies([fetchedMovies])
+    // }, [post])
 
     return (
         <PageContainer>
@@ -300,9 +369,9 @@ export default function NewFormQuad() {
                         <FormContainer>
                         <FormImage>
                             <div>
-                                {movie.compressedCoverImage
+                                {movie.compressedCoverImage || movie.coverImage
                                 ?
-                                    <img src={URL.createObjectURL(movie.compressedCoverImage)} alt='uploadedImage' onClick={() => handleUploadClick(index)}/>
+                                    <img src={movie.compressedCoverImage ? URL.createObjectURL(movie.compressedCoverImage) : movie.coverImage} alt='uploadedImage' onClick={() => handleUploadClick(index)}/>
                                 :
                                     <FileLabel htmlFor={`coverImage${index}`}>Cover Image</FileLabel>
                                 }

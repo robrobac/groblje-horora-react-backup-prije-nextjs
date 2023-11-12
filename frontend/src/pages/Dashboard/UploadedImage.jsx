@@ -3,7 +3,6 @@ import CopyToClipboard from 'react-copy-to-clipboard'
 
 export default function UploadedImage({image, index, handleDeleteUploaded}) {
     const [copied, setCopied] = useState(false)
-    console.log(copied)
 
     const handleCopy = () => {
         setCopied(true)
