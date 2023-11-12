@@ -1,18 +1,28 @@
 import Compressor from 'compressorjs';
 
-const compressImage = (image) => {
+export const compressImage = (image, successCallback) => {
     if (image) {
+        new Compressor(image, {
+            quality: 0.1,
+            width: 700,
+            convertSize: 20,
+            success: successCallback,
+        });
+    } else {
+        successCallback(null)
+    }
+};
+
+export const compressImage3 = (image, options) => {
+    return new Promise((resolve, reject) => {
         new Compressor(image, {
             quality: 0.5,
             width: 700,
             convertSize: 100,
-            success: (compressedResult) => {
-                return (compressedResult);
-            }
+            success: resolve,
+            error: reject,
+            ...options,
         });
-    } else {
-        return
-    }
+    });
 };
 
-export default compressImage

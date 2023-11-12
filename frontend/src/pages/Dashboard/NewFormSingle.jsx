@@ -10,6 +10,7 @@ import { File, FileLabel, FormContainer, FormContent, FormImage, InputContainer,
 import { FormSection, PageContainer } from '../Pages.styles';
 import PreviewDialog from './PreviewDialog';
 import { useNavigate } from 'react-router-dom';
+import { compressImage } from '../../helpers/compressImage';
 
 export default function NewFormSingle() {
     const [reviewTitle, setReviewTitle] = useState('This field is not used in single review')
@@ -69,14 +70,9 @@ export default function NewFormSingle() {
     const handleCompressImage = (e) => {
         const image = e.target.files[0];
         if (image) {
-            new Compressor(image, {
-                quality: 0.5,
-                width: 700,
-                convertSize: 100,
-                success: (compressedResult) => {
-                    setCompressedCoverImage(compressedResult);
-                }
-            });
+            compressImage(image, (compressedResult) => {
+                setCompressedCoverImage(compressedResult)
+            })
         } else {
             setCompressedCoverImage(null)
         }

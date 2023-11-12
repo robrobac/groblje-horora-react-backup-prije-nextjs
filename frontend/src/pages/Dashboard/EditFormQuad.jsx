@@ -10,6 +10,7 @@ import Compressor from 'compressorjs';
 import stringFormatting from '../../helpers/stringFormatting';
 import { deleteImageFromFirebaseStorage, uploadImageToFirebaseStorage } from '../../helpers/firebaseUtils';
 import { useNavigate } from 'react-router-dom';
+import { compressImage } from '../../helpers/compressImage';
 
 export default function EditFormQuad() {
     const { id } = useParams()
@@ -304,22 +305,18 @@ export default function EditFormQuad() {
     const handleCompressImage = (e, index) => {
         const image = e.target.files[0];
         if (image) {
-            new Compressor(image, {
-                quality: 0.5,
-                width: 700,
-                convertSize: 100,
-                success: (compressedResult) => {
-                    const updatedMovies = [...movies]
+            compressImage(image, (compressedResult) => {
+                const updatedMovies = [...movies]
                     updatedMovies[index].compressedCoverImage = compressedResult
                     setMovies(updatedMovies)
-                }
-            });
+            })
         } else {
             const updatedMovies = [...movies]
             updatedMovies[index].compressedCoverImage = null
             setMovies(updatedMovies)
         }
     };
+
     const handleChange = (index, field, value) => {
         const updatedMovies = [...movies];
         updatedMovies[index][field] = value;
