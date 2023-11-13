@@ -108,7 +108,7 @@ export default function EditFormQuad() {
     useEffect(() => {
         const fetchPost = async () => {
             try {
-                const response = await fetch(`/api/reviews/${id}`)
+                const response = await fetch(`http://localhost:4000/api/reviews/${id}`)
                 const data = await response.json()
                 
                 if (response.ok) {
@@ -210,7 +210,7 @@ export default function EditFormQuad() {
                 console.log('promised?')
                 console.log(review)
                 // Posting to MongoDB
-                const response = await fetch(`/api/reviews/${post._id}`, {
+                const response = await fetch(`http://localhost:4000/api/reviews/${post._id}`, {
                     method: 'PATCH',
                     body: JSON.stringify(review),
                     headers: {
@@ -281,7 +281,7 @@ export default function EditFormQuad() {
 
                     // Deleting images from temp images, the data about images is stored in the post document
                     contentImages.forEach(async(image) => {
-                        const deleteResponse = await fetch(`/api/tempMedia/${image.id}`, {
+                        const deleteResponse = await fetch(`http://localhost:4000/api/tempMedia/${image.id}`, {
                             method: 'DELETE'
                         })
                         const json = await deleteResponse.json()

@@ -9,7 +9,7 @@ export default function Worse20() {
 
     useEffect(() => {
         const fetchReviews = async () => {
-            const response = await fetch('/api/reviews/worse20')
+            const response = await fetch('http://localhost:4000/api/reviews/worse20')
             const json = await response.json()
 
             if (response.ok) {

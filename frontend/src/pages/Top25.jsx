@@ -10,7 +10,7 @@ export default function Top25() {
     useEffect(() => {
         const fetchReviews = async () => {
 
-            const response = await fetch(`/api/reviews/top25`)
+            const response = await fetch(`http://localhost:4000/api/reviews/top25`)
             const json = await response.json()
 
             if (response.ok) {

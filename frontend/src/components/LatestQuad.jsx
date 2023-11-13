@@ -10,7 +10,7 @@ export default function LatestQuad() {
     useEffect(() => {
         const fetchReview = async () => {
 
-        const response = await fetch(`/api/reviews/latestQuad`)
+        const response = await fetch(`http://localhost:4000/api/reviews/latestQuad`)
             const json = await response.json()
 
             if (response.ok) {

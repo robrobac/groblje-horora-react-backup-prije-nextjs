@@ -13,7 +13,7 @@ export default function Recenzije() {
 
     useEffect(() => {
         const fetchReviews = async () => {
-            const response = await fetch(`/api/reviews`)
+            const response = await fetch(`http://localhost:4000/api/reviews`)
             const json = await response.json()
 
             if (response.ok) {

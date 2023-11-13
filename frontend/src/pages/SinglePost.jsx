@@ -11,7 +11,7 @@ export default function SinglePost() {
 
     useEffect(() => {
         const fetchPost = async () => {
-            const response = await fetch(`/api/reviews/${id}`)
+            const response = await fetch(`http://localhost:4000/api/reviews/${id}`)
             const data = await response.json()
 
             if (response.ok) {

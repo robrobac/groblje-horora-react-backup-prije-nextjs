@@ -69,7 +69,7 @@ export default function ImageRepo({handleContentImages, contentImages, formSubmi
             }
 
             // Saving uploaded image to MongoDB collection
-            const response = await fetch('/api/tempMedia', {
+            const response = await fetch('http://localhost:4000/api/tempMedia', {
                 method: 'POST',
                 body: JSON.stringify(uploadedImage),
                 headers: {
@@ -108,7 +108,7 @@ export default function ImageRepo({handleContentImages, contentImages, formSubmi
 
         handleContentImages(contentImages.filter((image) => image.path !== imageToDelete.path))
         
-        const deleteResponse = await fetch(`/api/tempMedia/${imageToDelete.id}`, {
+        const deleteResponse = await fetch(`http://localhost:4000/api/tempMedia/${imageToDelete.id}`, {
             method: 'DELETE'
         })
         const json = await deleteResponse.json()

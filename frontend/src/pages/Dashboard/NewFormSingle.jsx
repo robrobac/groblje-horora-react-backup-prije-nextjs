@@ -119,7 +119,7 @@ export default function NewFormSingle() {
 
         console.log(review)
         // Posting to MongoDB
-        const response = await fetch('/api/reviews', {
+        const response = await fetch('http://localhost:4000/api/reviews', {
             method: 'POST',
             body: JSON.stringify(review),
             headers: {
@@ -148,7 +148,7 @@ export default function NewFormSingle() {
 
             // Deleting images from temp images, the data about images is stored in the post document
             contentImages.forEach(async(image) => {
-                const deleteResponse = await fetch(`/api/tempMedia/${image.id}`, {
+                const deleteResponse = await fetch(`http://localhost:4000/api/tempMedia/${image.id}`, {
                     method: 'DELETE'
                 })
                 const json = await deleteResponse.json()
