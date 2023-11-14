@@ -3,7 +3,7 @@ import { MovieContainer, MovieInfo, PageSection, ReadingSection, SinglePostConta
 import draftToHtml from 'draftjs-to-html'
 import Rating from '../../components/Rating'
 import { CoverContainer, CoverImageContainer } from '../../components/postsGrid/ReviewPostCover.styles'
-import { DialogContainer, PreviewDialogBox } from './PreviewDialog.styles'
+import { PreviewDialogBox } from './PreviewDialog.styles'
 
 export default function PreviewDialog({postPreview}) {
     const [post, setPost] = useState(null)

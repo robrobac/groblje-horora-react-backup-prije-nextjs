@@ -1,10 +1,9 @@
 import React from 'react'
-import { PageContainer, PageSection } from '../Pages.styles'
+import { PageContainer } from '../Pages.styles'
 import { HomeImage } from './Home.styles'
 import homeCoverImage from '../../images/groblje-horora-main-image.jpg'
 import LatestQuad from '../../components/LatestQuad'
 import LatestSingle from '../../components/LatestSingle'
-import CarouselItem from '../../components/carousel/CarouselItem'
 import Carousel from '../../components/carousel/Carousel'
 
 export default function Home() {

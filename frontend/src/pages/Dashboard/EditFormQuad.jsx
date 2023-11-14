@@ -6,7 +6,6 @@ import { Editor } from 'react-draft-wysiwyg';
 import { FormSection, PageContainer } from '../Pages.styles';
 import PreviewDialog from './PreviewDialog';
 import ImageRepo from './ImageRepo';
-import Compressor from 'compressorjs';
 import stringFormatting from '../../helpers/stringFormatting';
 import { deleteImageFromFirebaseStorage, uploadImageToFirebaseStorage } from '../../helpers/firebaseUtils';
 import { useNavigate } from 'react-router-dom';
@@ -328,22 +327,6 @@ export default function EditFormQuad() {
         
     }
 
-
-    // useEffect(() => {
-    //     const fetchedMovies = post.movies.map((movie) => {
-    //         const editorData = convertFromRaw(movie.reviewContent)
-    //         return {
-    //             title: movie.title || '',
-    //             year: movie.year || '',
-    //             rating: movie.rating || '',
-    //             reviewContent: movie.reviewContent || '',
-    //             editorState: editorData,
-    //             imdbLink: movie.imdbLink || '',
-    //         }
-                
-    //     })
-    //     setMovies([fetchedMovies])
-    // }, [post])
 
     return (
         <PageContainer>

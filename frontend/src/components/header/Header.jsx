@@ -1,6 +1,5 @@
 import React from 'react'
 import { HeaderNavigation, MainHeader, NavItem, NavigationWrap } from './Header.styles';
-import { Link, NavLink } from 'react-router-dom';
 
 export default function Header() {
     return (

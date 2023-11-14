@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import ReviewPostCover from './postsGrid/ReviewPostCover'
 import { MovieContainer, MovieInfo, PageSection, ReadingSection } from '../pages/Pages.styles'
 import Rating from './Rating'
 import draftToHtml from 'draftjs-to-html'
@@ -15,7 +14,7 @@ export default function Movie({movie}) {
         )
         // Setting state that will be 
         setReviewContent(markup)
-    }, [])
+    }, [movie.reviewContent])
 
     return (
         <MovieContainer>

@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { EditorState, convertToRaw } from 'draft-js';
 import { FormSection, PageContainer } from '../Pages.styles'
 import { File, FileLabel, FormContainer, FormContent, FormImage, InputContainer, InputField, InputLabel, StyledEditor, StyledForm, Tab, TabList, TabPanel, Tabs, TextEditorContainer } from './NewForm.styles'
-import Compressor from 'compressorjs';
 import { Editor } from 'react-draft-wysiwyg';
 import ImageRepo from './ImageRepo';
 import { deleteImageFromFirebaseStorage, uploadImageToFirebaseStorage } from '../../helpers/firebaseUtils';

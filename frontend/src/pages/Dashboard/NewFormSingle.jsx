@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react'
-import Compressor from 'compressorjs';
 import { EditorState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -13,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { compressImage } from '../../helpers/compressImage';
 
 export default function NewFormSingle() {
+    // eslint-disable-next-line no-unused-vars
     const [reviewTitle, setReviewTitle] = useState('This field is not used in single review')
     const [title, setTitle] = useState('')
     const [year, setYear] = useState('')
@@ -29,6 +29,7 @@ export default function NewFormSingle() {
 
     const [formSubmitted, setFormSubmitted] = useState(false)
 
+    // eslint-disable-next-line no-unused-vars
     const [error, setError] = useState(null)
 
     const [postPreview, setPostPreview] = useState(null)
@@ -52,7 +53,7 @@ export default function NewFormSingle() {
         }
 
         setPostPreview(reviewPreview)
-    }, [compressedCoverImage, contentImages, imdbLink, rating, reviewContent, reviewTitle, title, top25, worse20, year])
+    }, [compressedCoverImage, contentImages, editorState, imdbLink, rating, reviewContent, reviewTitle, title, top25, worse20, year])
 
     // function that handles text editor state in Editor child component
     const onEditorStateChange = (newEditorState) => {

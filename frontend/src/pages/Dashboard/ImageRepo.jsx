@@ -9,6 +9,7 @@ export default function ImageRepo({handleContentImages, contentImages, formSubmi
     // State that holds compressed images that are later uploaded to Firebase Storage, once upload is successful clear the state.
     const [compressedImages, setCompressedImages] = useState([])
     const imagesInputRef = useRef(null);
+    // eslint-disable-next-line no-unused-vars
     const [error, setError] = useState(null)
 
     useEffect(() => {
