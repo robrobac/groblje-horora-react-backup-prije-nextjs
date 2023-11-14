@@ -5,9 +5,13 @@ import Rating from '../../components/Rating'
 import { CoverContainer, CoverImageContainer } from '../../components/postsGrid/ReviewPostCover.styles'
 import { PreviewDialogBox } from './PreviewDialog.styles'
 
-export default function PreviewDialog({postPreview}) {
+export default function PreviewDialog({postPreview, formFailed}) {
     const [post, setPost] = useState(null)
-    console.log(post)
+
+    useEffect(() => {
+        const modal = document.getElementById('previewDialog')
+        modal.close()
+    }, [formFailed])
 
     useEffect(() => {
         const openButton = document.getElementById('previewDialogOpenButton')

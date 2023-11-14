@@ -57,6 +57,34 @@ const getReview = async (req, res) => {
 const createReview = async (req, res) => {
     const { reviewTitle, movies, comments, likes, contentImages } = req.body
 
+    let emptyFields = []
+
+    if (!reviewTitle) {
+        emptyFields.push('reviewTitle')
+    }
+
+    movies.forEach((movie, index) => {
+        if (!movie.title) {
+            emptyFields.push(`movie${index}title`)
+        }
+        if (!movie.year) {
+            emptyFields.push(`movie${index}year`)
+        }
+        if (!movie.rating) {
+            emptyFields.push(`movie${index}rating`)
+        }
+        if (!movie.reviewContent) {
+            emptyFields.push(`movie${index}reviewContent`)
+        }
+        if (!movie.coverImage) {
+            emptyFields.push(`movie${index}coverImage`)
+        }
+    })
+
+    if (emptyFields.length > 0) {
+        return res.status(400).json({ error: 'Please fill all the fields.', emptyFields })
+    }
+
     // add doc to db
     try {
         const review = await Review.create({ reviewTitle, movies, comments, likes, contentImages })

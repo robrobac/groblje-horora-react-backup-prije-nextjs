@@ -29,9 +29,13 @@ export default function NewForm({ numberOfMovies }) {
     const [postPreview, setPostPreview] = useState(null);
 
     const [formSubmitted, setFormSubmitted] = useState(false);
+    // If form fails checks on backend, change the state to trigger useEffect in PreviewDialog components and that way close the Preview Modal.
+    const [formFailed, setFormFailed] = useState(false)
 
-    // eslint-disable-next-line no-unused-vars
-    const [error, setError] = useState(null);
+    // State that is recieved from backend to handle errors on empty fields
+    const [emptyFields, setEmptyFields] = useState([])
+    console.log(emptyFields)
+
     
     const navigate = useNavigate();
     
@@ -142,6 +146,8 @@ export default function NewForm({ numberOfMovies }) {
                             compressedCoverImage: movie.compressedCoverImage,
                         });
 
+                        console.log(movie.compressedCoverImage)
+
                     } catch (err) {
                         reject(err);
                     }
@@ -183,14 +189,16 @@ export default function NewForm({ numberOfMovies }) {
                 
                 if (!response.ok) {
                     // If response is NOT OK delete uploaded cover images from Firebase Storage
-                    setError(json.error);
+                    setEmptyFields(json.emptyFields)
+                    setFormFailed(!formFailed)
+                    window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
                     deleteCoverPaths.forEach(async (path) => await deleteImageFromFirebaseStorage(path));
                 }
 
                 if (response.ok) {
                     // If response is OK, restart form states
                     setReviewTitle('');
-                    setError(null);
+                    setEmptyFields([])
                     setMovies(Array.from({ length: numberOfMovies }, () => getInitialMovieState()));
 
                     // Change FormSubmitted state in order to re render ImageRepo so it will clear its states
@@ -223,7 +231,7 @@ export default function NewForm({ numberOfMovies }) {
                 {numberOfMovies === 4 ? (
                     <InputContainer>
                         <InputLabel htmlFor='reviewTitle'>Review Title</InputLabel>
-                        <InputField id='reviewTitle' type='text' value={reviewTitle} onChange={(e) => setReviewTitle(e.target.value)}/>
+                        <InputField className={emptyFields.includes('reviewTitle') ? 'error' : '' } id='reviewTitle' type='text' value={reviewTitle} onChange={(e) => setReviewTitle(e.target.value)}/>
                     </InputContainer>
                 ) : ''}
                 <Tabs>
@@ -243,7 +251,7 @@ export default function NewForm({ numberOfMovies }) {
                                 ?
                                     <img src={URL.createObjectURL(movie.compressedCoverImage)} alt='uploadedImage' onClick={() => handleUploadClick(index)}/>
                                 :
-                                    <FileLabel htmlFor={`coverImage${index}`}>Cover Image</FileLabel>
+                                    <FileLabel className={emptyFields.includes(`movie${index}coverImage`) ? 'error' : ''} htmlFor={`coverImage${index}`}>Cover Image</FileLabel>
                                 }
                                 <File id={`coverImage${index}`} type='file' accept='image/' onChange={(e) => handleCompressImage(e, index)}/>
                             </div>
@@ -251,15 +259,15 @@ export default function NewForm({ numberOfMovies }) {
                         <FormContent>
                             <InputContainer>
                                 <InputLabel htmlFor='title'>Title</InputLabel>
-                                <InputField id='title' type='text' value={movie.title} onChange={(e) => handleChange(index, 'title', e.target.value)}/>
+                                <InputField className={emptyFields.includes(`movie${index}title`) ? 'error' : ''} id='title' type='text' value={movie.title} onChange={(e) => handleChange(index, 'title', e.target.value)}/>
                             </InputContainer>
                             <InputContainer>
                                 <InputLabel htmlFor='year'>Year</InputLabel>
-                                <InputField id='year' type='number' value={movie.year} onChange={(e) => handleChange(index, 'year', e.target.value)}/>
+                                <InputField className={emptyFields.includes(`movie${index}year`) ? 'error' : '' } id='year' type='number' value={movie.year} onChange={(e) => handleChange(index, 'year', e.target.value)}/>
                             </InputContainer>
                             <InputContainer>
                                 <InputLabel htmlFor='rating'>Rating</InputLabel>
-                                <InputField id='rating' type='number' value={movie.rating} onChange={(e) => handleChange(index, 'rating', parseFloat(e.target.value))} step='0.5' min='1' max='5'/>
+                                <InputField className={emptyFields.includes(`movie${index}rating`) ? 'error' : '' } id='rating' type='number' value={movie.rating} onChange={(e) => handleChange(index, 'rating', parseFloat(e.target.value))} step='0.5' min='1' max='5'/>
                             </InputContainer>
                             <InputContainer>
                                 <InputLabel htmlFor='imdbLink'>Imdb Link</InputLabel>
@@ -282,7 +290,7 @@ export default function NewForm({ numberOfMovies }) {
                         <TextEditorContainer>
                             <InputLabel>Post Content</InputLabel>
                             <StyledEditor>
-                                <Editor editorState={movie.editorState} onEditorStateChange={(newEditorState) => handleEditorStateChange(index, newEditorState)}
+                                <Editor wrapperClassName={emptyFields.includes(`movie${index}reviewContent`) ? 'error' : '' } editorState={movie.editorState} onEditorStateChange={(newEditorState) => handleEditorStateChange(index, newEditorState)}
                                     toolbar={{
                                         options: ['inline', 'image', 'link', 'history'],
                                         inline: {
@@ -301,7 +309,7 @@ export default function NewForm({ numberOfMovies }) {
                         </TextEditorContainer>
                     </TabPanel>
                 ))}
-                {postPreview ? <PreviewDialog postPreview={postPreview}/> : ''}
+                {postPreview ? <PreviewDialog postPreview={postPreview} formFailed={formFailed}/> : ''}
             </StyledForm>
             <ImageRepo handleContentImages={handleContentImages} contentImages={contentImages} formSubmitted={formSubmitted}/>
         </FormSection>

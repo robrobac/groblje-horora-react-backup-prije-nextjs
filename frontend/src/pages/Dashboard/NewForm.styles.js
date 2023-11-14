@@ -51,6 +51,10 @@ export const FileLabel = styled.label`
     align-items: center;
     width: 320px;
     height: 460px;
+
+    &.error {
+        border: 1px solid red;
+    }
 `
 export const FormImage = styled.div`
     cursor: pointer;
@@ -79,6 +83,10 @@ export const InputField = styled.input`
     font-size: 1rem;
     color: white;
 
+    &.error {
+        border: 1px solid red;
+    }
+
     &:focus {
         border: 1px solid ${(props) => props.theme.dark.primary};
         outline: none;
@@ -96,8 +104,12 @@ export const InputLabel = styled.label`
 
 // TEXT EDITOR
 export const StyledEditor = styled.div`
+
     .rdw-editor-wrapper {
         border: 1px solid ${(props) => props.theme.dark.inputBorder};
+    }
+    .error {
+        border: 1px solid red;
     }
     .rdw-editor-main {
         overflow: auto;
