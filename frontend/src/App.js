@@ -19,6 +19,8 @@ import Header from './components/header/Header';
 import NewFormSingle from './pages/Dashboard/NewFormSingle';
 import NewFormQuad from './pages/Dashboard/NewFormQuad';
 import EditFormQuad from './pages/Dashboard/EditFormQuad';
+import Dashboard from './pages/Dashboard/Dashboard';
+import NewForm from './pages/Dashboard/NewForm';
 
 
 
@@ -40,7 +42,9 @@ function App() {
                         <Route path='/recenzije/:id/edit' element={<EditFormQuad />} />
                         <Route path='/top20smeca/' element={<Worse20 />} />
                         <Route path='/o-blogu/' element={<About />} />
-                        <Route path='/dashboard/' element={<NewFormSingle />} />
+                        <Route path='/dashboard/' element={<Dashboard />} />
+                        <Route path='/dashboard/add-new' element={<NewForm />} />
+                        <Route path='/dashboard1/' element={<NewFormSingle />} />
                         <Route path='/dashboard2/' element={<NewFormQuad />} />
                     </Routes>
                 </AppPage>

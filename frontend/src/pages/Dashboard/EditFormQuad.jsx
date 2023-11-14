@@ -332,10 +332,12 @@ export default function EditFormQuad() {
         <PageContainer>
             <FormSection>
                 <StyledForm onSubmit={handleSubmit}>
-                    <InputContainer>
+                    {movies.length === 3 ? (
+                        <InputContainer>
                         <InputLabel htmlFor='reviewTitle'>Review Title</InputLabel>
                         <InputField id='reviewTitle' type='text' value={reviewTitle} onChange={(e) => setReviewTitle(e.target.value)}/>
                     </InputContainer>
+                    ) : ''}
                     <Tabs>
                         <TabList>
                             {movies.map((movie, index) => (
