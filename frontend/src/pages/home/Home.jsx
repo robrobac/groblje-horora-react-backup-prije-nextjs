@@ -4,7 +4,6 @@ import { HomeImage } from './Home.styles'
 import homeCoverImage from '../../images/groblje-horora-main-image.jpg'
 import LatestQuad from '../../components/LatestQuad'
 import LatestSingle from '../../components/LatestSingle'
-import Carousel from '../../components/carousel/Carousel'
 
 export default function Home() {
     return (
@@ -14,9 +13,6 @@ export default function Home() {
                 </HomeImage>
                 <LatestQuad />
                 <LatestSingle />
-                <Carousel />
         </PageContainer>
-        
-        
     )
     }

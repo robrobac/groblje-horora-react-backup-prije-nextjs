@@ -9,8 +9,8 @@ export default function ReviewPostCover({post}) {
         return (
             <CoverContainer>
                 {post?.movies.map((movie) => (
-                    <CoverImageContainer>
-                    <img src={movie.coverImage} alt='movie-cover'></img>
+                    <CoverImageContainer key={movie._id}>
+                        <img src={movie.coverImage} alt='movie-cover'></img>
                     </CoverImageContainer>
                 ))}
             </CoverContainer>

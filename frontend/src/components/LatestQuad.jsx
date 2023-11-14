@@ -33,8 +33,8 @@ export default function LatestQuad() {
             <Link to={`/recenzije/${review?._id}`}>
                 <QuadCoverContainer>
                     {review?.movies.map((movie) => (
-                        <QuadCoverImageContainer>
-                        <img src={movie.coverImage} alt='movie-cover' ></img>
+                        <QuadCoverImageContainer key={movie._id}>
+                            <img src={movie.coverImage} alt='movie-cover' ></img>
                         </QuadCoverImageContainer>
                     ))}
                 </QuadCoverContainer>

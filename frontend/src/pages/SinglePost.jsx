@@ -31,7 +31,7 @@ export default function SinglePost() {
         ) : ''}
         
         {post?.movies.map((movie) => (
-            <Movie movie={movie}/>
+            <Movie key={movie._id} movie={movie}/>
         ))}
     </SinglePostContainer>
   )

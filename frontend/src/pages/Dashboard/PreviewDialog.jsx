@@ -42,8 +42,8 @@ export default function PreviewDialog({postPreview}) {
             <SinglePostContainer>
                 {post?.movies.length === 4 ? (
                         <CoverContainer>
-                        {post?.movies.map((movie) => (
-                            <CoverImageContainer>
+                        {post?.movies.map((movie, index) => (
+                            <CoverImageContainer key={index}>
                             <img src={movie.compressedCoverImage ? URL.createObjectURL(movie.compressedCoverImage) : movie.coverImage} alt='movie-cover'></img>
                             </CoverImageContainer>
                         ))}
@@ -70,8 +70,8 @@ export default function PreviewDialog({postPreview}) {
                     </PageSection>
                 ) : ''}
                 
-                {post?.movies.map((movie) => (
-                    <MovieContainer>
+                {post?.movies.map((movie, index) => (
+                    <MovieContainer key={index}>
                         <MovieInfo>
                             <h2 className='movieTitleH2'>{movie.title} ({movie.year})</h2>
                             <img style={{maxWidth:'500px', height: 'auto'}} src={movie.compressedCoverImage ? URL.createObjectURL(movie.compressedCoverImage): movie.coverImage} alt='movie-cover'></img>
