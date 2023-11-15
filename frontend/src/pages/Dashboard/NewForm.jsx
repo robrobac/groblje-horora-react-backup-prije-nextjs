@@ -14,7 +14,7 @@ import { compressImage } from '../../helpers/compressImage';
 import PreviewDialog from './PreviewDialog';
 import ImageRepo from './ImageRepo';
 
-// Styled Components Imports
+// Styled Components
 import { File, FileLabel, StyledForm, FormContainer, FormContent, FormImage, InputContainer, InputField, InputLabel, StyledEditor, Tab, TabList, TabPanel, Tabs, TextEditorContainer } from './NewForm.styles';
 import { FormSection, PageContainer } from '../Pages.styles';
 
@@ -34,8 +34,6 @@ export default function NewForm({ numberOfMovies }) {
 
     // State that is recieved from backend to handle errors on empty fields
     const [emptyFields, setEmptyFields] = useState([])
-    console.log(emptyFields)
-
     
     const navigate = useNavigate();
     
@@ -119,8 +117,9 @@ export default function NewForm({ numberOfMovies }) {
                 let url = '';
                 let filePath = '';
 
+                // if cover image is uploaded and compressed upload it to firebase storage
                 if (movie.compressedCoverImage) {
-                    // Firebase Storage path
+                    // create firebase storage path
                     const path = `coverImages/${stringFormatting(movie.title, `-cover-image-${Date.now()}`)}`;
 
                     try {
@@ -143,11 +142,7 @@ export default function NewForm({ numberOfMovies }) {
                             coverImagePath: filePath,
                             top25: movie.top25,
                             worse20: movie.worse20,
-                            compressedCoverImage: movie.compressedCoverImage,
                         });
-
-                        console.log(movie.compressedCoverImage)
-
                     } catch (err) {
                         reject(err);
                     }
@@ -159,9 +154,10 @@ export default function NewForm({ numberOfMovies }) {
                         rating: movie.rating,
                         reviewContent: movie.reviewContent,
                         imdbLink: movie.imdbLink,
+                        coverImage: url,
+                        coverImagePath: filePath,
                         top25: movie.top25,
                         worse20: movie.worse20,
-                        compressedCoverImage: null,
                     });
                 }
             });
@@ -188,10 +184,10 @@ export default function NewForm({ numberOfMovies }) {
                 const json = await response.json();
                 
                 if (!response.ok) {
-                    // If response is NOT OK delete uploaded cover images from Firebase Storage
                     setEmptyFields(json.emptyFields)
                     setFormFailed(!formFailed)
                     window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+                    // If response is NOT OK delete uploaded cover images from Firebase Storage
                     deleteCoverPaths.forEach(async (path) => await deleteImageFromFirebaseStorage(path));
                 }
 

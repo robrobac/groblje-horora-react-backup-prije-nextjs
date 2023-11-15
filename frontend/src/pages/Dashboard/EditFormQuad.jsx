@@ -1,24 +1,36 @@
 import React, { useEffect, useState } from 'react'
-import { EditorState, convertFromRaw, convertToRaw } from 'draft-js';
-import { useParams } from 'react-router-dom'
-import { File, FileLabel, FormContainer, FormContent, FormImage, InputContainer, InputField, InputLabel, StyledEditor, StyledForm, Tab, TabList, TabPanel, Tabs, TextEditorContainer } from './NewForm.styles';
+
+// Rich Text Editor
 import { Editor } from 'react-draft-wysiwyg';
-import { FormSection, PageContainer } from '../Pages.styles';
+import { EditorState, convertFromRaw, convertToRaw } from 'draft-js';
+
+// Functions etc
+import { compressImage } from '../../helpers/compressImage';
+import { deleteImageFromFirebaseStorage, uploadImageToFirebaseStorage } from '../../helpers/firebaseUtils';
+import stringFormatting from '../../helpers/stringFormatting';
+
+// Components
 import PreviewDialog from './PreviewDialog';
 import ImageRepo from './ImageRepo';
-import stringFormatting from '../../helpers/stringFormatting';
-import { deleteImageFromFirebaseStorage, uploadImageToFirebaseStorage } from '../../helpers/firebaseUtils';
+
+// Styled Components
+import { File, FileLabel, FormContainer, FormContent, FormImage, InputContainer, InputField, InputLabel, StyledEditor, StyledForm, Tab, TabList, TabPanel, Tabs, TextEditorContainer } from './NewForm.styles';
+import { FormSection, PageContainer } from '../Pages.styles';
+
+import { useParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
-import { compressImage } from '../../helpers/compressImage';
+
 
 export default function EditFormQuad() {
     const { id } = useParams()
+    
+    const [postPreview, setPostPreview] = useState(null)
+    const [selectedTab, setSelectedTab] = useState('movie1')
+
     const [post, setPost] = useState({})
+
     const [reviewTitle, setReviewTitle] = useState('')
     const [contentImages, setContentImages] = useState([])
-    const [formSubmitted, setFormSubmitted] = useState(false)
-    const [error, setError] = useState(null)
-
     const [movies, setMovies] = useState([
         {
             title: '',
@@ -70,11 +82,49 @@ export default function EditFormQuad() {
         }
     ])
 
-    const [postPreview, setPostPreview] = useState(null)
-    const [selectedTab, setSelectedTab] = useState('movie1')
+    const [formSubmitted, setFormSubmitted] = useState(false)
+    const [error, setError] = useState(null)
 
     const navigate = useNavigate();
 
+    // Fetching editing document by ID
+    useEffect(() => {
+        const fetchPost = async () => {
+            try {
+                const response = await fetch(`http://localhost:4000/api/reviews/${id}`)
+                const data = await response.json()
+                
+                if (response.ok) {
+                    setPost(data)
+                    setReviewTitle(data.reviewTitle)
+                    setContentImages(data.contentImages)
+
+                    setMovies(data.movies.map((movie) => {
+                        return {
+                            title: movie.title || '',
+                            year: movie.year || '',
+                            rating: movie.rating || '',
+                            reviewContent: movie.reviewContent || '',
+                            editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(movie.reviewContent))),
+                            imdbLink: movie.imdbLink || '',
+                            coverImage: movie.coverImage || '',
+                            coverImagePath: movie.coverImagePath || '',
+                            top25: movie.top25,
+                            worse20: movie.worse20,
+                            compressedCoverImage: movie.compressedCoverImage,
+                        }
+                    }))
+                } else {
+                    console.log(response.status)
+                }
+            } catch (err) {
+                console.log(err)
+            }   
+        }
+        fetchPost()
+    }, [id])
+
+    // Creating State for Preview Screen before Submitting the Form
     useEffect(() => {
         const reviewPreview = {
             reviewTitle: reviewTitle,
@@ -95,69 +145,66 @@ export default function EditFormQuad() {
             }),
             contentImages: contentImages,
         }
-
         setPostPreview(reviewPreview)
     }, [contentImages, movies, reviewTitle])
 
-    console.log('post', post)
-    console.log('reviewTitle', reviewTitle)
-    console.log('contentImages', contentImages)
-    console.log('movies', movies)
-
-    useEffect(() => {
-        const fetchPost = async () => {
-            try {
-                const response = await fetch(`http://localhost:4000/api/reviews/${id}`)
-                const data = await response.json()
-                
-                if (response.ok) {
-                    setPost(data)
-                    setReviewTitle(data.reviewTitle)
-                    setContentImages(data.contentImages)
-                    console.log('data:', data)
-
-
-                    setMovies(data.movies.map((movie) => {
-                        return {
-                            title: movie.title || '',
-                            year: movie.year || '',
-                            rating: movie.rating || '',
-                            reviewContent: movie.reviewContent || '',
-                            editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(movie.reviewContent))),
-                            imdbLink: movie.imdbLink || '',
-                            coverImage: movie.coverImage || '',
-                            coverImagePath: movie.coverImagePath || '',
-                            top25: movie.top25,
-                            worse20: movie.worse20,
-                            compressedCoverImage: movie.compressedCoverImage,
-                        }
-                    }))
-
-                } else {
-                    console.log(response.status)
-                }
-    
-            } catch (err) {
-                console.log(err)
-            }
-            
+    // Compressing Image to prepare it for upload to Firebase Storage once form is submited
+    const handleCompressImage = (e, index) => {
+        const image = e.target.files[0];
+        if (image) {
+            compressImage(image, (compressedResult) => {
+                const updatedMovies = [...movies]
+                updatedMovies[index].compressedCoverImage = compressedResult
+                setMovies(updatedMovies)
+            })
+        } else {
+            const updatedMovies = [...movies]
+            updatedMovies[index].compressedCoverImage = null
+            setMovies(updatedMovies)
         }
+    };
 
-        fetchPost()
-    }, [id])
+    // Handling input changes
+    const handleChange = (index, field, value) => {
+        const updatedMovies = [...movies];
+        updatedMovies[index][field] = value;
+        setMovies(updatedMovies);
+    }
 
+    // Handle rich text editor changes
     const handleEditorStateChange = (index, newEditorState) => {
         const updatedMovies = [...movies]
+        // Saving editor state as it originaly is
         updatedMovies[index].editorState = newEditorState
+        // Saving editor state converted to raw JSON
         const rawData = JSON.stringify(convertToRaw(newEditorState.getCurrentContent()))
         updatedMovies[index].reviewContent = rawData
+        //  Updating Movies State
         setMovies(updatedMovies)
     }
 
+    // Function passed to ImageRepo component to handle uploaded images.
+    const handleContentImages = (value) => {
+        setContentImages(value)
+    }
+
+    // Function to handle clicking on hidden File Input field.
+    const handleUploadClick = (index) => {
+        const clickedElement = document.getElementById(`coverImage${index}`)
+        if (clickedElement) {
+            clickedElement.click()
+        }
+    }
+
+    // Function to handle all logic behind Edit Form Submit.
     const handleSubmit = async (e) => {
         e.preventDefault()
-        console.log(movies)
+
+        // Array that holds data about uploaded cover images. Since the cover image is uploaded before sending the form to backend in order to retrieve firebase storage url.
+        // In case form submit fails due to any reason, all uploaded cover images will be removed from the storage.
         const deleteCoverPaths = []
+
+        // Old Cover Image path will be stored here in order to be used in delete from firebase storage function once the new cover image is uploaded
         let oldCoverPath = ''
 
         const movieReviews = movies.map( async (movie) => {
@@ -170,17 +217,21 @@ export default function EditFormQuad() {
                 if (movie.compressedCoverImage) {
                     // create firebase storage path
                     const path = `coverImages/${stringFormatting(movie.title, `-coverImage-${Date.now()}`)}`
+
                     try {
-                        //  Upload to Firebase and retrieve image's url and path
+                        //  Remove old cover image from storage
                         await deleteImageFromFirebaseStorage(oldCoverPath)
+
+                        // Upload new cover image to storage
                         const result = await uploadImageToFirebaseStorage(movie.compressedCoverImage, path)
+                        // Setting a new URL to save it in MongoDB document as a reference to the uploaded file
                         url = result.url
+                        // Setting a uploaded image path to save it in MongoDB document as a reference to the path(used mostly for deleting image in the future)
                         filePath = result.path
+                        // Pushing uploaded image URL to the array
                         deleteCoverPaths.push(url)
-                        console.log('pushed')
-                    } catch (error) {
-                        reject(error)
-                        console.log(error)
+                    } catch (err) {
+                        reject(err)
                     }
                 }
 
@@ -198,7 +249,7 @@ export default function EditFormQuad() {
             })
         })
         
-
+        // After the document object is prepared, wait for all promises and send it to MongoDB
         Promise.all(movieReviews)
             .then(async(resolvedMovieReviews) => {
                 const review = {
@@ -206,9 +257,8 @@ export default function EditFormQuad() {
                     movies: resolvedMovieReviews,
                     contentImages: contentImages,
                 }
-                console.log('promised?')
-                console.log(review)
-                // Posting to MongoDB
+
+                // API Call to post a new Review
                 const response = await fetch(`http://localhost:4000/api/reviews/${post._id}`, {
                     method: 'PATCH',
                     body: JSON.stringify(review),
@@ -217,14 +267,14 @@ export default function EditFormQuad() {
                     }
                 })
                 const json = await response.json()
+
                 if (!response.ok) {
-                    setError(json.error)
-                    console.log(error)
+                    // If response is NOT OK delete uploaded cover images from Firebase Storage
                     deleteCoverPaths.forEach(async(path) => await deleteImageFromFirebaseStorage(path))
                 }
                 if(response.ok) {
+                    // If response is OK, restart form states
                     setReviewTitle('')
-                    setError(null)
                     setMovies([
                         {
                             title: '',
@@ -274,59 +324,30 @@ export default function EditFormQuad() {
                             compressedCoverImage: null,
                         }
                     ])
-                    setFormSubmitted(!formSubmitted)
-                    navigate(`/recenzije/${json._id}`)
-                    console.log('Review Updated')
 
-                    // Deleting images from temp images, the data about images is stored in the post document
+                    // Change FormSubmitted state in order to re render ImageRepo so it will clear its states
+                    setFormSubmitted(!formSubmitted)
+
+                    // Navigate to edited post
+                    navigate(`/recenzije/${json._id}`)
+
+                    // Delete images from tempImages, Images in ImageRepo are saved to TempImages in case user uploaded images through ImageRepo but never finished the form.
+                    // That way we know what images are uploaded to firebase storage but are not used for anything in the posts
                     contentImages.forEach(async(image) => {
                         const deleteResponse = await fetch(`http://localhost:4000/api/tempMedia/${image.id}`, {
                             method: 'DELETE'
                         })
-                        const json = await deleteResponse.json()
+                        const deleteJson = await deleteResponse.json()
 
                         if (response.ok) {
-                            console.log("deleted from tempImages", json)
+                            console.log("deleted from tempImages", deleteJson)
                         }
                     })
+                    // Clear ContentImages state
                     setContentImages([])
                 }
-                
             })
     }
-
-    const handleUploadClick = (index) => {
-        const clickedElement = document.getElementById(`coverImage${index}`)
-        if (clickedElement) {
-            clickedElement.click()
-        }
-    }
-    const handleCompressImage = (e, index) => {
-        const image = e.target.files[0];
-        if (image) {
-            compressImage(image, (compressedResult) => {
-                const updatedMovies = [...movies]
-                    updatedMovies[index].compressedCoverImage = compressedResult
-                    setMovies(updatedMovies)
-            })
-        } else {
-            const updatedMovies = [...movies]
-            updatedMovies[index].compressedCoverImage = null
-            setMovies(updatedMovies)
-        }
-    };
-
-    const handleChange = (index, field, value) => {
-        const updatedMovies = [...movies];
-        updatedMovies[index][field] = value;
-        setMovies(updatedMovies);
-    }
-    const handleContentImages = (value) => {
-
-        setContentImages(value)
-        
-    }
-
 
     return (
         <PageContainer>
