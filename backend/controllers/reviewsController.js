@@ -111,7 +111,26 @@ const deleteReview = async (req, res) => {
     res.status(200).json(review)
 }
 
-// Update a review
+// // Update a review
+// const updateReview = async (req, res) => {
+//     const { id } = req.params
+
+//     if (!mongoose.Types.ObjectId.isValid(id)) {
+//         return res.status(404).json({ error: 'No such review' })
+//     }
+
+//     const review = await Review.findOneAndUpdate({ _id: id }, {
+//         ...req.body
+//     }, { new: true })
+
+//     if (!review) {
+//         return res.status(404).json({ error: 'No such review' })
+//     }
+
+//     res.status(200).json(review)
+// }
+
+// Update Review
 const updateReview = async (req, res) => {
     const { id } = req.params
 
@@ -119,15 +138,49 @@ const updateReview = async (req, res) => {
         return res.status(404).json({ error: 'No such review' })
     }
 
-    const review = await Review.findOneAndUpdate({ _id: id }, {
-        ...req.body
-    }, { new: true })
+    const { reviewTitle, movies, comments, likes, contentImages } = req.body
 
-    if (!review) {
-        return res.status(404).json({ error: 'No such review' })
+    let emptyFields = []
+
+    if (!reviewTitle) {
+        emptyFields.push('reviewTitle')
     }
 
-    res.status(200).json(review)
+    movies.forEach((movie, index) => {
+        if (!movie.title) {
+            emptyFields.push(`movie${index}title`)
+        }
+        if (!movie.year) {
+            emptyFields.push(`movie${index}year`)
+        }
+        if (!movie.rating) {
+            emptyFields.push(`movie${index}rating`)
+        }
+        if (!movie.reviewContent) {
+            emptyFields.push(`movie${index}reviewContent`)
+        }
+        if (!movie.coverImage) {
+            emptyFields.push(`movie${index}coverImage`)
+        }
+    })
+
+    if (emptyFields.length > 0) {
+        return res.status(400).json({ error: 'Please fill all the fields.', emptyFields })
+    }
+
+    try {
+        const review = await Review.findOneAndUpdate({ _id: id }, {
+            reviewTitle, movies, comments, likes, contentImages
+        }, { new: true })
+
+        if (!review) {
+            return res.status(404).json({ error: 'No such review' })
+        }
+
+        res.status(200).json(review)
+    } catch (error) {
+        res.status(400).json({ error: error.message })
+    }
 }
 
 
