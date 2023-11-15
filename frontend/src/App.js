@@ -18,9 +18,9 @@ import GlobalStyles from './Global.styles';
 import Header from './components/header/Header';
 import NewFormSingle from './pages/Dashboard/NewFormSingle';
 import NewFormQuad from './pages/Dashboard/NewFormQuad';
-import EditFormQuad from './pages/Dashboard/EditFormQuad';
 import Dashboard from './pages/Dashboard/Dashboard';
 import NewForm from './pages/Dashboard/NewForm';
+import EditForm from './pages/Dashboard/EditForm';
 
 
 
@@ -29,7 +29,6 @@ function App() {
     return (
         <Theme>
             <GlobalStyles />
-
             <BrowserRouter>
                 <AppPage>
                     <Header
@@ -39,7 +38,7 @@ function App() {
                         <Route path='/top25/' element={<Top25 />} />
                         <Route path='/recenzije/' element={<Reviews />} />
                         <Route path='/recenzije/:id/' element={<SinglePost />} />
-                        <Route path='/recenzije/:id/edit' element={<EditFormQuad />} />
+                        <Route path='/recenzije/:id/edit' element={<EditForm />} />
                         <Route path='/top20smeca/' element={<Worse20 />} />
                         <Route path='/o-blogu/' element={<About />} />
                         <Route path='/dashboard/' element={<Dashboard />} />

@@ -21,7 +21,7 @@ import { useParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 
 
-export default function EditFormQuad() {
+export default function EditForm() {
     const { id } = useParams()
     
     const [postPreview, setPostPreview] = useState(null)
@@ -86,7 +86,8 @@ export default function EditFormQuad() {
     // If form fails checks on backend, change the state to trigger useEffect in PreviewDialog components and that way close the Preview Modal.
     const [formFailed, setFormFailed] = useState(false)
 
-    // State that is recieved from backend to handle errors on empty fields
+    // State that is recieved from backend to handle errors on empty fields.
+    // unlike NewForm component, emptyFields in this component is handled on client side
     const [emptyFields, setEmptyFields] = useState([])
 
     const navigate = useNavigate();
@@ -204,18 +205,38 @@ export default function EditFormQuad() {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        // Array that holds data about uploaded cover images. Since the cover image is uploaded before sending the form to backend in order to retrieve firebase storage url.
-        // In case form submit fails due to any reason, all uploaded cover images will be removed from the storage.
-        const deleteCoverPaths = []
+        const requiredInputs = []
 
-        // Old Cover Image path will be stored here in order to be used in delete from firebase storage function once the new cover image is uploaded
-        let oldCoverPath = ''
+        if (!reviewTitle) {
+            requiredInputs.push('reviewTitle')
+        }
+    
+        movies.forEach((movie, index) => {
+            if (!movie.title) {
+                requiredInputs.push(`movie${index}title`)
+            }
+            if (!movie.year) {
+                requiredInputs.push(`movie${index}year`)
+            }
+            if (!movie.rating) {
+                requiredInputs.push(`movie${index}rating`)
+            }
+            if (!movie.reviewContent) {
+                requiredInputs.push(`movie${index}reviewContent`)
+            }
+            if (!movie.compressedCoverImage) {
+                requiredInputs.push(`movie${index}coverImage`)
+            }
+        })
+
+        console.log(requiredInputs)
 
         const movieReviews = movies.map( async (movie) => {
             return new Promise(async (resolve, reject) => {
                 let url = movie.coverImage
                 let filePath = movie.coverImagePath
-                oldCoverPath = movie.coverImagePath
+                // Old Cover Image path will be stored here in order to be used in delete from firebase storage function once the new cover image is uploaded
+                let oldCoverPath = movie.coverImagePath
 
                 // if cover image is uploaded and compressed upload it to firebase storage
                 if (movie.compressedCoverImage) {
@@ -223,17 +244,18 @@ export default function EditFormQuad() {
                     const path = `coverImages/${stringFormatting(movie.title, `-coverImage-${Date.now()}`)}`
 
                     try {
+                        // requiredInputs handles checking if there's empty fields in the form, if there is then don't upload cover images to firebase
+                        if (requiredInputs.length === 0) {
+                            //  Remove old cover image from storage
+                            await deleteImageFromFirebaseStorage(oldCoverPath)
+                            // Upload new cover image to storage
+                            const result = await uploadImageToFirebaseStorage(movie.compressedCoverImage, path)
+                            // Setting a new URL to save it in MongoDB document as a reference to the uploaded file
+                            url = result.url
+                            // Setting a uploaded image path to save it in MongoDB document as a reference to the path(used mostly for deleting image in the future)
+                            filePath = result.path
+                        }
                         
-                        //  Remove old cover image from storage
-                        await deleteImageFromFirebaseStorage(oldCoverPath)
-                        // Upload new cover image to storage
-                        const result = await uploadImageToFirebaseStorage(movie.compressedCoverImage, path)
-                        // Setting a new URL to save it in MongoDB document as a reference to the uploaded file
-                        url = result.url
-                        // Setting a uploaded image path to save it in MongoDB document as a reference to the path(used mostly for deleting image in the future)
-                        filePath = result.path
-                        // Pushing uploaded image URL to the array
-                        deleteCoverPaths.push(url)
                     } catch (err) {
                         reject(err)
                     }
@@ -276,11 +298,8 @@ export default function EditFormQuad() {
                     setEmptyFields(json.emptyFields)
                     setFormFailed(!formFailed)
                     window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
-                    // If response is NOT OK delete uploaded cover images from Firebase Storage
-                    deleteCoverPaths.forEach(async(path) => await deleteImageFromFirebaseStorage(path))
                 }
                 if(response.ok) {
-                    
                     // If response is OK, restart form states
                     setReviewTitle('')
                     setEmptyFields([])
@@ -337,9 +356,6 @@ export default function EditFormQuad() {
                     // Change FormSubmitted state in order to re render ImageRepo so it will clear its states
                     setFormSubmitted(!formSubmitted)
 
-                    // Navigate to edited post
-                    navigate(`/recenzije/${json._id}`)
-
                     // Delete images from tempImages, Images in ImageRepo are saved to TempImages in case user uploaded images through ImageRepo but never finished the form.
                     // That way we know what images are uploaded to firebase storage but are not used for anything in the posts
                     contentImages.forEach(async(image) => {
@@ -354,6 +370,9 @@ export default function EditFormQuad() {
                     })
                     // Clear ContentImages state
                     setContentImages([])
+
+                    // Navigate to edited post
+                    navigate(`/recenzije/${json._id}`)
                 }
             })
     }
@@ -365,7 +384,7 @@ export default function EditFormQuad() {
                     {movies.length === 4 ? (
                         <InputContainer>
                         <InputLabel htmlFor='reviewTitle'>Review Title</InputLabel>
-                        <InputField required className={emptyFields.includes('reviewTitle') ? 'error' : '' } id='reviewTitle' type='text' value={reviewTitle} onChange={(e) => setReviewTitle(e.target.value)}/>
+                        <InputField className={emptyFields.includes('reviewTitle') ? 'error' : '' } id='reviewTitle' type='text' value={reviewTitle} onChange={(e) => setReviewTitle(e.target.value)}/>
                     </InputContainer>
                     ) : ''}
                     <Tabs>
@@ -393,19 +412,19 @@ export default function EditFormQuad() {
                         <FormContent>
                             <InputContainer>
                                 <InputLabel htmlFor='title'>Title</InputLabel>
-                                <InputField required className={emptyFields.includes(`movie${index}title`) ? 'error' : ''} id='title' type='text' value={movie.title} onChange={(e) => handleChange(index, 'title', e.target.value)}/>
+                                <InputField className={emptyFields.includes(`movie${index}title`) ? 'error' : ''} id='title' type='text' value={movie.title} onChange={(e) => handleChange(index, 'title', e.target.value)}/>
                             </InputContainer>
                             <InputContainer>
                                 <InputLabel htmlFor='year'>Year</InputLabel>
-                                <InputField required className={emptyFields.includes(`movie${index}year`) ? 'error' : ''} id='year' type='number' value={movie.year} onChange={(e) => handleChange(index, 'year', e.target.value)}/>
+                                <InputField className={emptyFields.includes(`movie${index}year`) ? 'error' : ''} id='year' type='number' value={movie.year} onChange={(e) => handleChange(index, 'year', e.target.value)}/>
                             </InputContainer>
                             <InputContainer>
                                 <InputLabel htmlFor='rating'>Rating</InputLabel>
-                                <InputField required className={emptyFields.includes(`movie${index}rating`) ? 'error' : ''} id='rating' type='number' value={movie.rating} onChange={(e) => handleChange(index, 'rating', parseFloat(e.target.value))} step='0.5' min='1' max='5'/>
+                                <InputField className={emptyFields.includes(`movie${index}rating`) ? 'error' : ''} id='rating' type='number' value={movie.rating} onChange={(e) => handleChange(index, 'rating', parseFloat(e.target.value))} step='0.5' min='1' max='5'/>
                             </InputContainer>
                             <InputContainer>
                                 <InputLabel htmlFor='imdbLink'>Imdb Link</InputLabel>
-                                <InputField required className={emptyFields.includes(`movie${index}imdbLink`) ? 'error' : ''} id='imdbLink'  type='text' value={movie.imdbLink} onChange={(e) => handleChange(index, 'imdbLink', e.target.value)}/>
+                                <InputField className={emptyFields.includes(`movie${index}imdbLink`) ? 'error' : ''} id='imdbLink'  type='text' value={movie.imdbLink} onChange={(e) => handleChange(index, 'imdbLink', e.target.value)}/>
                             </InputContainer>
                             <div className="dualInput">
                             <div>
@@ -424,7 +443,7 @@ export default function EditFormQuad() {
                         <TextEditorContainer>
                             <InputLabel>Post Content</InputLabel>
                             <StyledEditor>
-                                <Editor required wrapperClassName={emptyFields.includes(`movie${index}reviewContent`) ? 'error' : '' } editorState={movie.editorState} onEditorStateChange={(newEditorState) => handleEditorStateChange(index, newEditorState)}
+                                <Editor wrapperClassName={emptyFields.includes(`movie${index}reviewContent`) ? 'error' : '' } editorState={movie.editorState} onEditorStateChange={(newEditorState) => handleEditorStateChange(index, newEditorState)}
                                     toolbar={{
                                         options: ['inline', 'image', 'link', 'history'],
                                         inline: {

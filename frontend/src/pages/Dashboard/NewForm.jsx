@@ -7,7 +7,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 // Functions etc
 import stringFormatting from '../../helpers/stringFormatting';
-import { deleteImageFromFirebaseStorage, uploadImageToFirebaseStorage } from '../../helpers/firebaseUtils';
+import { uploadImageToFirebaseStorage } from '../../helpers/firebaseUtils';
 import { compressImage } from '../../helpers/compressImage';
 
 // Components
@@ -108,11 +108,31 @@ export default function NewForm({ numberOfMovies }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Array that holds data about uploaded cover images. Since the cover image is uploaded before sending the form to backend in order to retrieve firebase storage url.
-        // In case form submit fails due to any reason, all uploaded cover images will be removed from the storage.
-        const deleteCoverPaths = [];
+        const requiredInputs = []
 
-        const movieReviews = movies.map(async (movie) => {
+        if (!reviewTitle) {
+            requiredInputs.push('reviewTitle')
+        }
+    
+        movies.forEach((movie, index) => {
+            if (!movie.title) {
+                requiredInputs.push(`movie${index}title`)
+            }
+            if (!movie.year) {
+                requiredInputs.push(`movie${index}year`)
+            }
+            if (!movie.rating) {
+                requiredInputs.push(`movie${index}rating`)
+            }
+            if (!movie.reviewContent) {
+                requiredInputs.push(`movie${index}reviewContent`)
+            }
+            if (!movie.compressedCoverImage) {
+                requiredInputs.push(`movie${index}coverImage`)
+            }
+        })
+
+        const movieReviews = movies.map(async (movie, index) => {
             return new Promise(async (resolve, reject) => {
                 let url = '';
                 let filePath = '';
@@ -123,43 +143,30 @@ export default function NewForm({ numberOfMovies }) {
                     const path = `coverImages/${stringFormatting(movie.title, `-cover-image-${Date.now()}`)}`;
 
                     try {
-                        // Uploading compressed cover image to Firebase Storage
-                        const uploadResult = await uploadImageToFirebaseStorage(movie.compressedCoverImage, path);
-                        // Setting a new URL to save it in MongoDB document as a reference to the uploaded file
-                        url = uploadResult.url;
-                        // Setting a uploaded image path to save it in MongoDB document as a reference to the path(used mostly for deleting image in the future)
-                        filePath = uploadResult.path;
-                        // Pushing uploaded image URL to the array
-                        deleteCoverPaths.push(url);
-
-                        resolve({
-                            title: movie.title,
-                            year: movie.year,
-                            rating: movie.rating,
-                            reviewContent: movie.reviewContent,
-                            imdbLink: movie.imdbLink,
-                            coverImage: url,
-                            coverImagePath: filePath,
-                            top25: movie.top25,
-                            worse20: movie.worse20,
-                        });
+                        // requiredInputs handles checking if there's empty fields in the form, if there is then don't upload cover images to firebase
+                        if (requiredInputs.length === 0) {
+                            // Uploading compressed cover image to Firebase Storage
+                            const uploadResult = await uploadImageToFirebaseStorage(movie.compressedCoverImage, path);
+                            // Setting a new URL to save it in MongoDB document as a reference to the uploaded file
+                            url = uploadResult.url;
+                            // Setting a uploaded image path to save it in MongoDB document as a reference to the path(used mostly for deleting image in the future)
+                            filePath = uploadResult.path;
+                        }
                     } catch (err) {
                         reject(err);
                     }
-
-                } else {
-                    resolve({
-                        title: movie.title,
-                        year: movie.year,
-                        rating: movie.rating,
-                        reviewContent: movie.reviewContent,
-                        imdbLink: movie.imdbLink,
-                        coverImage: url,
-                        coverImagePath: filePath,
-                        top25: movie.top25,
-                        worse20: movie.worse20,
-                    });
                 }
+                resolve({
+                    title: movie.title,
+                    year: movie.year,
+                    rating: movie.rating,
+                    reviewContent: movie.reviewContent,
+                    imdbLink: movie.imdbLink,
+                    coverImage: url,
+                    coverImagePath: filePath,
+                    top25: movie.top25,
+                    worse20: movie.worse20,
+                });
             });
         });
 
@@ -187,8 +194,6 @@ export default function NewForm({ numberOfMovies }) {
                     setEmptyFields(json.emptyFields)
                     setFormFailed(!formFailed)
                     window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
-                    // If response is NOT OK delete uploaded cover images from Firebase Storage
-                    deleteCoverPaths.forEach(async (path) => await deleteImageFromFirebaseStorage(path));
                 }
 
                 if (response.ok) {
@@ -199,9 +204,6 @@ export default function NewForm({ numberOfMovies }) {
 
                     // Change FormSubmitted state in order to re render ImageRepo so it will clear its states
                     setFormSubmitted(!formSubmitted);
-
-                    // Navigate to new post
-                    navigate(`/recenzije/${json._id}`);
 
                     // Delete images from tempImages, Images in ImageRepo are saved to TempImages in case user uploaded images through ImageRepo but never finished the form.
                     // That way we know what images are uploaded to firebase storage but are not used for anything in the posts
@@ -216,6 +218,9 @@ export default function NewForm({ numberOfMovies }) {
                     });
                     // Clear ContentImages state
                     setContentImages([]);
+
+                    // Navigate to new post
+                    navigate(`/recenzije/${json._id}`);
                 }
             });
     };
