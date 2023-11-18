@@ -3,9 +3,64 @@ const mongoose = require('mongoose')
 
 // Get all reviews
 const getReviews = async (req, res) => {
-    const reviews = await Review.find({}).sort({ createdAt: -1 })
+    const { sort, order } = req.query
 
-    res.status(200).json(reviews)
+    console.log(req.query)
+    console.log(order)
+
+    const getOrder = (orderBy) => {
+        if (orderBy === 'true') {
+            return -1
+        }
+        if (orderBy === 'false') {
+            return 1
+        }
+    }
+
+    if (sort === 'movies.0.rating') {
+        const reviews = await Review.find({})
+            .sort([
+                ['reviewType', getOrder(order)],
+                [sort, getOrder(order)],
+            ]);
+        res.status(200).json(reviews)
+    }
+    if (sort === 'reviewTitle') {
+        const reviews = await Review.find({})
+            .sort([
+                ['reviewTitle', getOrder(order)],
+                [sort, getOrder(order)],
+            ]);
+        res.status(200).json(reviews)
+    }
+    if (sort === 'reviewType') {
+        const reviews = await Review.find({})
+            .sort([
+                ['reviewType', getOrder(order)],
+                [sort, getOrder(order)],
+            ]);
+        res.status(200).json(reviews)
+    }
+    if (sort === 'createdAt') {
+        const reviews = await Review.find({})
+            .sort([
+                ['createdAt', getOrder(order)],
+                [sort, getOrder(order)],
+            ]);
+        res.status(200).json(reviews)
+    }
+    if (sort === 'updatedAt') {
+        const reviews = await Review.find({})
+            .sort([
+                ['updatedAt', getOrder(order)],
+                [sort, getOrder(order)],
+            ]);
+        res.status(200).json(reviews)
+    }
+    if (!sort) {
+        const reviews = await Review.find({}).sort({ createdAt: -1 })
+        res.status(200).json(reviews)
+    }
 }
 
 // Get Top25 reviews
@@ -87,7 +142,27 @@ const createReview = async (req, res) => {
 
     // add doc to db
     try {
-        const review = await Review.create({ reviewTitle, movies, comments, likes, contentImages })
+        let review = {}
+        if (movies.length === 1) {
+            review = await Review.create({
+                reviewTitle: movies[0].title,
+                movies,
+                comments,
+                likes,
+                contentImages,
+                reviewType: 'single',
+            })
+        }
+        if (movies.length === 4) {
+            review = await Review.create({
+                reviewTitle,
+                movies,
+                comments,
+                likes,
+                contentImages,
+                reviewType: 'quad',
+            })
+        }
         res.status(200).json(review)
     } catch (error) {
         res.status(400).json({ error: error.message })

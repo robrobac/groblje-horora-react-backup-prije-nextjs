@@ -43,8 +43,8 @@ function App() {
                         <Route path='/o-blogu/' element={<About />} />
                         <Route path='/dashboard/' element={<Dashboard />} />
                         <Route path='/dashboard/add-new' element={<NewForm />} />
-                        <Route path='/dashboard1/' element={<NewFormSingle />} />
-                        <Route path='/dashboard2/' element={<NewFormQuad />} />
+                        <Route path='/dashboard1/' element={<NewForm numberOfMovies={1} />} />
+                        <Route path='/dashboard2/' element={<NewForm numberOfMovies={4} />} />
                     </Routes>
                 </AppPage>
             </BrowserRouter>

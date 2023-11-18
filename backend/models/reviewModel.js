@@ -13,19 +13,19 @@ const MovieSchema = new Schema({
     },
     rating: {
         type: Number,
-        required: false
+        required: true
     },
     coverImage: {
         type: String,
-        required: false
+        required: true
     },
     coverImagePath: {
         type: String,
-        required: false
+        required: true
     },
     reviewContent: {
         type: String,
-        required: false
+        required: true
     },
     imdbLink: {
         type: String,
@@ -64,6 +64,10 @@ const ReviewSchema = new Schema({
         required: false,
     },
     movies: [MovieSchema],
+    reviewType: {
+        type: String,
+        required: true
+    },
     comments: [CommentSchema],
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
 }, {
