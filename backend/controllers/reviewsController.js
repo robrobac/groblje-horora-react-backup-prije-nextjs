@@ -3,10 +3,7 @@ const mongoose = require('mongoose')
 
 // Get all reviews
 const getReviews = async (req, res) => {
-    const { sort, order } = req.query
-
-    console.log(req.query)
-    console.log(order)
+    const { sort, order, search } = req.query
 
     const getOrder = (orderBy) => {
         if (orderBy === 'true') {
@@ -17,49 +14,69 @@ const getReviews = async (req, res) => {
         }
     }
 
-    if (sort === 'movies.0.rating') {
-        const reviews = await Review.find({})
-            .sort([
-                ['reviewType', getOrder(order)],
-                [sort, getOrder(order)],
-            ]);
-        res.status(200).json(reviews)
-    }
-    if (sort === 'reviewTitle') {
-        const reviews = await Review.find({})
-            .sort([
-                ['reviewTitle', getOrder(order)],
-                [sort, getOrder(order)],
-            ]);
-        res.status(200).json(reviews)
-    }
-    if (sort === 'reviewType') {
-        const reviews = await Review.find({})
-            .sort([
-                ['reviewType', getOrder(order)],
-                [sort, getOrder(order)],
-            ]);
-        res.status(200).json(reviews)
-    }
-    if (sort === 'createdAt') {
-        const reviews = await Review.find({})
-            .sort([
-                ['createdAt', getOrder(order)],
-                [sort, getOrder(order)],
-            ]);
-        res.status(200).json(reviews)
-    }
-    if (sort === 'updatedAt') {
-        const reviews = await Review.find({})
-            .sort([
-                ['updatedAt', getOrder(order)],
-                [sort, getOrder(order)],
-            ]);
-        res.status(200).json(reviews)
-    }
-    if (!sort) {
-        const reviews = await Review.find({}).sort({ createdAt: -1 })
-        res.status(200).json(reviews)
+
+    if (search) {
+        //  If SEARCH is in query, do the search.
+        const reviews = await Review.find({
+            $or: [
+                { $text: { $search: search } },
+                { "reviewTitle": { $regex: new RegExp(`.*${search}.*`, 'i') } }
+            ]
+        })
+            .sort({ score: { $meta: 'textScore' } })  // Sort by relevance
+        return res.status(200).json(reviews)
+    } else {
+        // Else if there's no Search in the query, continue with sorting and ordering
+        if (sort === 'movies.0.rating') {
+            // sory by rating
+            const reviews = await Review.find({})
+                .sort([
+                    ['reviewType', getOrder(order)],
+                    [sort, getOrder(order)],
+                ]);
+            res.status(200).json(reviews)
+        }
+        if (sort === 'reviewTitle') {
+            // sort by title
+            const reviews = await Review.find({})
+                .sort([
+                    ['reviewTitle', getOrder(order)],
+                    [sort, getOrder(order)],
+                ]);
+            res.status(200).json(reviews)
+        }
+        if (sort === 'reviewType') {
+            // sort by type
+            const reviews = await Review.find({})
+                .sort([
+                    ['reviewType', getOrder(order)],
+                    [sort, getOrder(order)],
+                ]);
+            res.status(200).json(reviews)
+        }
+        if (sort === 'createdAt') {
+            // sort by date created
+            const reviews = await Review.find({})
+                .sort([
+                    ['createdAt', getOrder(order)],
+                    [sort, getOrder(order)],
+                ]);
+            res.status(200).json(reviews)
+        }
+        if (sort === 'updatedAt') {
+            // sort by date updated
+            const reviews = await Review.find({})
+                .sort([
+                    ['updatedAt', getOrder(order)],
+                    [sort, getOrder(order)],
+                ]);
+            res.status(200).json(reviews)
+        }
+        if (!sort) {
+            // if there's no sort, fetch by date created
+            const reviews = await Review.find({}).sort({ createdAt: -1 })
+            res.status(200).json(reviews)
+        }
     }
 }
 

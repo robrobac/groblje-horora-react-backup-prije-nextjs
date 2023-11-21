@@ -2,14 +2,24 @@ import React, { useEffect, useState } from 'react'
 import { TableContainer, TableItem } from './PostsTable.styled'
 import Rating from '../../../components/Rating'
 
+const SORT_OPTIONS = {
+    TITLE: 'reviewTitle',
+    CATEGORY: 'reviewType',
+    RATING: 'movies.0.rating',
+    CREATED: 'createdAt',
+    UPDATED: 'updatedAt',
+};
+
 export default function PostsTable() {
     const [reviews, setReviews] = useState(null)
-    const [sort, setSort] = useState('movies.0.rating')
-    const [order, setOrder] = useState(false)
+    const [sort, setSort] = useState(SORT_OPTIONS.CREATED)
+    const [order, setOrder] = useState(true)
+    const [search, setSearch] = useState('')
+    console.log(search)
 
     useEffect(() => {
         const fetchReviews = async () => {
-            const response = await fetch(`http://localhost:4000/api/reviews?sort=${sort}&order=${order}`)
+            const response = await fetch(`http://localhost:4000/api/reviews?search=${search}&sort=${sort}&order=${order}`)
             const json = await response.json()
 
             if (response.ok) {
@@ -18,7 +28,7 @@ export default function PostsTable() {
         }
 
         fetchReviews()
-    }, [order, sort])
+    }, [order, sort, search])
 
     const isSingleReview = (review) => {
         if (review.reviewType === 'single') {
@@ -31,22 +41,24 @@ export default function PostsTable() {
 
 
     return (
+        <>
+        <input type='search' value={search} onChange={(e) => setSearch(e.target.value)}/>
         <TableContainer>
             <TableItem className="tableItem">
-                <div className='title tableHeader' onClick={() => {setOrder(!order); setSort('reviewTitle')}}>
-                    Title <span>{sort === 'reviewTitle' ? (order ? '🔽' : '🔼') : ''}</span>
+                <div className='title tableHeader' style={{pointerEvents: search ? 'none' : 'auto'}} onClick={() => {setOrder(!order); setSort(SORT_OPTIONS.TITLE)}}>
+                    Title <span>{sort === 'reviewTitle' && !search ? (order ? '🔽' : '🔼') : ''}</span>
                 </div>
-                <div className='category tableHeader' onClick={() => {setOrder(!order); setSort('reviewType')}}>
-                    Category <span>{sort === 'reviewType' ? (order ? '🔽' : '🔼') : ''}</span>
+                <div className='category tableHeader' style={{pointerEvents: search ? 'none' : 'auto'}} onClick={() => {setOrder(!order); setSort(SORT_OPTIONS.CATEGORY)}}>
+                    Category <span>{sort === 'reviewType' && !search ? (order ? '🔽' : '🔼') : ''}</span>
                 </div>
-                <div className='rating tableHeader' onClick={() => {setOrder(!order); setSort('movies.0.rating')}}>
-                    Rating <span>{sort === 'movies.0.rating' ? (order ? '🔽' : '🔼') : ''}</span>
+                <div className='rating tableHeader' style={{pointerEvents: search ? 'none' : 'auto'}} onClick={() => {setOrder(!order); setSort(SORT_OPTIONS.RATING)}}>
+                    Rating <span>{sort === 'movies.0.rating' && !search ? (order ? '🔽' : '🔼') : ''}</span>
                 </div>
-                <div className='datePublished tableHeader' onClick={() => {setOrder(!order); setSort('createdAt')}}>
-                    Date Published <span>{sort === 'createdAt' ? (order ? '🔽' : '🔼') : ''}</span>
+                <div className='datePublished tableHeader' style={{pointerEvents: search ? 'none' : 'auto'}} onClick={() => {setOrder(!order); setSort(SORT_OPTIONS.CREATED)}}>
+                    Date Published <span>{sort === 'createdAt' && !search ? (order ? '🔽' : '🔼') : ''}</span>
                 </div>
-                <div className='dateEdited tableHeader' onClick={() => {setOrder(!order); setSort('updatedAt')}}>
-                    Date Edited <span>{sort === 'updatedAt' ? (order ? '🔽' : '🔼') : ''}</span>
+                <div className='dateEdited tableHeader' style={{pointerEvents: search ? 'none' : 'auto'}} onClick={() => {setOrder(!order); setSort(SORT_OPTIONS.UPDATED)}}>
+                    Date Edited <span>{sort === 'updatedAt' && !search ? (order ? '🔽' : '🔼') : ''}</span>
                 </div>
             </TableItem>
             {reviews?.map((review) => (
@@ -61,5 +73,6 @@ export default function PostsTable() {
                 </TableItem>
             ))}
         </TableContainer>
+        </>
     )
 }
