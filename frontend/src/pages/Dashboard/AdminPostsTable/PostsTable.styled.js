@@ -41,3 +41,9 @@ export const TableItem = styled.div`
         flex: 2;
     }
 `
+
+export const PaginationContainer = styled.div`
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+`

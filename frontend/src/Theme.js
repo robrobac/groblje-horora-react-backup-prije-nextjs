@@ -16,6 +16,7 @@ const theme = {
 
         inputBackground: '#FFFFFF1A',
         inputBorder: '#FFFFFF1A',
+        lightInputBorder: '#959595'
     }
 }
 

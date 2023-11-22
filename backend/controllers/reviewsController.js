@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 
 // Get all reviews
 const getReviews = async (req, res) => {
-    const { sort, order, search } = req.query
+    const { sort, order, search, page, perPage } = req.query
 
     const getOrder = (orderBy) => {
         if (orderBy === 'true') {
@@ -14,68 +14,120 @@ const getReviews = async (req, res) => {
         }
     }
 
+    const skip = (page - 1) * perPage
 
     if (search) {
-        //  If SEARCH is in query, do the search.
-        const reviews = await Review.find({
+        const reviewsQuery = {
             $or: [
                 { $text: { $search: search } },
                 { "reviewTitle": { $regex: new RegExp(`.*${search}.*`, 'i') } }
-            ]
-        })
+            ],
+        }
+        //  If SEARCH is in query, do the search.
+        const reviews = await Review.find(reviewsQuery)
+            .skip(skip)
+            .limit(perPage)
             .sort({ score: { $meta: 'textScore' } })  // Sort by relevance
-        return res.status(200).json(reviews)
+        const totalReviewsCount = await Review.countDocuments(reviewsQuery)
+
+        return res.status(200).json({
+            reviews,
+            totalPages: Math.ceil(totalReviewsCount / perPage)
+        })
     } else {
         // Else if there's no Search in the query, continue with sorting and ordering
         if (sort === 'movies.0.rating') {
             // sory by rating
             const reviews = await Review.find({})
+                .skip(skip)
+                .limit(perPage)
                 .sort([
                     ['reviewType', getOrder(order)],
                     [sort, getOrder(order)],
                 ]);
-            res.status(200).json(reviews)
+            const totalReviewsCount = await Review.countDocuments()
+
+            return res.status(200).json({
+                reviews,
+                totalPages: Math.ceil(totalReviewsCount / perPage)
+            })
         }
         if (sort === 'reviewTitle') {
             // sort by title
             const reviews = await Review.find({})
+                .skip(skip)
+                .limit(perPage)
                 .sort([
                     ['reviewTitle', getOrder(order)],
                     [sort, getOrder(order)],
                 ]);
-            res.status(200).json(reviews)
+            const totalReviewsCount = await Review.countDocuments()
+
+            return res.status(200).json({
+                reviews,
+                totalPages: Math.ceil(totalReviewsCount / perPage)
+            })
         }
         if (sort === 'reviewType') {
             // sort by type
             const reviews = await Review.find({})
+                .skip(skip)
+                .limit(perPage)
                 .sort([
                     ['reviewType', getOrder(order)],
                     [sort, getOrder(order)],
                 ]);
-            res.status(200).json(reviews)
+            const totalReviewsCount = await Review.countDocuments()
+
+            return res.status(200).json({
+                reviews,
+                totalPages: Math.ceil(totalReviewsCount / perPage)
+            })
         }
         if (sort === 'createdAt') {
             // sort by date created
             const reviews = await Review.find({})
+                .skip(skip)
+                .limit(perPage)
                 .sort([
                     ['createdAt', getOrder(order)],
                     [sort, getOrder(order)],
                 ]);
-            res.status(200).json(reviews)
+            const totalReviewsCount = await Review.countDocuments()
+
+            return res.status(200).json({
+                reviews,
+                totalPages: Math.ceil(totalReviewsCount / perPage)
+            })
         }
         if (sort === 'updatedAt') {
             // sort by date updated
             const reviews = await Review.find({})
+                .skip(skip)
+                .limit(perPage)
                 .sort([
                     ['updatedAt', getOrder(order)],
                     [sort, getOrder(order)],
                 ]);
-            res.status(200).json(reviews)
+            const totalReviewsCount = await Review.countDocuments()
+
+            return res.status(200).json({
+                reviews,
+                totalPages: Math.ceil(totalReviewsCount / perPage)
+            })
         }
         if (!sort) {
             // if there's no sort, fetch by date created
-            const reviews = await Review.find({}).sort({ createdAt: -1 })
-            res.status(200).json(reviews)
+            const reviews = await Review.find({})
+                .skip(skip)
+                .limit(perPage)
+                .sort({ createdAt: -1 })
+            const totalReviewsCount = await Review.countDocuments()
+
+            return res.status(200).json({
+                reviews,
+                totalPages: Math.ceil(totalReviewsCount / perPage)
+            })
         }
     }
 }
