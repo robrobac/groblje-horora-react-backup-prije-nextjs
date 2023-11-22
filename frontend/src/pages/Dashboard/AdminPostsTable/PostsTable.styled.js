@@ -33,6 +33,17 @@ export const TableItem = styled.div`
 
     .title {
         flex: 4;
+
+        a {
+            text-decoration: none;
+            color: ${(props) => props.theme.dark.lightText};
+            display: inline;
+            cursor: pointer;
+            padding-bottom: 2px;
+            &:hover {
+                border-bottom: 1px solid white;
+            }
+        }
     }
     .category {
         flex: 3;

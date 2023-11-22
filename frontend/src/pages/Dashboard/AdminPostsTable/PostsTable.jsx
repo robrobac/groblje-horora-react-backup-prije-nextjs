@@ -3,6 +3,8 @@ import { PaginationContainer, TableContainer, TableItem } from './PostsTable.sty
 import Rating from '../../../components/Rating'
 import { SearchBar, SearchContainer, SearchIcon } from '../../../components/SearchBar.styles';
 import { ReactComponent as SearchIconSVG } from '../../../images/search-icon.svg';
+import formatDistanceToNow from 'date-fns/formatDistanceToNow'
+import { Link } from 'react-router-dom';
 
 const SORT_OPTIONS = {
     TITLE: 'reviewTitle',
@@ -92,13 +94,13 @@ export default function PostsTable() {
             </TableItem>
             {reviews?.map((review) => (
                 <TableItem className="tableItem">
-                    <div className='title'>{review.reviewTitle}</div>
+                    <div className='title'><Link to={`/recenzije/${review._id}`}>{review.reviewTitle}</Link></div>
                     <div className='category'>{isSingleReview(review) ? 'Recenzija' : 'Kratki pregled'}</div>
                     <div className='rating'>
                         {isSingleReview(review) ? <Rating rating={review.movies[0].rating} /> : ''}
                     </div>
-                    <div className='datePublished'>{review.createdAt}</div>
-                    <div className='dateEdited'>{review.updatedAt}</div>
+                    <div className='datePublished'>{formatDistanceToNow(new Date(review.createdAt), {addSuffix: true})}</div>
+                    <div className='dateEdited'>{formatDistanceToNow(new Date(review.updatedAt), {addSuffix: true})}</div>
                 </TableItem>
             ))}
         </TableContainer>
