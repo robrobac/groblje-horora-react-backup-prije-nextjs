@@ -5,6 +5,7 @@ import { SearchBar, SearchContainer, SearchIcon } from '../../../components/Sear
 import { ReactComponent as SearchIconSVG } from '../../../images/search-icon.svg';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import { Link } from 'react-router-dom';
+import { PageContainer, PageSection } from '../../Pages.styles';
 
 const SORT_OPTIONS = {
     TITLE: 'reviewTitle',
@@ -45,17 +46,6 @@ export default function PostsTable() {
         setPage(1)
     }, [sort, order])
 
-
-
-    const handlePageChange = (newPage) => {
-        setPage(newPage)
-    }
-
-    const handlePerPageChange = (newPerPage) => {
-        setPerPage(newPerPage)
-        setPage(1)
-    }
-
     const isSingleReview = (review) => {
         if (review.reviewType === 'single') {
             return true
@@ -67,48 +57,50 @@ export default function PostsTable() {
 
 
     return (
-        <>
-        <SearchContainer>
-            <SearchIcon htmlFor='adminSearch'>
-                <SearchIconSVG />
-            </SearchIcon>
-            <SearchBar id='adminSearch' type='search' placeholder='Search' value={search} onChange={(e) => setSearch(e.target.value)}/>
-        </SearchContainer>
-        <TableContainer>
-            <TableItem className="tableItem">
-                <div className='title tableHeader' style={{pointerEvents: search ? 'none' : 'auto'}} onClick={() => {setOrder(!order); setSort(SORT_OPTIONS.TITLE)}}>
-                    Title <span>{sort === 'reviewTitle' && !search ? (order ? '🔽' : '🔼') : ''}</span>
-                </div>
-                <div className='category tableHeader' style={{pointerEvents: search ? 'none' : 'auto'}} onClick={() => {setOrder(!order); setSort(SORT_OPTIONS.CATEGORY)}}>
-                    Category <span>{sort === 'reviewType' && !search ? (order ? '🔽' : '🔼') : ''}</span>
-                </div>
-                <div className='rating tableHeader' style={{pointerEvents: search ? 'none' : 'auto'}} onClick={() => {setOrder(!order); setSort(SORT_OPTIONS.RATING)}}>
-                    Rating <span>{sort === 'movies.0.rating' && !search ? (order ? '🔽' : '🔼') : ''}</span>
-                </div>
-                <div className='datePublished tableHeader' style={{pointerEvents: search ? 'none' : 'auto'}} onClick={() => {setOrder(!order); setSort(SORT_OPTIONS.CREATED)}}>
-                    Date Published <span>{sort === 'createdAt' && !search ? (order ? '🔽' : '🔼') : ''}</span>
-                </div>
-                <div className='dateEdited tableHeader' style={{pointerEvents: search ? 'none' : 'auto'}} onClick={() => {setOrder(!order); setSort(SORT_OPTIONS.UPDATED)}}>
-                    Date Edited <span>{sort === 'updatedAt' && !search ? (order ? '🔽' : '🔼') : ''}</span>
-                </div>
-            </TableItem>
-            {reviews?.map((review) => (
-                <TableItem className="tableItem">
-                    <div className='title'><Link to={`/recenzije/${review._id}`}>{review.reviewTitle}</Link></div>
-                    <div className='category'>{isSingleReview(review) ? 'Recenzija' : 'Kratki pregled'}</div>
-                    <div className='rating'>
-                        {isSingleReview(review) ? <Rating rating={review.movies[0].rating} /> : ''}
-                    </div>
-                    <div className='datePublished'>{formatDistanceToNow(new Date(review.createdAt), {addSuffix: true})}</div>
-                    <div className='dateEdited'>{formatDistanceToNow(new Date(review.updatedAt), {addSuffix: true})}</div>
-                </TableItem>
-            ))}
-        </TableContainer>
-        <PaginationContainer>
-        {totalPages?.map((pageNumber, index) => (
-            <button onClick={() => setPage(index + 1)} disabled={index +1 === page}>{pageNumber}</button>
-        ))}
-        </PaginationContainer>
-        </>
+        <PageContainer>
+            <PageSection>
+                <SearchContainer>
+                    <SearchIcon htmlFor='adminSearch'>
+                        <SearchIconSVG />
+                    </SearchIcon>
+                    <SearchBar id='adminSearch' type='search' placeholder='Search' value={search} onChange={(e) => {setSearch(e.target.value); setPage(1)}}/>
+                </SearchContainer>
+                <TableContainer>
+                    <TableItem className="tableItem">
+                        <div className='title tableHeader' style={{pointerEvents: search ? 'none' : 'auto'}} onClick={() => {setOrder(!order); setSort(SORT_OPTIONS.TITLE)}}>
+                            Title <span>{sort === 'reviewTitle' && !search ? (order ? '🔽' : '🔼') : ''}</span>
+                        </div>
+                        <div className='category tableHeader' style={{pointerEvents: search ? 'none' : 'auto'}} onClick={() => {setOrder(!order); setSort(SORT_OPTIONS.CATEGORY)}}>
+                            Category <span>{sort === 'reviewType' && !search ? (order ? '🔽' : '🔼') : ''}</span>
+                        </div>
+                        <div className='rating tableHeader' style={{pointerEvents: search ? 'none' : 'auto'}} onClick={() => {setOrder(!order); setSort(SORT_OPTIONS.RATING)}}>
+                            Rating <span>{sort === 'movies.0.rating' && !search ? (order ? '🔽' : '🔼') : ''}</span>
+                        </div>
+                        <div className='datePublished tableHeader' style={{pointerEvents: search ? 'none' : 'auto'}} onClick={() => {setOrder(!order); setSort(SORT_OPTIONS.CREATED)}}>
+                            Date Published <span>{sort === 'createdAt' && !search ? (order ? '🔽' : '🔼') : ''}</span>
+                        </div>
+                        <div className='dateEdited tableHeader' style={{pointerEvents: search ? 'none' : 'auto'}} onClick={() => {setOrder(!order); setSort(SORT_OPTIONS.UPDATED)}}>
+                            Date Edited <span>{sort === 'updatedAt' && !search ? (order ? '🔽' : '🔼') : ''}</span>
+                        </div>
+                    </TableItem>
+                    {reviews?.map((review) => (
+                        <TableItem className="tableItem">
+                            <div className='title'><Link to={`/recenzije/${review._id}`}>{review.reviewTitle}</Link></div>
+                            <div className='category'>{isSingleReview(review) ? 'Recenzija' : 'Kratki pregled'}</div>
+                            <div className='rating'>
+                                {isSingleReview(review) ? <Rating rating={review.movies[0].rating} /> : ''}
+                            </div>
+                            <div className='datePublished'>{formatDistanceToNow(new Date(review.createdAt), {addSuffix: true})}</div>
+                            <div className='dateEdited'>{formatDistanceToNow(new Date(review.updatedAt), {addSuffix: true})}</div>
+                        </TableItem>
+                    ))}
+                </TableContainer>
+                <PaginationContainer>
+                {totalPages?.map((pageNumber, index) => (
+                    <button onClick={() => setPage(index + 1)} disabled={index +1 === page}>{pageNumber}</button>
+                ))}
+                </PaginationContainer>
+            </PageSection>
+        </PageContainer>
     )
 }

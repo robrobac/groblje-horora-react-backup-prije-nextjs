@@ -7,8 +7,8 @@ import { Grid } from '../components/postsGrid/PostsGrid.styles'
 import { PageContainer, PageSection } from './Pages.styles'
 
 
-export default function Recenzije() {
-    const [reviews, setReviews] = useState(null)
+export default function Reviews() {
+    const [reviews, setReviews] = useState([])
     console.log(reviews)
 
     useEffect(() => {
