@@ -1,7 +1,7 @@
 const Review = require('../models/reviewModel')
 const mongoose = require('mongoose')
 
-
+/*
 // Get all reviews
 // Define a function to fetch reviews and their total count
 const fetchReviews = async (query, skip, perPage, sortQuery) => {
@@ -64,8 +64,9 @@ const getReviews = async (req, res) => {
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+*/
 
-/* OLD FUNCTION BEFORE SHORTENING
+
 // Get all reviews
 const getReviews = async (req, res) => {
     const { sort, order, search, page, perPage } = req.query
@@ -85,7 +86,7 @@ const getReviews = async (req, res) => {
         const reviewsQuery = {
             $or: [
                 { $text: { $search: search } },
-                { "reviewTitle": { $regex: new RegExp(`.*${search}.*`, 'i') } }
+                // { "reviewTitle": { $regex: new RegExp(`.*${search}.*`, 'i') } }
             ],
         }
         //  If SEARCH is in query, do the search.
@@ -196,7 +197,7 @@ const getReviews = async (req, res) => {
         }
     }
 }
-*/
+
 
 // Get Top25 reviews
 const getTop25 = async (req, res) => {
@@ -379,9 +380,31 @@ const updateReview = async (req, res) => {
     }
 
     try {
-        const review = await Review.findOneAndUpdate({ _id: id }, {
-            reviewTitle, movies, comments, likes, contentImages
-        }, { new: true })
+        let review = {}
+        if (movies.length === 1) {
+            review = await Review.findOneAndUpdate({ _id: id }, {
+                reviewTitle: movies[0].title,
+                movies,
+                comments,
+                likes,
+                contentImages,
+                reviewType: 'single',
+            }, { new: true })
+        }
+        if (movies.length === 4) {
+            review = await Review.findOneAndUpdate({ _id: id }, {
+                reviewTitle,
+                movies,
+                comments,
+                likes,
+                contentImages,
+                reviewType: 'quad',
+            }, { new: true })
+        }
+
+        // const review = await Review.findOneAndUpdate({ _id: id }, {
+        //     reviewTitle, movies, comments, likes, contentImages
+        // }, { new: true })
 
         if (!review) {
             return res.status(404).json({ error: 'No such review' })
