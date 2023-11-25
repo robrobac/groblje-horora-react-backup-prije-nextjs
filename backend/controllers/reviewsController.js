@@ -72,10 +72,10 @@ const getReviews = async (req, res) => {
     const { sort, order, search, page, perPage } = req.query
 
     const getOrder = (orderBy) => {
-        if (orderBy === 'true') {
+        if (orderBy === 'desc') {
             return -1
         }
-        if (orderBy === 'false') {
+        if (orderBy === 'asc') {
             return 1
         }
     }
@@ -93,7 +93,8 @@ const getReviews = async (req, res) => {
         const reviews = await Review.find(reviewsQuery)
             .skip(skip)
             .limit(perPage)
-            .sort({ score: { $meta: 'textScore' } })  // Sort by relevance
+            .sort([['createdAt', -1],])
+            .sort()  // Sort by relevance
         const totalReviewsCount = await Review.countDocuments(reviewsQuery)
 
         return res.status(200).json({

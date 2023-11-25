@@ -75,7 +75,8 @@ const ReviewSchema = new Schema({
 })
 
 ReviewSchema.index({
-    reviewTitle: 'text'
+    reviewTitle: 'text',
+    'movies.title': 'text',
 })
 
 module.exports = mongoose.model('Review', ReviewSchema)

@@ -18,7 +18,7 @@ const SORT_OPTIONS = {
 export default function PostsTable() {
     const [reviews, setReviews] = useState(null)
     const [sort, setSort] = useState(SORT_OPTIONS.CREATED)
-    const [order, setOrder] = useState(true)
+    const [order, setOrder] = useState('desc')
     const [search, setSearch] = useState('')
     const [totalPages, setTotalPages] = useState([])
     const [page, setPage] = useState(1);
@@ -55,6 +55,28 @@ export default function PostsTable() {
         }
     }
 
+    const handleSortAndOrder = (sortVal, orderVal) => {
+        if (sort === sortVal) {
+            if (orderVal === 'desc') {
+                setOrder('asc')
+            }
+            if (orderVal === 'asc') {
+                setOrder('desc')
+            }
+        } else {
+            setSort(sortVal)
+
+            if (sortVal === SORT_OPTIONS.TITLE) {
+                setOrder('asc')
+                return
+            }
+            if (sortVal === SORT_OPTIONS.CATEGORY) {
+                setOrder('asc')
+                return
+            }
+            setOrder('desc')
+        } 
+    }
 
     return (
         <PageContainer>
@@ -67,20 +89,35 @@ export default function PostsTable() {
                 </SearchContainer>
                 <TableContainer>
                     <TableItem className="tableItem">
-                        <div className='title tableHeader' style={{pointerEvents: search ? 'none' : 'auto'}} onClick={() => {setOrder(!order); setSort(SORT_OPTIONS.TITLE)}}>
-                            Title <span>{sort === 'reviewTitle' && !search ? (order ? '🔽' : '🔼') : ''}</span>
+                        <div
+                            className='title tableHeader'
+                            style={{pointerEvents: search ? 'none' : 'auto'}}
+                            onClick={() => handleSortAndOrder(SORT_OPTIONS.TITLE, order)}>
+                                Title<span>{sort === 'reviewTitle' && !search ? (order === 'desc' ? '🔽' : '🔼') : ''}</span>
                         </div>
-                        <div className='category tableHeader' style={{pointerEvents: search ? 'none' : 'auto'}} onClick={() => {setOrder(!order); setSort(SORT_OPTIONS.CATEGORY)}}>
-                            Category <span>{sort === 'reviewType' && !search ? (order ? '🔽' : '🔼') : ''}</span>
+                        <div
+                            className='category tableHeader'
+                            style={{pointerEvents: search ? 'none' : 'auto'}}
+                            onClick={() => handleSortAndOrder(SORT_OPTIONS.CATEGORY, order)}>
+                                Category <span>{sort === 'reviewType' && !search ? (order === 'desc' ? '🔽' : '🔼') : ''}</span>
                         </div>
-                        <div className='rating tableHeader' style={{pointerEvents: search ? 'none' : 'auto'}} onClick={() => {setOrder(!order); setSort(SORT_OPTIONS.RATING)}}>
-                            Rating <span>{sort === 'movies.0.rating' && !search ? (order ? '🔽' : '🔼') : ''}</span>
+                        <div
+                            className='rating tableHeader'
+                            style={{pointerEvents: search ? 'none' : 'auto'}}
+                            onClick={() => handleSortAndOrder(SORT_OPTIONS.RATING, order)}>
+                                Rating <span>{sort === 'movies.0.rating' && !search ? (order === 'desc' ? '🔽' : '🔼') : ''}</span>
                         </div>
-                        <div className='datePublished tableHeader' style={{pointerEvents: search ? 'none' : 'auto'}} onClick={() => {setOrder(!order); setSort(SORT_OPTIONS.CREATED)}}>
-                            Date Published <span>{sort === 'createdAt' && !search ? (order ? '🔽' : '🔼') : ''}</span>
+                        <div
+                            className='datePublished tableHeader'
+                            style={{pointerEvents: search ? 'none' : 'auto'}}
+                            onClick={() => handleSortAndOrder(SORT_OPTIONS.CREATED, order)}>
+                                Date Published <span>{sort === 'createdAt' && !search ? (order === 'desc' ? '🔽' : '🔼') : ''}</span>
                         </div>
-                        <div className='dateEdited tableHeader' style={{pointerEvents: search ? 'none' : 'auto'}} onClick={() => {setOrder(!order); setSort(SORT_OPTIONS.UPDATED)}}>
-                            Date Edited <span>{sort === 'updatedAt' && !search ? (order ? '🔽' : '🔼') : ''}</span>
+                        <div
+                            className='dateEdited tableHeader'
+                            style={{pointerEvents: search ? 'none' : 'auto'}}
+                            onClick={() => handleSortAndOrder(SORT_OPTIONS.UPDATED, order)}>
+                                Date Edited <span>{sort === 'updatedAt' && !search ? (order === 'desc' ? '🔽' : '🔼') : ''}</span>
                         </div>
                     </TableItem>
                     {reviews?.map((review) => (
