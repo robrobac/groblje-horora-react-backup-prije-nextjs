@@ -6,6 +6,7 @@ import { ReactComponent as SearchIconSVG } from '../../../images/search-icon.svg
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import { Link } from 'react-router-dom';
 import { PageContainer, PageSection } from '../../Pages.styles';
+import Search from '../../../components/searchBar/Search';
 
 const SORT_OPTIONS = {
     TITLE: 'reviewTitle',
@@ -78,15 +79,15 @@ export default function PostsTable() {
         } 
     }
 
+    const handleSearch = (value) => {
+        setSearch(value)
+        setPage(1)
+    }
+
     return (
         <PageContainer>
             <PageSection>
-                <SearchContainer>
-                    <SearchIcon htmlFor='adminSearch'>
-                        <SearchIconSVG />
-                    </SearchIcon>
-                    <SearchBar id='adminSearch' type='search' placeholder='Search' value={search} onChange={(e) => {setSearch(e.target.value); setPage(1)}}/>
-                </SearchContainer>
+                <Search controls={false} handleSearch={handleSearch} search={search} sort={sort} order={order} handleSortAndOrder={handleSortAndOrder}/>
                 <TableContainer>
                     <TableItem className="tableItem">
                         <div

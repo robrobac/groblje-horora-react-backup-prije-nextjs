@@ -7,33 +7,19 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Grid } from '../components/postsGrid/PostsGrid.styles'
 import { PageContainer, PageSection } from './Pages.styles'
 import { PaginationContainer } from './Dashboard/AdminPostsTable/PostsTable.styled';
-import { SearchBar, SearchContainer, SearchIcon } from '../components/SearchBar.styles';
-import { ReactComponent as SearchIconSVG } from '../images/search-icon.svg';
-
-
-
-const SORT_OPTIONS = {
-    TITLE: 'reviewTitle',
-    CATEGORY: 'reviewType',
-    RATING: 'movies.0.rating',
-    CREATED: 'createdAt',
-    UPDATED: 'updatedAt',
-};
+import Search from '../components/searchBar/Search';
+import { SORT_OPTIONS } from '../helpers/sortOptions';
 
 
 export default function Reviews() {
     const [reviews, setReviews] = useState([])
-    
-    
 
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
 
-
-
     // Page States and Params
     const urlPage = searchParams.get('page');
-    const [page, setPage] = useState(urlPage ? parseInt(urlPage) : 1);
+    const [page, setPage] = useState(urlPage ? parseInt(urlPage) : 2);
     const [perPage, setPerPage] = useState(4);
     const [totalPages, setTotalPages] = useState([])
 
@@ -46,9 +32,12 @@ export default function Reviews() {
     const urlOrder = searchParams.get('order');
     const [order, setOrder] = useState(urlOrder ? urlOrder : 'desc')
 
+    const urlFilter = searchParams.get('filter')
+    const [filter, setFilter] = useState(urlFilter ? urlFilter : '')
+
     useEffect(() => {
         const fetchReviews = async () => {
-            const response = await fetch(`http://localhost:4000/api/reviews?search=${search}&sort=${sort}&order=${order}&page=${page}&perPage=${perPage}`);
+            const response = await fetch(`http://localhost:4000/api/reviews?search=${search}&sort=${sort}&order=${order}&page=${page}&perPage=${perPage}&filter=${filter}`);
             const json = await response.json();
 
             if (response.ok) {
@@ -59,7 +48,7 @@ export default function Reviews() {
         };
 
         fetchReviews();
-    }, [navigate, order, sort, search, page, perPage]);
+    }, [navigate, order, sort, search, page, perPage, filter]);
 
     useEffect(() => {
         let url = `/recenzije?page=${page}`;
@@ -67,64 +56,63 @@ export default function Reviews() {
         if (search) {
             url += `&search=${search}`
         }
-        if (sort !== SORT_OPTIONS.CREATED) {
+        if (filter !== '') {
+            url += `&filter=${filter}`
+        }
+        if (!(sort === SORT_OPTIONS.CREATED && order === 'desc' && filter === '')) {
             url += `&sort=${sort}&order=${order}`
         }
-
+        
         navigate(url)
-    }, [navigate, order, page, search, sort])
-
-    useEffect(() => {
-        setPage(1)
-    }, [sort, order])
+    }, [filter, navigate, order, page, search, sort])
 
     const handlePageChange = (num) => {
         console.log(num)
         setPage(num)
     }
 
-    const handleSearch = (value) =>{
+    const handleFilter = (value) => {
+        setFilter(value)
+        setPage(1)
+    }
+
+    const handleSearch = (value) => {
         setSearch(value)
+        setPage(1)
     }
 
     const handleSortAndOrder = (sortVal, orderVal) => {
         if (sort === sortVal) {
             if (orderVal === 'desc') {
                 setOrder('asc')
+                setPage(1)
             }
             if (orderVal === 'asc') {
                 setOrder('desc')
+                setPage(1)
             }
         } else {
             setSort(sortVal)
 
             if (sortVal === SORT_OPTIONS.TITLE) {
                 setOrder('asc')
+                setPage(1)
                 return
             }
             if (sortVal === SORT_OPTIONS.CATEGORY) {
                 setOrder('asc')
+                setPage(1)
                 return
             }
             setOrder('desc')
+            setPage(1)
         } 
     }
 
     return (
         <PageContainer>
             <PageSection>
-                <SearchContainer>
-                    <SearchIcon htmlFor='adminSearch'>
-                        <SearchIconSVG />
-                    </SearchIcon>
-                    <SearchBar id='adminSearch' type='search' placeholder='Search' value={search} onChange={(e) => {handleSearch(e.target.value); setPage(1)}}/>
-                </SearchContainer>
-                <div
-                            className='title tableHeader'
-                            style={{pointerEvents: search ? 'none' : 'auto'}}
-                            onClick={() => handleSortAndOrder(SORT_OPTIONS.TITLE, order)}>
-                                Title<span>{sort === 'reviewTitle' && !search ? (order === 'desc' ? '🔽' : '🔼') : ''}</span>
-                        </div>
+                <Search controls={true} handleSearch={handleSearch} search={search} sort={sort} order={order} handleSortAndOrder={handleSortAndOrder} handleFilter={handleFilter} filter={filter}/>
                 <Grid>
                     {reviews && reviews.map((review) => (
                         <ReviewCard key={review._id} review={review} />

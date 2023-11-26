@@ -69,7 +69,7 @@ const getReviews = async (req, res) => {
 
 // Get all reviews
 const getReviews = async (req, res) => {
-    const { sort, order, search, page, perPage } = req.query
+    const { sort, order, search, page, perPage, filter } = req.query
 
     const getOrder = (orderBy) => {
         if (orderBy === 'desc') {
@@ -104,15 +104,16 @@ const getReviews = async (req, res) => {
     } else {
         // Else if there's no Search in the query, continue with sorting and ordering
         if (sort === 'movies.0.rating') {
+            const typeFilter = filter ? { 'reviewType': filter } : {}
             // sory by rating
-            const reviews = await Review.find({})
+            const reviews = await Review.find(typeFilter)
                 .skip(skip)
                 .limit(perPage)
                 .sort([
                     ['reviewType', getOrder(order)],
                     [sort, getOrder(order)],
                 ]);
-            const totalReviewsCount = await Review.countDocuments()
+            const totalReviewsCount = await Review.countDocuments(typeFilter)
 
             return res.status(200).json({
                 reviews,
@@ -120,15 +121,16 @@ const getReviews = async (req, res) => {
             })
         }
         if (sort === 'reviewTitle') {
+            const typeFilter = filter ? { 'reviewType': filter } : {}
             // sort by title
-            const reviews = await Review.find({})
+            const reviews = await Review.find(typeFilter)
                 .skip(skip)
                 .limit(perPage)
                 .sort([
                     ['reviewTitle', getOrder(order)],
                     [sort, getOrder(order)],
                 ]);
-            const totalReviewsCount = await Review.countDocuments()
+            const totalReviewsCount = await Review.countDocuments(typeFilter)
 
             return res.status(200).json({
                 reviews,
@@ -152,15 +154,16 @@ const getReviews = async (req, res) => {
             })
         }
         if (sort === 'createdAt') {
+            const typeFilter = filter ? { 'reviewType': filter } : {}
             // sort by date created
-            const reviews = await Review.find({})
+            const reviews = await Review.find(typeFilter)
                 .skip(skip)
                 .limit(perPage)
                 .sort([
                     ['createdAt', getOrder(order)],
                     [sort, getOrder(order)],
                 ]);
-            const totalReviewsCount = await Review.countDocuments()
+            const totalReviewsCount = await Review.countDocuments(typeFilter)
 
             return res.status(200).json({
                 reviews,
