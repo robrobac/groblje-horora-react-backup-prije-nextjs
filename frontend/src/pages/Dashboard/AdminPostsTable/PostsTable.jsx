@@ -1,87 +1,26 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { PaginationContainer, TableContainer, TableItem } from './PostsTable.styled'
 import Rating from '../../../components/Rating'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import { Link } from 'react-router-dom';
 import { PageContainer, PageSection } from '../../Pages.styles';
 import Search from '../../../components/searchBar/Search';
-
-const SORT_OPTIONS = {
-    TITLE: 'reviewTitle',
-    CATEGORY: 'reviewType',
-    RATING: 'movies.0.rating',
-    CREATED: 'createdAt',
-    UPDATED: 'updatedAt',
-};
+import { SORT_OPTIONS } from '../../../helpers/sortOptions';
+import useFetchReviewsWithParams from '../../../hooks/useFetchReviewsWithParams';
 
 export default function PostsTable() {
-    const [reviews, setReviews] = useState(null)
-    const [sort, setSort] = useState(SORT_OPTIONS.CREATED)
-    const [order, setOrder] = useState('desc')
-    const [search, setSearch] = useState('')
-    const [totalPages, setTotalPages] = useState([])
-    const [page, setPage] = useState(1);
-    // eslint-disable-next-line no-unused-vars
-    const [perPage, setPerPage] = useState(5);
-    console.log(totalPages)
-    console.log(reviews)
 
-    useEffect(() => {
-        const fetchReviews = async () => {
-            const response = await fetch(`http://localhost:4000/api/reviews?search=${search}&sort=${sort}&order=${order}&page=${page}&perPage=${perPage}`)
-            const json = await response.json()
-            console.log(json)
-
-            if (response.ok) {
-                setReviews(json.reviews)
-                const pagesArray = Array.from({ length: json.totalPages }, (_, index) => (index + 1).toString().padStart(2, 0))
-                setTotalPages(pagesArray)
-            }
-        }
-
-        fetchReviews()
-    }, [order, sort, search, page, perPage])
-
-    useEffect(() => {
-        setPage(1)
-    }, [sort, order])
-
-    const isSingleReview = (review) => {
-        if (review.reviewType === 'single') {
-            return true
-        }
-        if (review.reviewType === 'quad') {
-            return false
-        }
-    }
-
-    const handleSortAndOrder = (sortVal, orderVal) => {
-        if (sort === sortVal) {
-            if (orderVal === 'desc') {
-                setOrder('asc')
-            }
-            if (orderVal === 'asc') {
-                setOrder('desc')
-            }
-        } else {
-            setSort(sortVal)
-
-            if (sortVal === SORT_OPTIONS.TITLE) {
-                setOrder('asc')
-                return
-            }
-            if (sortVal === SORT_OPTIONS.CATEGORY) {
-                setOrder('asc')
-                return
-            }
-            setOrder('desc')
-        } 
-    }
-
-    const handleSearch = (value) => {
-        setSearch(value)
-        setPage(1)
-    }
+    const {
+        handleSearch,
+        search,
+        sort,
+        order,
+        handleSortAndOrder,
+        reviews,
+        totalPages,
+        handlePageChange,
+        page
+    } = useFetchReviewsWithParams('dashboard', SORT_OPTIONS.CREATED, 'desc', 4)
 
     return (
         <PageContainer>
@@ -123,9 +62,9 @@ export default function PostsTable() {
                     {reviews?.map((review) => (
                         <TableItem className="tableItem">
                             <div className='title'><Link to={`/recenzije/${review._id}`}>{review.reviewTitle}</Link></div>
-                            <div className='category'>{isSingleReview(review) ? 'Recenzija' : 'Kratki pregled'}</div>
+                            <div className='category'>{review.reviewType === 'single' ? 'Recenzija' : 'Kratki pregled'}</div>
                             <div className='rating'>
-                                {isSingleReview(review) ? <Rating rating={review.movies[0].rating} /> : ''}
+                                {review.reviewType === 'single' ? <Rating rating={review.movies[0].rating} /> : ''}
                             </div>
                             <div className='datePublished'>{formatDistanceToNow(new Date(review.createdAt), {addSuffix: true})}</div>
                             <div className='dateEdited'>{formatDistanceToNow(new Date(review.updatedAt), {addSuffix: true})}</div>
@@ -134,7 +73,7 @@ export default function PostsTable() {
                 </TableContainer>
                 <PaginationContainer>
                 {totalPages?.map((pageNumber, index) => (
-                    <button onClick={() => setPage(index + 1)} disabled={index +1 === page}>{pageNumber}</button>
+                    <button onClick={() => handlePageChange(pageNumber)} disabled={index +1 === page}>{pageNumber}</button>
                 ))}
                 </PaginationContainer>
             </PageSection>
