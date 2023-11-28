@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { PaginationContainer, TableContainer, TableItem } from './PostsTable.styled'
 import Rating from '../../../components/Rating'
-import { SearchBar, SearchContainer, SearchIcon } from '../../../components/SearchBar.styles';
-import { ReactComponent as SearchIconSVG } from '../../../images/search-icon.svg';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import { Link } from 'react-router-dom';
 import { PageContainer, PageSection } from '../../Pages.styles';
@@ -23,6 +21,7 @@ export default function PostsTable() {
     const [search, setSearch] = useState('')
     const [totalPages, setTotalPages] = useState([])
     const [page, setPage] = useState(1);
+    // eslint-disable-next-line no-unused-vars
     const [perPage, setPerPage] = useState(5);
     console.log(totalPages)
     console.log(reviews)

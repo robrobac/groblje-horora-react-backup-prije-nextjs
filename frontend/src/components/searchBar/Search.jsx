@@ -1,5 +1,5 @@
 import React from 'react'
-import { ControlButton, FilterButton, FilterControl, SearchBar, SearchComp, SearchContainer, SearchControls, SearchIcon, SortAndOrder, SortButton, SortControl } from './Search.styled';
+import { FilterButton, FilterControl, SearchBar, SearchComp, SearchContainer, SearchControls, SearchIcon, SortButton, SortControl } from './Search.styled';
 import { ReactComponent as SearchIconSVG } from '../../images/search-icon.svg';
 import { SORT_OPTIONS } from '../../helpers/sortOptions';
 

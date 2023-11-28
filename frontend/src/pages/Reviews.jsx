@@ -20,6 +20,7 @@ export default function Reviews() {
     // Page States and Params
     const urlPage = searchParams.get('page');
     const [page, setPage] = useState(urlPage ? parseInt(urlPage) : 2);
+    // eslint-disable-next-line no-unused-vars
     const [perPage, setPerPage] = useState(4);
     const [totalPages, setTotalPages] = useState([])
 
