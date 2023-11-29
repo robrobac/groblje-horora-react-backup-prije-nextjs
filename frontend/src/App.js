@@ -19,6 +19,8 @@ import Header from './components/header/Header';
 import Dashboard from './pages/Dashboard/Dashboard';
 import NewForm from './pages/Dashboard/NewForm';
 import EditForm from './pages/Dashboard/EditForm';
+import Login from './pages/Auth/Login';
+import Register from './pages/Auth/Register';
 
 
 function App() {
@@ -40,6 +42,8 @@ function App() {
                         <Route path='/dashboard/add-new' element={<NewForm />} />
                         <Route path='/dashboard1/' element={<NewForm numberOfMovies={1} />} />
                         <Route path='/dashboard2/' element={<NewForm numberOfMovies={4} />} />
+                        <Route path='/login/' element={<Login />} />
+                        <Route path='/register/' element={<Register />} />
                     </Routes>
                 </AppPage>
             </BrowserRouter>

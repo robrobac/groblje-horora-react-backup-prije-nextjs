@@ -72,6 +72,7 @@ export const FormContent = styled.div`
     flex: 1;
 `
 export const InputContainer = styled.div`
+width: 100%;
     display: flex; 
     flex-direction: column;
     

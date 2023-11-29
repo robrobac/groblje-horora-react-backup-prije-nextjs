@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { LogoContainer, MainHeader, MenuIcon, NavItem, NavigationWrap } from './Header.styles';
+import { LogoContainer, MainHeader, MenuIcon, NavigationWrap } from './Header.styles';
 import {ReactComponent as Logo} from '../../images/groblje-horora-logo.svg'
 import {ReactComponent as MenuX} from '../../images/xicon.svg'
 import {ReactComponent as Hamburger} from '../../images/menuicon.svg'
