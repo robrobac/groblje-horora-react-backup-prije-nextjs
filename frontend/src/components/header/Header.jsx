@@ -1,24 +1,30 @@
-import React from 'react'
-import { HeaderNavigation, MainHeader, NavItem, NavigationWrap } from './Header.styles';
+import React, { useState } from 'react'
+import { LogoContainer, MainHeader, MenuIcon, NavItem, NavigationWrap } from './Header.styles';
+import {ReactComponent as Logo} from '../../images/groblje-horora-logo.svg'
+import {ReactComponent as MenuX} from '../../images/xicon.svg'
+import {ReactComponent as Hamburger} from '../../images/menuicon.svg'
+import DesktopNav from '../desktopNav/DesktopNav';
+import MobileNav from '../mobileNav/MobileNav';
 
 export default function Header() {
+    const [menuOpen, setMenuOpen] = useState(false)
     return (
         <MainHeader>
             <NavigationWrap>
-                <HeaderNavigation>
-                    <ul>
-                        <NavItem className='headerLink' to='/'>LOGO</NavItem>
-                        <NavItem className='headerLink' to='/'>Početna</NavItem>
-                        <NavItem className='headerLink' to='/top25'>Top 25</NavItem>
-                        <NavItem className='headerLink' to='/recenzije'>Recenzije</NavItem>
-                        <NavItem className='headerLink' to='/top20smeca'>Top 20 Smeća</NavItem>
-                        <NavItem className='headerLink' to='/o-blogu'>O Blogu</NavItem>
-                        <NavItem className='headerLink' to='/dashboard'>ADMIN</NavItem>
-                    </ul>
-                    <ul>
-                        <li>Login</li>
-                    </ul>
-                </HeaderNavigation>
+                <LogoContainer className='headerLink' to='/'>
+                    <Logo />
+                </LogoContainer>
+                <DesktopNav menuOpen={menuOpen} setMenuOpen={setMenuOpen}/>
+                <MobileNav menuOpen={menuOpen} setMenuOpen={setMenuOpen}/>
+                {menuOpen ? (
+                    <MenuIcon onClick={() => setMenuOpen(false)}>
+                        <MenuX />
+                    </MenuIcon>
+                ) : (
+                    <MenuIcon onClick={() => setMenuOpen(true)}>
+                        <Hamburger />
+                    </MenuIcon>
+                )}
             </NavigationWrap>
         </MainHeader>
     )

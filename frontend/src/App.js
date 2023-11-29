@@ -16,13 +16,9 @@ import Theme from './Theme';
 
 import GlobalStyles from './Global.styles';
 import Header from './components/header/Header';
-import NewFormSingle from './pages/Dashboard/NewFormSingle';
-import NewFormQuad from './pages/Dashboard/NewFormQuad';
 import Dashboard from './pages/Dashboard/Dashboard';
 import NewForm from './pages/Dashboard/NewForm';
 import EditForm from './pages/Dashboard/EditForm';
-
-
 
 
 function App() {
@@ -31,8 +27,7 @@ function App() {
             <GlobalStyles />
             <BrowserRouter>
                 <AppPage>
-                    <Header
-                    />
+                    <Header />
                     <Routes>
                         <Route path='/' element={<Home />} />
                         <Route path='/top25/' element={<Top25 />} />

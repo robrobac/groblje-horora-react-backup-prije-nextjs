@@ -34,6 +34,18 @@ const GlobalStyles = createGlobalStyle`
         text-align: center;
         color: ${(props) => props.theme.dark.secondary};
         line-height: 120px;
+
+        @media (max-width: 780px) {
+            font-size: 100px;
+            
+        }
+        @media (max-width: 590px) {
+            line-height: 95px;
+        }
+        @media (max-width: 320px) {
+            font-size: 70px;
+            line-height: 65px;
+        }
     }
 
     h1.reviewTitleH1 {
