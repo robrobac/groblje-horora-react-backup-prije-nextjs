@@ -110,5 +110,12 @@ export const GoogleLoginButton = styled.button`
         -webkit-box-shadow: 0px 0px 24px 1px rgba(0,0,0,0.5); 
         box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.5);
     }
+
+    &:disabled {
+        opacity: .5;
+        cursor: not-allowed;
+        -webkit-box-shadow: none; 
+        box-shadow: none;
+    }
     
 `
