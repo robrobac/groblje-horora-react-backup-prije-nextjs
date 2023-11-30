@@ -1,5 +1,6 @@
 import React from 'react'
 import { MobileNavItem, MobileNavigation } from './MobileNav.styled'
+import { RedirectLink } from '../../pages/Auth/Auth.styled'
 
 export default function MobileNav({menuOpen, setMenuOpen}) {
     return (
@@ -13,7 +14,7 @@ export default function MobileNav({menuOpen, setMenuOpen}) {
                         <MobileNavItem className='headerLink' to='/dashboard' onClick={() => setMenuOpen(false)}>Dashboard</MobileNavItem>
                     </ul>
                     <ul>
-                        <li>Login or Register</li>
+                        <li><RedirectLink to='/login'>Login</RedirectLink> or <RedirectLink to='/register'>Register</RedirectLink></li>
                     </ul>
         </MobileNavigation>
     )

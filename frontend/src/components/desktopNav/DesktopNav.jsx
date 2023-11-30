@@ -1,5 +1,6 @@
 import React from 'react'
 import { DesktopNavItem, DesktopNavigation } from './DesktopNav.styled'
+import { RedirectLink } from '../../pages/Auth/Auth.styled'
 
 export default function DesktopNav() {
     return (
@@ -13,7 +14,7 @@ export default function DesktopNav() {
                         <DesktopNavItem className='headerLink' to='/dashboard'>Dashboard</DesktopNavItem>
                     </ul>
                     <ul>
-                        <li>Login or Register</li>
+                        <li><RedirectLink to='/login'>Login</RedirectLink> or <RedirectLink to='/register'>Register</RedirectLink></li>
                     </ul>
         </DesktopNavigation>
     )

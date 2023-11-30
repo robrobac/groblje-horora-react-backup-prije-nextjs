@@ -16,6 +16,9 @@ export const DesktopNavigation = styled.nav`
         align-items: center;
         gap: 50px;
     }
+    ul:last-of-type {
+        color: #ffffff60;
+    }
 `
 
 export const DesktopNavItem = styled(NavLink)`

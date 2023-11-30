@@ -33,6 +33,10 @@ export const MobileNavigation = styled.nav`
         align-items: end;
         gap: 20px;
     }
+
+    ul:last-of-type {
+        color: #ffffff60;
+    }
 `
 
 export const MobileNavItem = styled(NavLink)`
