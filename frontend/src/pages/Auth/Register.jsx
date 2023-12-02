@@ -5,13 +5,17 @@ import {ReactComponent as Logo} from '../../images/groblje-horora-logo.svg'
 import homeCoverImage from '../../images/groblje-horora-bg-image.jpg'
 import {ReactComponent as GoogleIcon} from '../../images/googleicon.svg'
 import { AuthButton } from '../../components/Button.styles'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "firebase/auth"
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
 import { auth } from '../../firebase/config'
+import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [errors, setErrors] = useState([])
+    console.log(errors)
+    const navigate = useNavigate();
 
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -30,6 +34,7 @@ export default function Register() {
     
             if (!validation.ok) {
                 console.log(validationJson);
+                setErrors(validationJson.errorMessages)
                 return;
             }
     
@@ -68,6 +73,8 @@ export default function Register() {
     
             console.log('User added to MongoDB:', json);
             // Handle success, e.g., redirect to a success page
+            const backURL = localStorage.getItem('lastVisitedUrl');
+            navigate(backURL)
         } catch (err) {
             console.log(err);
             // Handle other errors, e.g., show a generic error message to the user
@@ -81,6 +88,7 @@ export default function Register() {
             </RedirectLink>
             <AuthContainer>
                 <h3>REGISTRACIJA</h3>
+                <p className='error'>{errors.join(', ')}</p>
                 <AuthForm onSubmit={handleRegister}>
                     <InputContainer>
                         <InputLabel htmlFor='username'>Username</InputLabel>
@@ -96,7 +104,7 @@ export default function Register() {
                     </InputContainer>
                     <AuthButton type='submit'>Register</AuthButton>
                 </AuthForm>
-                <p>OR</p>
+                <p className='separator'>OR</p>
                 <GoogleLoginButton type="button" disabled>
                     <GoogleIcon /> Sign in with Google
                 </GoogleLoginButton>

@@ -40,11 +40,17 @@ export const AuthContainer = styled.div`
         text-align: center;
     }
 
+    .error {
+        font-size: .8rem;
+        font-weight: 600;
+        color: red;
+    }
+
     p:last-of-type {
         color: #ffffff60;
     }
 
-    p:first-of-type {
+    p.separator {
         width: 100%;
         display: flex;
         align-items: center;
@@ -62,6 +68,16 @@ export const AuthContainer = styled.div`
         &:not(empty)::after {
             margin-left: 1rem;
         }
+    }
+`
+
+export const LogoutLink = styled.span`
+    text-decoration: none;
+    cursor: pointer;
+    color: white;
+
+    &:hover {
+        text-decoration: underline;
     }
 `
 

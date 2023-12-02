@@ -260,25 +260,6 @@ const deleteReview = async (req, res) => {
     res.status(200).json(review)
 }
 
-// // Update a review
-// const updateReview = async (req, res) => {
-//     const { id } = req.params
-
-//     if (!mongoose.Types.ObjectId.isValid(id)) {
-//         return res.status(404).json({ error: 'No such review' })
-//     }
-
-//     const review = await Review.findOneAndUpdate({ _id: id }, {
-//         ...req.body
-//     }, { new: true })
-
-//     if (!review) {
-//         return res.status(404).json({ error: 'No such review' })
-//     }
-
-//     res.status(200).json(review)
-// }
-
 // Update Review
 const updateReview = async (req, res) => {
     const { id } = req.params

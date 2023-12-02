@@ -12,7 +12,7 @@ const validateNewUser = async (req, res) => {
         if (!username) {
             errorMessages.push('Invalid Username');
         } else {
-            const existingUser = await User.findOne({ username });
+            const existingUser = await User.findOne({ username: { $regex: new RegExp(`^${username}$`, 'i') } });
 
             if (existingUser) {
                 errorMessages.push('Username already exists');
@@ -49,6 +49,19 @@ const validateNewUser = async (req, res) => {
     }
 };
 
+// Get a single user
+const getUser = async (req, res) => {
+    const { email } = req.params
+
+    const user = await User.findOne({ email: { $regex: new RegExp(`^${email}$`, 'i') } })
+
+    if (!email) {
+        return res.status(404).json({ error: 'No such user' })
+    }
+
+    res.status(200).json(user)
+}
+
 // Create a new user
 const createNewUser = async (req, res) => {
     const { username, email, role } = req.body
@@ -64,4 +77,5 @@ const createNewUser = async (req, res) => {
 module.exports = {
     createNewUser,
     validateNewUser,
+    getUser,
 }

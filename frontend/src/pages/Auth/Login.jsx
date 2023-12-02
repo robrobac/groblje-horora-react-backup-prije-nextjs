@@ -7,16 +7,20 @@ import {ReactComponent as GoogleIcon} from '../../images/googleicon.svg'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../../firebase/config'
 import { AuthButton } from '../../components/Button.styles'
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault()
         try {
             const user = await signInWithEmailAndPassword(auth, email, password)
             console.log('user logged in: ', user.user)
+            const backURL = localStorage.getItem('lastVisitedUrl');
+            navigate(backURL)
         } catch (err) {
             console.log(err.message)
         }

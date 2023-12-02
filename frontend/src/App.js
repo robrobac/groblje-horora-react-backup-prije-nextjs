@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import styled from "styled-components";
 
 // Pages
@@ -21,31 +21,46 @@ import NewForm from './pages/Dashboard/NewForm';
 import EditForm from './pages/Dashboard/EditForm';
 import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
+import useAuthCheck from './hooks/useAuthCheck';
+import { createContext } from 'react';
+
+
+export const AuthContext = createContext();
 
 
 function App() {
+    const isAuth = useAuthCheck()
+    console.log(isAuth)
+
     return (
         <Theme>
             <GlobalStyles />
             <BrowserRouter>
-                <AppPage>
-                    <Header />
-                    <Routes>
-                        <Route path='/' element={<Home />} />
-                        <Route path='/top25/' element={<Top25 />} />
-                        <Route path='/recenzije/' element={<Reviews />} />
-                        <Route path='/recenzije/:id/' element={<SinglePost />} />
-                        <Route path='/recenzije/:id/edit' element={<EditForm />} />
-                        <Route path='/top20smeca/' element={<Worse20 />} />
-                        <Route path='/o-blogu/' element={<About />} />
-                        <Route path='/dashboard/' element={<Dashboard />} />
-                        <Route path='/dashboard/add-new' element={<NewForm />} />
-                        <Route path='/dashboard1/' element={<NewForm numberOfMovies={1} />} />
-                        <Route path='/dashboard2/' element={<NewForm numberOfMovies={4} />} />
-                        <Route path='/login/' element={<Login />} />
-                        <Route path='/register/' element={<Register />} />
-                    </Routes>
-                </AppPage>
+                <AuthContext.Provider value={{ isAuth }}>
+                    <AppPage>
+                        <Header />
+                        <Routes>
+                            <Route path='/' element={<Home />} />
+                            <Route path='/top25/' element={<Top25 />} />
+                            <Route path='/recenzije/' element={<Reviews />} />
+                            <Route path='/recenzije/:id/' element={<SinglePost />} />
+
+                            {/* Restricted */} <Route path='/recenzije/:id/edit' element={isAuth?.role === 'admin' ? <EditForm /> : <Navigate to='/' />} />
+
+
+                            <Route path='/top20smeca/' element={<Worse20 />} />
+                            <Route path='/o-blogu/' element={<About />} />
+
+                            {/* Restricted */} <Route path='/dashboard/' element={isAuth?.role === 'admin' ? <Dashboard /> : <Navigate to='/' />} />
+                            {/* Restricted */} <Route path='/dashboard/add-new' element={isAuth?.role === 'admin' ? <NewForm /> : <Navigate to='/' />} />
+                            {/* Restricted */} <Route path='/dashboard1/' element={isAuth ? <NewForm numberOfMovies={1} /> : <Navigate to='/' />} />
+                            {/* Restricted */} <Route path='/dashboard2/' element={isAuth?.role === 'admin' ? <NewForm numberOfMovies={4} /> : <Navigate to='/' />} />
+
+                            <Route path='/login/' element={<Login />} />
+                            <Route path='/register/' element={<Register />} />
+                        </Routes>
+                    </AppPage>
+                </AuthContext.Provider>
             </BrowserRouter>
 
         </Theme>
