@@ -20,6 +20,7 @@ function Login() {
             const user = await signInWithEmailAndPassword(auth, email, password)
             console.log('user logged in: ', user.user)
             const backURL = localStorage.getItem('lastVisitedUrl');
+            localStorage.removeItem('lastVisitedUrl');
             navigate(backURL)
         } catch (err) {
             console.log(err.message)

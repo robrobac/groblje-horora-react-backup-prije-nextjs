@@ -29,7 +29,7 @@ export default function useAuthCheck() {
             unsubscribe();
         };
         
-    }, [auth])
+    }, [])
 
     return userData
 }

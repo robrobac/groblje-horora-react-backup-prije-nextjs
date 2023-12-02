@@ -37,21 +37,12 @@ export default function Register() {
                 setErrors(validationJson.errorMessages)
                 return;
             }
-    
             console.log('Validation success');
-    
-            // Create user in Firebase
-            const user = await createUserWithEmailAndPassword(auth, email, password);
-            await updateProfile(user.user, {
-                displayName: username
-            });
-    
-            console.log('Firebase user created:', user.user);
-    
+
             // Prepare user data for MongoDB
             const userData = {
-                username: user.user.displayName,
-                email: user.user.email,
+                username: username,
+                email: email,
                 role: 'user',
             };
     
@@ -63,17 +54,25 @@ export default function Register() {
                     'Content-Type': 'application/json'
                 }
             });
-    
             const json = await response.json();
-    
             if (!response.ok) {
                 console.log(json);
                 return;
             }
-    
             console.log('User added to MongoDB:', json);
+
+    
+            // Create user in Firebase
+            const user = await createUserWithEmailAndPassword(auth, email, password);
+            await updateProfile(user.user, {
+                displayName: username
+            });
+            console.log('Firebase user created:', user.user);
+
+
             // Handle success, e.g., redirect to a success page
             const backURL = localStorage.getItem('lastVisitedUrl');
+            localStorage.removeItem('lastVisitedUrl');
             navigate(backURL)
         } catch (err) {
             console.log(err);
