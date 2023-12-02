@@ -30,7 +30,6 @@ export const AuthContext = createContext();
 
 function App() {
     const isAuth = useAuthCheck()
-    console.log(isAuth)
 
     return (
         <Theme>

@@ -5,7 +5,6 @@ import { ReadMoreButtonRed } from './Button.styles'
 
 export default function LatestSingle() {
     const [review, setReview] = useState(null)
-    console.log(review)
 
     useEffect(() => {
         const fetchReview = async () => {

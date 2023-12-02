@@ -10,18 +10,23 @@ import { auth } from '../../firebase/config'
 import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
+
+    const navigate = useNavigate();
+
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [errors, setErrors] = useState([])
-    console.log(errors)
-    const navigate = useNavigate();
 
+    const [errors, setErrors] = useState([])
+    
+
+    // Handle registration form submission
     const handleRegister = async (e) => {
         e.preventDefault();
-    
+        console.log('Register Form Submitted')
+
         try {
-            // Validate user on the server
+            // Validate user input on backend
             const validation = await fetch('http://localhost:4000/api/validateNewUser', {
                 method: 'POST',
                 body: JSON.stringify({ username, email, password }),
@@ -29,9 +34,7 @@ export default function Register() {
                     'Content-Type': 'application/json'
                 }
             });
-    
             const validationJson = await validation.json();
-    
             if (!validation.ok) {
                 console.log(validationJson);
                 setErrors(validationJson.errorMessages)
@@ -45,8 +48,9 @@ export default function Register() {
                 email: email,
                 role: 'user',
             };
+            console.log('User Data prepared for storing to MongoDB')
     
-            // Send user data to MongoDB
+            // Add user data to MongoDB
             const response = await fetch('http://localhost:4000/api/users', {
                 method: 'POST',
                 body: JSON.stringify(userData),
@@ -59,24 +63,34 @@ export default function Register() {
                 console.log(json);
                 return;
             }
-            console.log('User added to MongoDB:', json);
+            console.log('User Data stored to MongoDB', json);
 
-    
-            // Create user in Firebase
+            // Create user in Firebase authentication
             const user = await createUserWithEmailAndPassword(auth, email, password);
+            console.log('Firebase  User Created', user.user)
+
+            // Update user profile with the provided username
             await updateProfile(user.user, {
                 displayName: username
             });
-            console.log('Firebase user created:', user.user);
+            console.log('Firebase User Display Name Updated', user.user);
 
-
-            // Handle success, e.g., redirect to a success page
+            // Redirect to the previous page stored in local storage
             const backURL = localStorage.getItem('lastVisitedUrl');
             localStorage.removeItem('lastVisitedUrl');
             navigate(backURL)
+            console.log('Registration Successful, Navigating back to last visited URL')
         } catch (err) {
             console.log(err);
-            // Handle other errors, e.g., show a generic error message to the user
+
+            // Delete user from MongoDB if Firebase Registration is unsuccessful
+            const deleteResponse = await fetch(`http://localhost:4000/api/users/${email}`, {
+                method: 'DELETE',
+            });
+            const deleteJson = await deleteResponse.json();
+            if (deleteResponse.ok) {
+                console.log('User deleted from MongoDB', deleteJson);
+            }
         }
     };
 

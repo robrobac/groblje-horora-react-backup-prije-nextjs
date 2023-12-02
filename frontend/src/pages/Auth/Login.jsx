@@ -10,18 +10,28 @@ import { AuthButton } from '../../components/Button.styles'
 import { useNavigate } from 'react-router-dom';
 
 function Login() {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+
     const navigate = useNavigate();
 
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    
+
+    // Handle login form submission
     const handleLogin = async (e) => {
         e.preventDefault()
+        console.log('Login Form Submitted')
+
         try {
+            // Sign in with email and password using Firebase
             const user = await signInWithEmailAndPassword(auth, email, password)
-            console.log('user logged in: ', user.user)
+            console.log('Firebase User Signed In', user.user);
+
+            // Redirect to the previous page stored in local storage
             const backURL = localStorage.getItem('lastVisitedUrl');
             localStorage.removeItem('lastVisitedUrl');
             navigate(backURL)
+            console.log('Login Successful, Navigating back to last visited URL')
         } catch (err) {
             console.log(err.message)
         }

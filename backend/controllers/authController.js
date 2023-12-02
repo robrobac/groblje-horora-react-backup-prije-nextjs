@@ -74,8 +74,23 @@ const createNewUser = async (req, res) => {
     }
 }
 
+// Delete a user
+const deleteUser = async (req, res) => {
+    const { email } = req.params
+
+    const user = await User.findOneAndDelete({ email: email })
+
+    if (!user) {
+        return res.status(404).json({ error: 'No such User' })
+    }
+
+    res.status(200).json(user)
+}
+
+
 module.exports = {
     createNewUser,
     validateNewUser,
     getUser,
+    deleteUser,
 }

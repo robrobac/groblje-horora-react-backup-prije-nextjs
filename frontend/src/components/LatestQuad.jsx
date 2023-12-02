@@ -3,9 +3,7 @@ import { LatestQuadDate, LatestQuadReview, QuadCoverContainer, QuadCoverImageCon
 import { Link } from 'react-router-dom'
 
 export default function LatestQuad() {
-
     const [review, setReview] = useState(null)
-    console.log(review)
 
     useEffect(() => {
         const fetchReview = async () => {
