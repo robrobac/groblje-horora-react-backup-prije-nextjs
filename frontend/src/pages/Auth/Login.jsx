@@ -16,6 +16,7 @@ function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     
+    const [error, setError] = useState('')
 
     // Handle login form submission
     const handleLogin = async (e) => {
@@ -34,6 +35,7 @@ function Login() {
             console.log('Login Successful, Navigating back to last visited URL')
         } catch (err) {
             console.log(err.message)
+            setError('Invalid email or password')
         }
     }
 
@@ -44,6 +46,7 @@ function Login() {
             </RedirectLink>
             <AuthContainer>
                 <h3>PRIJAVA</h3>
+                <p className='error'>{error}</p>
                 <AuthForm onSubmit={handleLogin}>
                     <InputContainer>
                         <InputLabel htmlFor='email'>Email</InputLabel>

@@ -22,7 +22,7 @@ export default function Reviews() {
         totalPages,
         handlePageChange,
         page
-    } = useFetchReviewsWithParams('recenzije', SORT_OPTIONS.CREATED, 'desc', 2)
+    } = useFetchReviewsWithParams('recenzije', SORT_OPTIONS.CREATED, 'desc', 4)
     
     return (
         <PageContainer>

@@ -13,6 +13,7 @@ export const MainHeader = styled.header`
 `
 
 export const NavigationWrap = styled.div`
+    padding: 0 ${(props) => props.theme.dark.contentPadding};
     width: ${(props) => props.theme.dark.contentWidth};
     display: flex;
     align-items: center;

@@ -12,11 +12,14 @@ const theme = {
         secondary: '#860000',
 
         contentWidth: '1200px',
+        contentPadding: '1rem',
         readingWidth: '700px',
 
         inputBackground: '#FFFFFF1A',
         inputBorder: '#FFFFFF1A',
-        lightInputBorder: '#959595'
+        lightInputBorder: '#959595',
+
+
     }
 }
 

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const LatestQuadReview = styled.div`
+    padding: 0 ${(props) => props.theme.dark.contentPadding};
     display: flex;
     flex-direction: column;
     gap: 20px;

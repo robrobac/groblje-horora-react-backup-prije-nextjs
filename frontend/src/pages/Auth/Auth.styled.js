@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 export const AuthPage = styled.div`
     position: absolute;
     top: 0;
-    padding: 50px 1rem;
+    padding: 50px ${(props) => props.theme.dark.contentPadding};
     display: flex;
     flex-direction: column;
     justify-content: center;

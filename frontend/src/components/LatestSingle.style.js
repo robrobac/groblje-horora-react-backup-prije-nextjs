@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const LatestSingleReview = styled.div`
+    padding: 0 ${(props) => props.theme.dark.contentPadding};
     display: flex;
     flex-direction: row;
     gap: 50px;

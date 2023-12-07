@@ -24,6 +24,7 @@ export const MovieContainer = styled.div`
 `
 
 export const PageSection = styled.section`
+    padding: 0 ${(props) => props.theme.dark.contentPadding};
     width: 100%;
     max-width: ${(props) => props.theme.dark.contentWidth};
 `

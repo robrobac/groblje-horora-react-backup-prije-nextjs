@@ -4,6 +4,7 @@ import { auth } from '../firebase/config';
 
 export default function useAuthCheck() {
     const [userData, setUserData] = useState(null)
+    const [loggingIn, setLoggingIn] = useState(false)
 
     // Effect hook to subscribe to authentication state changes
     useEffect(() => {
@@ -18,6 +19,10 @@ export default function useAuthCheck() {
                     if (response.ok) {
                         // Set user data if the fetch is successful
                         setUserData(json)
+
+                        if (json === null) {
+                            setLoggingIn(!loggingIn)
+                        }
                     } else {
                         console.log('error fetchin user', json)
                     }
@@ -35,7 +40,7 @@ export default function useAuthCheck() {
             unsubscribe();
         };
         
-    }, [])
+    }, [loggingIn])
 
     return userData
 }

@@ -42,6 +42,17 @@ export default function Register() {
             }
             console.log('Validation success');
 
+            // Create user in Firebase authentication
+            const user = await createUserWithEmailAndPassword(auth, email, password);
+            console.log('Firebase  User Created', user.user)
+
+            // Update user profile with the provided username
+            await updateProfile(user.user, {
+                displayName: username
+            });
+            console.log('Firebase User Display Name Updated', user.user);
+
+
             // Prepare user data for MongoDB
             const userData = {
                 username: username,
@@ -65,15 +76,6 @@ export default function Register() {
             }
             console.log('User Data stored to MongoDB', json);
 
-            // Create user in Firebase authentication
-            const user = await createUserWithEmailAndPassword(auth, email, password);
-            console.log('Firebase  User Created', user.user)
-
-            // Update user profile with the provided username
-            await updateProfile(user.user, {
-                displayName: username
-            });
-            console.log('Firebase User Display Name Updated', user.user);
 
             // Redirect to the previous page stored in local storage
             const backURL = localStorage.getItem('lastVisitedUrl');

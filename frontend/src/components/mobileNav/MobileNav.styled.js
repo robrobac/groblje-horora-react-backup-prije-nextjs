@@ -14,7 +14,7 @@ export const MobileNavigation = styled.nav`
     flex-direction: column;
     justify-content: start;
     padding-top: 120px;
-    padding-right: 10px;
+    padding-right: calc((${(props) => props.theme.dark.contentPadding}) + 10px);
     transition: ease-in-out .2s;
 
     &.isOpen {
