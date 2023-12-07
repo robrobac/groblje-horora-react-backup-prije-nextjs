@@ -84,9 +84,3 @@ export const TableItem = styled.div`
         }
     }
 `
-
-export const PaginationContainer = styled.div`
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-`

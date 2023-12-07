@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { PaginationContainer, TableContainer, TableItem } from './PostsTable.styled'
+import { TableContainer, TableItem } from './PostsTable.styled'
 import Rating from '../../../components/Rating'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import { Link } from 'react-router-dom';
@@ -9,6 +9,7 @@ import { SORT_OPTIONS } from '../../../helpers/sortOptions';
 import useFetchReviewsWithParams from '../../../hooks/useFetchReviewsWithParams';
 import {ReactComponent as DeleteIcon} from '../../../images/deleteicon.svg'
 import {ReactComponent as EditIcon} from '../../../images/editicon.svg'
+import Pagination from '../../../components/Pagination';
 
 export default function PostsTable() {
 
@@ -22,8 +23,9 @@ export default function PostsTable() {
         totalPages,
         handlePageChange,
         page,
-        handleRefresh
-    } = useFetchReviewsWithParams('dashboard', SORT_OPTIONS.CREATED, 'desc', 4)
+        handleRefresh,
+        totalItems
+    } = useFetchReviewsWithParams('dashboard', SORT_OPTIONS.CREATED, 'desc', 1)
 
     const handleDelete = async (id) => {
         try {
@@ -98,11 +100,7 @@ export default function PostsTable() {
                         </TableItem>
                     ))}
                 </TableContainer>
-                <PaginationContainer>
-                {totalPages?.map((pageNumber, index) => (
-                    <button onClick={() => handlePageChange(pageNumber)} disabled={index +1 === page}>{pageNumber}</button>
-                ))}
-                </PaginationContainer>
+                <Pagination itemsPerPage={1} items={reviews} totalItems={totalItems} handlePageChange={handlePageChange}/>
             </PageSection>
         </PageContainer>
     )

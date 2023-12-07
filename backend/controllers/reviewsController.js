@@ -33,6 +33,7 @@ const getReviews = async (req, res) => {
 
         return res.status(200).json({
             reviews,
+            totalItems: totalReviewsCount,
             totalPages: Math.ceil(totalReviewsCount / perPage)
         })
     } else {
@@ -51,6 +52,7 @@ const getReviews = async (req, res) => {
 
             return res.status(200).json({
                 reviews,
+                totalItems: totalReviewsCount,
                 totalPages: Math.ceil(totalReviewsCount / perPage)
             })
         }
@@ -68,6 +70,7 @@ const getReviews = async (req, res) => {
 
             return res.status(200).json({
                 reviews,
+                totalItems: totalReviewsCount,
                 totalPages: Math.ceil(totalReviewsCount / perPage)
             })
         }
@@ -84,6 +87,7 @@ const getReviews = async (req, res) => {
 
             return res.status(200).json({
                 reviews,
+                totalItems: totalReviewsCount,
                 totalPages: Math.ceil(totalReviewsCount / perPage)
             })
         }
@@ -101,6 +105,7 @@ const getReviews = async (req, res) => {
 
             return res.status(200).json({
                 reviews,
+                totalItems: totalReviewsCount,
                 totalPages: Math.ceil(totalReviewsCount / perPage)
             })
         }
@@ -117,6 +122,7 @@ const getReviews = async (req, res) => {
 
             return res.status(200).json({
                 reviews,
+                totalItems: totalReviewsCount,
                 totalPages: Math.ceil(totalReviewsCount / perPage)
             })
         }
@@ -130,6 +136,7 @@ const getReviews = async (req, res) => {
 
             return res.status(200).json({
                 reviews,
+                totalItems: totalReviewsCount,
                 totalPages: Math.ceil(totalReviewsCount / perPage)
             })
         }

@@ -8,6 +8,7 @@ import { PaginationContainer } from './Dashboard/AdminPostsTable/PostsTable.styl
 import Search from '../components/searchBar/Search';
 import { SORT_OPTIONS } from '../helpers/sortOptions';
 import useFetchReviewsWithParams from '../hooks/useFetchReviewsWithParams';
+import Pagination from '../components/Pagination';
 
 export default function Reviews() {
     const {
@@ -21,8 +22,9 @@ export default function Reviews() {
         reviews,
         totalPages,
         handlePageChange,
-        page
-    } = useFetchReviewsWithParams('recenzije', SORT_OPTIONS.CREATED, 'desc', 4)
+        page,
+        totalItems
+    } = useFetchReviewsWithParams('recenzije', SORT_OPTIONS.CREATED, 'desc', 6)
     
     return (
         <PageContainer>
@@ -33,11 +35,7 @@ export default function Reviews() {
                         <ReviewCard key={review._id} review={review} />
                     ))}
                 </Grid>
-                <PaginationContainer>
-                {totalPages?.map((pageNumber, index) => (
-                    <button onClick={() => handlePageChange(pageNumber)} disabled={index + 1 === page}>{pageNumber.toString().padStart(2,0)}</button>
-                ))}
-                </PaginationContainer>
+                <Pagination itemsPerPage={6} items={reviews} totalItems={totalItems} handlePageChange={handlePageChange}/>
             </PageSection>
         </PageContainer>
     )

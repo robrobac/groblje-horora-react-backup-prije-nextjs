@@ -14,6 +14,7 @@ export default function useFetchReviewsWithParams(pageName, initialSort, initial
     const [page, setPage] = useState(urlPage ? parseInt(urlPage) : 1);
     // eslint-disable-next-line no-unused-vars
     const [perPage, setPerPage] = useState(initialPerPage);
+    const [totalItems, setTotalItems] = useState()
     const [totalPages, setTotalPages] = useState([])
 
     // Search State and Params
@@ -37,6 +38,8 @@ export default function useFetchReviewsWithParams(pageName, initialSort, initial
                 setReviews(json.reviews);
                 const pagesArray = Array.from({ length: json.totalPages }, (_, index) => index + 1);
                 setTotalPages(pagesArray);
+                setTotalItems(json.totalItems)
+                
             }
         };
 
@@ -118,5 +121,6 @@ export default function useFetchReviewsWithParams(pageName, initialSort, initial
     handlePageChange,
     page,
     handleRefresh,
+    totalItems
   }
 }
