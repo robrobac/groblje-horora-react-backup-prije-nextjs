@@ -3,6 +3,7 @@ import { SORT_OPTIONS } from '../helpers/sortOptions';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 export default function useFetchReviewsWithParams(pageName, initialSort, initialOrder, initialPerPage) {
+    const [refresh, setRefresh] = useState(false)
     const [reviews, setReviews] = useState([])
 
     const [searchParams] = useSearchParams();
@@ -40,7 +41,7 @@ export default function useFetchReviewsWithParams(pageName, initialSort, initial
         };
 
         fetchReviews();
-    }, [navigate, order, sort, search, page, perPage, filter]);
+    }, [refresh, navigate, order, sort, search, page, perPage, filter]);
 
     useEffect(() => {
         let url = `/${pageName}?page=${page}`;
@@ -99,6 +100,11 @@ export default function useFetchReviewsWithParams(pageName, initialSort, initial
             setPage(1)
         } 
     }
+
+    const handleRefresh = () => {
+        setRefresh(!refresh)
+    }
+
   return {
     handleSearch,
     search,
@@ -110,6 +116,7 @@ export default function useFetchReviewsWithParams(pageName, initialSort, initial
     reviews,
     totalPages,
     handlePageChange,
-    page
+    page,
+    handleRefresh,
   }
 }

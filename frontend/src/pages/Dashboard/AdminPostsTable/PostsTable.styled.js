@@ -24,17 +24,21 @@ export const TableItem = styled.div`
 
     > * {
         padding: 10px 10px;
-        min-height: 50px;
+        min-height: 75px;
         border-right: solid 1px #ffffff15;
+        display: flex;
+        align-items: center;
         &:last-child {
             border-right: unset;
         }
     }
 
     .title {
-        flex: 4;
+        display: flex;
+        justify-content: space-between;
+        flex: 5;
 
-        a {
+        & > a {
             text-decoration: none;
             color: ${(props) => props.theme.dark.lightText};
             display: inline;
@@ -46,10 +50,38 @@ export const TableItem = styled.div`
         }
     }
     .category {
-        flex: 3;
+        flex: 2;
     }
     .datePublished, .dateEdited, .rating {
         flex: 2;
+    }
+
+    .icons {
+        padding-left: 10px;
+        display: none;
+        
+        svg {
+            cursor: pointer;
+            fill: ${(props) => props.theme.dark.grayText}
+        }
+
+        svg:first-child:hover {
+            fill: ${(props) => props.theme.dark.lightText};
+        }
+
+        svg:last-child:hover {
+            fill: ${(props) => props.theme.dark.secondary};
+        }
+
+
+        
+    }
+
+    &:hover {
+        .icons {
+            display: flex;
+            gap: .5rem;
+        }
     }
 `
 

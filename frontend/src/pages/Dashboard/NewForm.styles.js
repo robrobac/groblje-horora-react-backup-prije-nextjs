@@ -124,7 +124,7 @@ export const StyledEditor = styled.div`
         border-top: 1px solid ${(props) => props.theme.dark.inputBorder};
         padding: 10px 20px 5px 20px;
         position: sticky;
-        top: 64px;
+        top: 87px;
         background-color: ${(props) => props.theme.dark.background};
         z-index: 80;
     }

@@ -52,8 +52,8 @@ function App() {
 
                             {/* Restricted */} <Route path='/dashboard/' element={isAuth?.role === 'admin' ? <Dashboard /> : <Navigate to='/' />} />
                             {/* Restricted */} <Route path='/dashboard/add-new' element={isAuth?.role === 'admin' ? <NewForm /> : <Navigate to='/' />} />
-                            {/* Restricted */} <Route path='/dashboard1/' element={isAuth ? <NewForm numberOfMovies={1} /> : <Navigate to='/' />} />
-                            {/* Restricted */} <Route path='/dashboard2/' element={isAuth?.role === 'admin' ? <NewForm numberOfMovies={4} /> : <Navigate to='/' />} />
+                            {/* Restricted */} <Route path='/dashboard/nova-recenzija' element={isAuth ? <NewForm numberOfMovies={1} /> : <Navigate to='/' />} />
+                            {/* Restricted */} <Route path='/dashboard/novi-kratki-pregled' element={isAuth?.role === 'admin' ? <NewForm numberOfMovies={4} /> : <Navigate to='/' />} />
 
                             <Route path='/login/' element={<Login />} />
                             <Route path='/register/' element={<Register />} />
