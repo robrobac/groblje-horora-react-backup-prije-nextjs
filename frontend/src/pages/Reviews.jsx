@@ -4,7 +4,6 @@ import ReviewCard from '../components/postsGrid/ReviewCard'
 // Styled Components
 import { Grid } from '../components/postsGrid/PostsGrid.styles'
 import { PageContainer, PageSection } from './Pages.styles'
-import { PaginationContainer } from './Dashboard/AdminPostsTable/PostsTable.styled';
 import Search from '../components/searchBar/Search';
 import { SORT_OPTIONS } from '../helpers/sortOptions';
 import useFetchReviewsWithParams from '../hooks/useFetchReviewsWithParams';
@@ -24,7 +23,7 @@ export default function Reviews() {
         handlePageChange,
         page,
         totalItems
-    } = useFetchReviewsWithParams('recenzije', SORT_OPTIONS.CREATED, 'desc', 6)
+    } = useFetchReviewsWithParams('recenzije', SORT_OPTIONS.CREATED, 'desc', 1)
     
     return (
         <PageContainer>
@@ -35,7 +34,7 @@ export default function Reviews() {
                         <ReviewCard key={review._id} review={review} />
                     ))}
                 </Grid>
-                <Pagination itemsPerPage={6} items={reviews} totalItems={totalItems} handlePageChange={handlePageChange}/>
+                <Pagination itemsPerPage={1} items={reviews} totalItems={totalItems} handlePageChange={handlePageChange}/>
             </PageSection>
         </PageContainer>
     )

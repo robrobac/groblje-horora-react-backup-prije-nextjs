@@ -2,7 +2,7 @@ import { ThemeProvider } from 'styled-components'
 
 const theme = {
     dark: {
-        background: '#191919',
+        background: '#161616',
 
         darkText: '#191919',
         lightText: '#e3e3e3',
@@ -20,6 +20,18 @@ const theme = {
         lightInputBorder: '#959595',
 
 
+        textS: '14px',
+        textM: '16px',
+        textL: '20px',
+        textXL: '24px',
+        textXXL: '32px',
+
+        colorRED: '#7C2E2E',
+        colorWHITE: '#E7D5CB',
+        colorBLACK: '#161616',
+
+        radiusS: '',
+        radiusM: '10px',
     }
 }
 

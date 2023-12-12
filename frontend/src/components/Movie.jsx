@@ -18,7 +18,7 @@ export default function Movie({movie}) {
 
     return (
         <MovieContainer>
-            <MovieInfo>
+            <MovieInfo id={movie._id}>
                 <h2 className='movieTitleH2'>{movie.title} ({movie.year})</h2>
                 <img style={{maxWidth:'500px', height: 'auto'}} src={movie.coverImage} alt='movie-cover'></img>
                 <Rating rating={movie.rating} detailed={true}/>

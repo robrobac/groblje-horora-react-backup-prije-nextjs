@@ -4,7 +4,7 @@ const GlobalStyles = createGlobalStyle`
 
     body {
         background-color: ${(props) => props.theme.dark.background};
-        color: #fff;
+        color: ${(props) => props.theme.dark.colorWHITE};
     }
 
     * {
@@ -13,6 +13,11 @@ const GlobalStyles = createGlobalStyle`
         box-sizing: border-box;
         font-family: 'Lexend', sans-serif;
         line-height: 24px;
+    }
+
+    a {
+        color: unset;
+        text-decoration: none;
     }
 
     li {
@@ -66,7 +71,11 @@ const GlobalStyles = createGlobalStyle`
         color: ${(props) => props.theme.dark.lightText};
     }
 
-    
+    .centerHorizontally {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 `
 
 export default GlobalStyles

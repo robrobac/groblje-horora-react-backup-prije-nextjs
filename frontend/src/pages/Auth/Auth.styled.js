@@ -74,7 +74,7 @@ export const AuthContainer = styled.div`
 export const LogoutLink = styled.span`
     text-decoration: none;
     cursor: pointer;
-    color: white;
+    color: ${(props) => props.theme.dark.colorWHITE};
 
     &:hover {
         text-decoration: underline;
@@ -84,7 +84,7 @@ export const LogoutLink = styled.span`
 export const RedirectLink = styled(NavLink)`
         text-decoration: none;
         cursor: pointer;
-        color: white;
+        color: ${(props) => props.theme.dark.colorWHITE};
 
         &:hover {
             text-decoration: underline;

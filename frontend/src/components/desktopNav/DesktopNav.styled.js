@@ -17,24 +17,26 @@ export const DesktopNavigation = styled.nav`
         gap: 50px;
     }
     ul:last-of-type {
-        color: #ffffff60;
+        color: ${(props) => props.theme.dark.colorRED};
     }
 `
 
 export const DesktopNavItem = styled(NavLink)`
     font-weight: 600;
     text-decoration: none;
-    color: ${(props) => props.theme.dark.lightText};
+    color: ${(props) => props.theme.dark.colorWHITE};
     height: 30px;
+    transition: .1s;
 
     &.active {
-        color: ${(props) => props.theme.dark.primary};
-        border-bottom: 2px solid ${(props) => props.theme.dark.primary};
+        color: ${(props) => props.theme.dark.colorRED};
+        border-bottom: 2px solid ${(props) => props.theme.dark.colorRED};
+        transition: .1s;
     }
 
     &:hover {
         cursor: pointer;
-        color: ${(props) => props.theme.dark.primary};
-        border-bottom: 2px solid ${(props) => props.theme.dark.primary};
+        color: ${(props) => props.theme.dark.colorRED};
+        /* border-bottom: 2px solid ${(props) => props.theme.dark.colorRED}; */
     }
 `

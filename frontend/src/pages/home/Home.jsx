@@ -1,18 +1,14 @@
 import React from 'react'
-import { PageContainer } from '../Pages.styles'
-import { HomeImage } from './Home.styles'
-import homeCoverImage from '../../images/groblje-horora-main-image.jpg'
-import LatestQuad from '../../components/LatestQuad'
 import LatestSingle from '../../components/LatestSingle'
+import HomeCoverImage from '../../components/HomeCoverImage'
+import LatestPregled from '../../components/latestPregled/LatestPregled'
 
 export default function Home() {
     return (
-        <PageContainer>
-                <HomeImage style={{backgroundImage: `url(${homeCoverImage})`}}>
-                <h1 className='mainTitle'>Groblje Horora</h1>
-                </HomeImage>
-                <LatestQuad />
-                <LatestSingle />
-        </PageContainer>
+        <main className='centerHorizontally'>
+            <HomeCoverImage />
+            <LatestPregled />
+            <LatestSingle />
+        </main>
     )
     }

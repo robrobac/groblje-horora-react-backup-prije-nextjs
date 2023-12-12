@@ -4,8 +4,8 @@ import { NavLink } from 'react-router-dom';
 export const MainHeader = styled.header`
     position: sticky;
     top: 0;
-    background-color: ${(props) => props.theme.dark.background};
-    color: ${(props) => props.theme.dark.lightText};
+    background-color: ${(props) => props.theme.dark.colorBLACK};
+    color: ${(props) => props.theme.dark.colorWHITE};
     padding: 10px 0;
     display: flex;
     justify-content: center;
@@ -26,8 +26,8 @@ export const NavigationWrap = styled.div`
 
 export const LogoContainer = styled(NavLink)`
     z-index: 100;
-    svg>path {
-        fill: ${(props) => props.theme.dark.primary};
+    svg {
+        fill: ${(props) => props.theme.dark.colorWHITE};
     }
 `
 
@@ -40,6 +40,6 @@ export const MenuIcon = styled.div`
         display: block;
     }
     svg>path {
-        fill: ${(props) => props.theme.dark.primary};
+        fill: ${(props) => props.theme.dark.colorWHITE};
     }
 `
