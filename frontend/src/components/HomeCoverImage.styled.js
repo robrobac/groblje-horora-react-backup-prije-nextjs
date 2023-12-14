@@ -5,24 +5,26 @@ export const CoverImage = styled.div`
     justify-content: space-between;
 
     width: 100%;
-    height: 800px;
+    max-height: 800px;
+    height: 90vh;
     max-width: 2560px;
     
+
     background-position: bottom;
     background-size: cover;
     background-repeat: no-repeat;
 
     @media (max-width: 1024px) {
-        height: 700px;
+        max-height: 700px;
 
     }
 
     @media (max-width: 768px) {
-        height: 480px;
+        max-height: 480px;
     }
 
     @media (max-width: 630px) {
-        height: 350px;
+        height: 400px;
     }
 
     @media (max-width: 425px) {

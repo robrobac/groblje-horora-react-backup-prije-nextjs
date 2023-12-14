@@ -27,10 +27,11 @@ const theme = {
         textXXL: '32px',
 
         colorRED: '#7C2E2E',
-        colorWHITE: '#E7D5CB',
-        colorBLACK: '#161616',
+        colorREDhover: '#552020',
+        colorWHITE: '#eddede',
+        colorBLACK: '#141414',
 
-        radiusS: '',
+        radiusS: '5px',
         radiusM: '10px',
     }
 }

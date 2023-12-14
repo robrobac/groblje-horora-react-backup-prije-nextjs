@@ -14,6 +14,24 @@ export const LatestPregledContainer = styled.div`
         flex-direction: column;
         gap: 1rem;
     }
+
+    @media (max-width: 680px) {
+        gap: 30px;
+        margin: 50px 0;
+    }
+
+    &.desktopPregled {
+        @media (max-width: 680px) {
+            display: none;
+        }
+    }  
+    &.mobilePregled {
+        display: none;
+
+        @media (max-width: 680px) {
+            display: flex;
+        }
+    } 
 `
 
 export const PregledTitle = styled.h2`
@@ -32,6 +50,10 @@ export const PregledSubTitle = styled.p`
 
     span {
         opacity: .5;
+    }
+
+    @media (max-width: 680px) {
+        margin-bottom: 0;
     }
 `
 export const PregledDescription = styled.p`
@@ -59,12 +81,29 @@ export const QuadCoverContainer = styled.div`
         box-shadow: 0px 0px 21px 1px #000000;
     }
 
-    .firstImage {
+    .image0 {
         border-radius: ${(props) => props.theme.dark.radiusM} 0 0 ${(props) => props.theme.dark.radiusM};
+        @media (max-width: 680px) {
+            border-radius: ${(props) => props.theme.dark.radiusM} 0 0 0;
+        }
     }
-    .lastImage {
-        border-radius: 0 ${(props) => props.theme.dark.radiusM} ${(props) => props.theme.dark.radiusM} 0;
+    .image1 {
+        @media (max-width: 680px) {
+            border-radius: 0 ${(props) => props.theme.dark.radiusM} 0 0;
+        }
     }
+    .image2 {
+        @media (max-width: 680px) {
+            border-radius: 0 0 0 ${(props) => props.theme.dark.radiusM};
+        }
+    }
+    .image3 {
+        border-radius: 0 0 ${(props) => props.theme.dark.radiusM} 0;
+    }
+    @media (max-width: 680px) {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 425px;
+    } 
 `;
 
 export const QuadCoverImageContainer = styled.div`
