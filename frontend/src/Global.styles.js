@@ -12,7 +12,6 @@ const GlobalStyles = createGlobalStyle`
         padding: 0;
         box-sizing: border-box;
         font-family: 'Lexend', sans-serif;
-        line-height: 24px;
     }
 
     a {
@@ -62,7 +61,6 @@ const GlobalStyles = createGlobalStyle`
 
     h2 {
         font-size: 25px;
-        line-height: 36px;
     }
 
     h2.movieTitleH2 {

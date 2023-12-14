@@ -19,17 +19,23 @@ const theme = {
         inputBorder: '#FFFFFF1A',
         lightInputBorder: '#959595',
 
-
+        // Font Sizes
         textS: '14px',
         textM: '16px',
         textL: '20px',
         textXL: '24px',
         textXXL: '32px',
+        textHUGE: '60px',
 
+        // Colors
         colorRED: '#7C2E2E',
         colorREDhover: '#552020',
         colorWHITE: '#eddede',
         colorBLACK: '#141414',
+
+        // Content widths
+        normalWidth: '1200px',
+        smallWidth: '768px',
 
         radiusS: '5px',
         radiusM: '10px',

@@ -82,7 +82,10 @@ export default function LatestRecenzija() {
                 <Rating rating={review?.movies[0].rating} detailed={true} />
                 <RecenzijaDescription dangerouslySetInnerHTML={{__html: reviewDescription}}/>
             </div>
-            <ButtonStandard path={`/recenzije/${review?._id}`} />
+            <div className='buttonContainer'>
+                <ButtonStandard path={`/recenzije/${review?._id}`} />
+            </div>
+            
         </div>
         </LatestRecenzijaContainer>
         </>

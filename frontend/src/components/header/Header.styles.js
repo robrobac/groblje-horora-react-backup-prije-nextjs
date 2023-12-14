@@ -14,7 +14,7 @@ export const MainHeader = styled.header`
 
 export const NavigationWrap = styled.div`
     padding: 0 ${(props) => props.theme.dark.contentPadding};
-    width: ${(props) => props.theme.dark.contentWidth};
+    width: ${(props) => props.theme.dark.normalWidth};
     display: flex;
     align-items: center;
     gap: 50px;

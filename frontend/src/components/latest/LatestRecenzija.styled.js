@@ -7,7 +7,7 @@ export const LatestRecenzijaContainer = styled.div`
     justify-content: space-between;
     gap: 50px;
     width: 100%;
-    max-width: ${(props) => props.theme.dark.contentWidth};
+    max-width: ${(props) => props.theme.dark.normalWidth};
     margin: 100px 0;
     
     .latestSingleInfo {
@@ -16,6 +16,14 @@ export const LatestRecenzijaContainer = styled.div`
         justify-content: space-between;
         
         gap: 30px;
+
+        @media (max-width: 768px) {
+            align-items: center;
+
+            .buttonContainer {
+                width: 100%;
+            }
+        }
     }
 
     .titleAndRating {
@@ -24,7 +32,7 @@ export const LatestRecenzijaContainer = styled.div`
         gap: 1rem;
         
     }
-    @media (max-width: 680px) {
+    @media (max-width: 768px) {
         flex-direction: column;
         gap: 20px;
         margin: 50px 0;
@@ -32,7 +40,7 @@ export const LatestRecenzijaContainer = styled.div`
 
     &.desktopRecenzija {
 
-        @media (max-width: 680px) {
+        @media (max-width: 768px) {
             display: none;
         }
     }  
@@ -41,7 +49,7 @@ export const LatestRecenzijaContainer = styled.div`
     &.mobileRecenzija {
         display: none;
 
-        @media (max-width: 680px) {
+        @media (max-width: 768px) {
             display: flex;
         }
     }  
@@ -60,6 +68,10 @@ export const RecenzijaTitle = styled.h2`
     span {
         opacity: .5;
     }
+
+    @media (max-width: 230px) {
+        font-size: ${(props) => props.theme.dark.textXL};
+    }
 `
 
 export const RecenzijaSubTitle = styled.p`
@@ -71,7 +83,10 @@ export const RecenzijaSubTitle = styled.p`
 `
 
 export const RecenzijaDescription = styled.p`
-    font-size: ${(props) => props.theme.dark.textL};
+    p {
+        font-size: ${(props) => props.theme.dark.textL};
+        line-height: 25px;
+    }
     opacity: .8;
 
     display: -webkit-box;
@@ -104,7 +119,7 @@ export const LatestSingleImage = styled.div`
         -webkit-box-shadow: 0px 0px 21px 1px #000000; 
         box-shadow: 0px 0px 21px 1px #000000;
     }
-    @media (max-width: 680px) {
+    @media (max-width: 768px) {
         max-width: 425px;
         min-width: unset;
     }

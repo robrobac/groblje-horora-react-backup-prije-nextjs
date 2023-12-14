@@ -7,28 +7,37 @@ export const LatestPregledContainer = styled.div`
     flex-direction: column;
     gap: 2rem;
     width: 100%;
-    max-width: ${(props) => props.theme.dark.contentWidth};
+    max-width: ${(props) => props.theme.dark.normalWidth};
 
     .latestPregledInfo {
         display: flex;
         flex-direction: column;
         gap: 1rem;
+        
     }
 
-    @media (max-width: 680px) {
+    @media (max-width: 768px) {
+        align-items: center;
         gap: 30px;
         margin: 50px 0;
+
+        .buttonContainer {
+            width: 100%;
+        }
+        .subtitleContainer {
+            width: 100%;
+        }
     }
 
     &.desktopPregled {
-        @media (max-width: 680px) {
+        @media (max-width: 768px) {
             display: none;
         }
     }  
     &.mobilePregled {
         display: none;
 
-        @media (max-width: 680px) {
+        @media (max-width: 768px) {
             display: flex;
         }
     } 
@@ -42,6 +51,10 @@ export const PregledTitle = styled.h2`
 
     &:hover {
         color: ${(props) => props.theme.dark.colorRED};
+    }
+
+    @media (max-width: 230px) {
+        font-size: ${(props) => props.theme.dark.textXL};
     }
 `
 export const PregledSubTitle = styled.p`
@@ -83,24 +96,24 @@ export const QuadCoverContainer = styled.div`
 
     .image0 {
         border-radius: ${(props) => props.theme.dark.radiusM} 0 0 ${(props) => props.theme.dark.radiusM};
-        @media (max-width: 680px) {
+        @media (max-width: 768px) {
             border-radius: ${(props) => props.theme.dark.radiusM} 0 0 0;
         }
     }
     .image1 {
-        @media (max-width: 680px) {
+        @media (max-width: 768px) {
             border-radius: 0 ${(props) => props.theme.dark.radiusM} 0 0;
         }
     }
     .image2 {
-        @media (max-width: 680px) {
+        @media (max-width: 768px) {
             border-radius: 0 0 0 ${(props) => props.theme.dark.radiusM};
         }
     }
     .image3 {
-        border-radius: 0 0 ${(props) => props.theme.dark.radiusM} 0;
+        border-radius: 0 ${(props) => props.theme.dark.radiusM} ${(props) => props.theme.dark.radiusM} 0;
     }
-    @media (max-width: 680px) {
+    @media (max-width: 768px) {
         grid-template-columns: repeat(2, 1fr);
         max-width: 425px;
     } 

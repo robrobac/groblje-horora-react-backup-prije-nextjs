@@ -61,30 +61,34 @@ export default function LatestPregled() {
 
         {/* MOBILE VERSION, component reordered only. */}
         <LatestPregledContainer className='mobilePregled'>
-        <PregledSubTitle>
-            Najnoviji Kratki Pregled <span>{createdDate}</span>
-        </PregledSubTitle>
-        <Link to={`/recenzije/${review?._id}`}>
-            <QuadCoverContainer>
-                {review?.movies.map((movie, index) => (
-                    <QuadCoverImageContainer key={movie._id}>
-                         <img className={`image${index}`} src={movie.coverImage} alt='movie-cover'></img>
-                    </QuadCoverImageContainer>
-                ))}
-            </QuadCoverContainer>
-        </Link>
-        <div className='latestPregledInfo'>
-            <PregledTitle>
-                <Link to={`/recenzije/${review?._id}`}>
-                    {review?.reviewTitle}
-                </Link>
-            </PregledTitle>
-            
-            <PregledDescription>
-                {review?.movies[0].title} <span>({review?.movies[0].year})</span>, {review?.movies[1].title} <span>({review?.movies[1].year})</span>, {review?.movies[2].title} <span>({review?.movies[2].year})</span>, {review?.movies[3].title} <span>({review?.movies[3].year})</span>
-            </PregledDescription>
-        </div>
-        <ButtonStandard path={`/recenzije/${review?._id}`} />
+            <div className="subtitleContainer">
+                <PregledSubTitle>
+                    Najnoviji Kratki Pregled <span>{createdDate}</span>
+                </PregledSubTitle>
+            </div>
+            <Link to={`/recenzije/${review?._id}`}>
+                <QuadCoverContainer>
+                    {review?.movies.map((movie, index) => (
+                        <QuadCoverImageContainer key={movie._id}>
+                            <img className={`image${index}`} src={movie.coverImage} alt='movie-cover'></img>
+                        </QuadCoverImageContainer>
+                    ))}
+                </QuadCoverContainer>
+            </Link>
+            <div className='latestPregledInfo'>
+                <PregledTitle>
+                    <Link to={`/recenzije/${review?._id}`}>
+                        {review?.reviewTitle}
+                    </Link>
+                </PregledTitle>
+                
+                <PregledDescription>
+                    {review?.movies[0].title} <span>({review?.movies[0].year})</span>, {review?.movies[1].title} <span>({review?.movies[1].year})</span>, {review?.movies[2].title} <span>({review?.movies[2].year})</span>, {review?.movies[3].title} <span>({review?.movies[3].year})</span>
+                </PregledDescription>
+            </div>
+            <div className='buttonContainer'>
+                <ButtonStandard path={`/recenzije/${review?._id}`} />
+            </div>
         </LatestPregledContainer>
         </>
     )
