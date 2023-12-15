@@ -4,7 +4,7 @@ import styled from "styled-components";
 // Pages
 import Home from './pages/home/Home';
 import Top25 from './pages/Top25';
-import Reviews from './pages/Reviews';
+import Reviews from './pages/reviews/Reviews';
 import About from './pages/About';
 import Worse20 from './pages/Worse20';
 import SinglePost from './pages/SinglePost';

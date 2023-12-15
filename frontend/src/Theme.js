@@ -1,5 +1,14 @@
 import { ThemeProvider } from 'styled-components'
 
+const hexToRgba = (hex, alpha) => {
+    hex = hex.replace(/^#/, '');
+    let bigInt = parseInt(hex, 16);
+    let r = (bigInt >> 16) & 255;
+    let g = (bigInt >> 8) & 255;
+    let b = bigInt & 255;
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`
+}
+
 const theme = {
     dark: {
         background: '#161616',
@@ -20,6 +29,7 @@ const theme = {
         lightInputBorder: '#959595',
 
         // Font Sizes
+        textXS: '12px',
         textS: '14px',
         textM: '16px',
         textL: '20px',
@@ -31,6 +41,8 @@ const theme = {
         colorRED: '#7C2E2E',
         colorREDhover: '#552020',
         colorWHITE: '#eddede',
+        colorWHITE50: () => hexToRgba('#eddede', 0.5),
+        colorWHITE25: () => hexToRgba('#eddede', 0.25),
         colorBLACK: '#141414',
 
         // Content widths

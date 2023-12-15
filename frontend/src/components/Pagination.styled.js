@@ -5,7 +5,7 @@ export const StyledPagination = styled.div`
     display: flex;
     justify-content: center;
     & > ul {
-        width: 500px;
+        max-width: 500px;
         display: flex;
         gap: 8px;
         li {

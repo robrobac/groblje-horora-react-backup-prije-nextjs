@@ -13,7 +13,6 @@ export const DesktopNavigation = styled.nav`
     ul {
         display: flex;
         flex-direction: row;
-        align-items: center;
         gap: 50px;
     }
     ul:last-of-type {
