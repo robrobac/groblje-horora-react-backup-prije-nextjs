@@ -1,8 +1,8 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
-import { StyledButton } from './Buttons.styled';
+import { StyledButton, TextButton } from './Buttons.styled';
 
-export default function ButtonStandard({path, variant}) {
+export default function ButtonStandard({path, content, type}) {
 
     let navigate = useNavigate(); 
     const routeChange = () =>{ 
@@ -10,7 +10,15 @@ export default function ButtonStandard({path, variant}) {
         navigate(redirectTo);
     }
 
-    return (
-        <StyledButton onClick={routeChange}>Pročitaj više</StyledButton>
-    )
+    if (type === 'textOnly') {
+        return (
+            <TextButton onClick={routeChange}>{content}</TextButton>
+        )
+    }
+
+    else {
+        return (
+            <StyledButton onClick={routeChange}>{content}</StyledButton>
+        )
+    }
 }

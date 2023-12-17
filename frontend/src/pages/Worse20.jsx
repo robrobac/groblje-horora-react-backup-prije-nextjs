@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Grid } from '../components/postsGrid/PostsGrid.styles'
 import ReviewCard from '../components/postsGrid/ReviewCard'
 import { PageContainer } from './Pages.styles'
+import { ReviewsContainer } from './reviews/Reviews.styled'
+import PostsFlex from '../components/postsFlex/PostsFlex'
 
 export default function Worse20() {
     const [reviews, setReviews] = useState(null)
@@ -21,12 +23,8 @@ export default function Worse20() {
     }, [])
 
     return (
-        <PageContainer>       
-            <Grid>
-                {reviews && reviews.map((review) => (
-                    <ReviewCard key={review._id} review={review} />
-                ))}
-            </Grid>
-        </PageContainer>
+        <ReviewsContainer>
+            <PostsFlex posts={reviews}/>
+        </ReviewsContainer>
     )
 }

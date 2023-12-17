@@ -16,7 +16,7 @@ export default function Top20smecaComponent() {
                 <TopDescription>
                     Filmovi na ovoj top listi su najveće smeće ikada. Linkove na recenzije možete pronaći na Top 20 smeća popisu.
                 </TopDescription>
-                <ButtonStandard path={`/top20smeca`} />
+                <ButtonStandard path={`/top20smeca`} content='Pročitaj više'/>
             </div>
             <TopImage>
                 <Link to={`/top20smeca`}>

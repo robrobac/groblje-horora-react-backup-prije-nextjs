@@ -8,6 +8,7 @@ export const CoverImage = styled.div`
     max-height: 800px;
     height: 90vh;
     max-width: 2560px;
+    margin-top: -2rem;
     
 
     background-position: bottom;

@@ -9,7 +9,7 @@ import { SORT_OPTIONS } from '../../../helpers/sortOptions';
 import useFetchReviewsWithParams from '../../../hooks/useFetchReviewsWithParams';
 import {ReactComponent as DeleteIcon} from '../../../images/deleteicon.svg'
 import {ReactComponent as EditIcon} from '../../../images/editicon.svg'
-import Pagination from '../../../components/Pagination';
+import Pagination from '../../../components/pagination/Pagination';
 
 export default function PostsTable() {
 

@@ -52,7 +52,7 @@ export default function LatestRecenzija() {
                     <Rating rating={review?.movies[0].rating} detailed={true} />
                     <RecenzijaDescription dangerouslySetInnerHTML={{__html: reviewDescription}}/>
                 </div>
-                <ButtonStandard path={`/recenzije/${review?._id}`} />
+                <ButtonStandard path={`/recenzije/${review?._id}`} content='Pročitaj više'/>
             </div>
                 <LatestSingleImage>
                     <Link to={`/recenzije/${review?._id}`}>
@@ -83,7 +83,7 @@ export default function LatestRecenzija() {
                 <RecenzijaDescription dangerouslySetInnerHTML={{__html: reviewDescription}}/>
             </div>
             <div className='buttonContainer'>
-                <ButtonStandard path={`/recenzije/${review?._id}`} />
+                <ButtonStandard path={`/recenzije/${review?._id}`} content='Pročitaj više'/>
             </div>
             
         </div>

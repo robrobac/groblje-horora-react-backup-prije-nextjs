@@ -13,6 +13,17 @@ export const StyledButton = styled.button`
         background-color: ${(props) => props.theme.dark.colorREDhover};
     }
 `
+export const TextButton = styled(StyledButton)`
+    font-size: ${(props) => props.theme.dark.textM};
+    background-color: transparent;
+    color: ${(props) => props.theme.dark.colorWHITE};
+    padding: 0;
+
+    &:hover {
+        background-color: transparent;
+        color: ${(props) => props.theme.dark.colorRED};
+    }
+`
 
 export const FilterButton = styled.button`
     height: fit-content;

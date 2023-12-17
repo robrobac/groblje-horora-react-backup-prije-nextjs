@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { PageSection, SinglePostContainer } from './Pages.styles'
 import ReviewPostCover from '../components/postsGrid/ReviewPostCover'
 import Movie from '../components/Movie'
+import ButtonStandard from '../components/buttons/ButtonStandard'
 
 export default function SinglePost() {
     const { id } = useParams()
@@ -23,6 +24,7 @@ export default function SinglePost() {
     }, [id])
   return (
     <SinglePostContainer>
+        <ButtonStandard path={`/recenzije/${id}/edit`} content='edit'/>
         <ReviewPostCover post={post}/>
         {post?.movies.length === 4 ? (
             <PageSection>

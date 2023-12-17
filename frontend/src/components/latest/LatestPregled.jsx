@@ -56,7 +56,7 @@ export default function LatestPregled() {
                     ))}
                 </QuadCoverContainer>
             </Link>
-            <ButtonStandard path={`/recenzije/${review?._id}`} />
+            <ButtonStandard path={`/recenzije/${review?._id}`} content='Pročitaj više'/>
         </LatestPregledContainer>
 
         {/* MOBILE VERSION, component reordered only. */}
@@ -87,7 +87,7 @@ export default function LatestPregled() {
                 </PregledDescription>
             </div>
             <div className='buttonContainer'>
-                <ButtonStandard path={`/recenzije/${review?._id}`} />
+                <ButtonStandard path={`/recenzije/${review?._id}`} content='Pročitaj više'/>
             </div>
         </LatestPregledContainer>
         </>

@@ -58,7 +58,7 @@ export const FileLabel = styled.label`
 `
 export const FormImage = styled.div`
     cursor: pointer;
-    width: 320px;
+    width: 322px;
     height: 460px;
     img {
         width: 100%;

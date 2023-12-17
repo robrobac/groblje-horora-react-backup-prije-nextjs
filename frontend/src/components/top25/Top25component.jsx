@@ -21,7 +21,7 @@ export default function Top25component() {
                 <TopDescription>
                     Filmovi na ovoj top listi mijenjaju se kako dođe neki novi naslov na blogu koji zaslužuje jednaku pažnju ili ocjenu. Linkove na recenzije možete pronaći na Top 25 popisu.
                 </TopDescription>
-                <ButtonStandard path={`/top25`} />
+                <ButtonStandard path={`/top25`} content='Pročitaj više'/>
             </div>
         </TopContainer>
     )
