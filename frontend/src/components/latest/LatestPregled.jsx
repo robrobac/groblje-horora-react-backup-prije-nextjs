@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { LatestQuadDate, LatestPregledContainer, QuadCoverContainer, QuadCoverImageContainer, PregledTitle, PregledSubTitle, PregledDescription } from './LatestPregled.styled'
-import { Link, Navigate, useNavigate } from 'react-router-dom'
-import { format, formatDistanceToNow, parse } from 'date-fns'
-import { StyledButton } from '../buttons/Buttons.styled'
+import { LatestPregledContainer, QuadCoverContainer, QuadCoverImageContainer, PregledTitle, PregledSubTitle, PregledDescription } from './LatestPregled.styled'
+import { Link } from 'react-router-dom'
+import { format } from 'date-fns'
 import ButtonStandard from '../buttons/ButtonStandard'
 
 export default function LatestPregled() {

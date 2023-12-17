@@ -1,5 +1,4 @@
 import React from 'react'
-import ReviewCard from '../postsGrid/ReviewCard'
 import { PostsFlexContainer, PostsFlexRow } from './PostsFlex.styled'
 import PostCard from './PostCard'
 

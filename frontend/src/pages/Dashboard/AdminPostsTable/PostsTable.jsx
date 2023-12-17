@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { TableContainer, TableItem } from './PostsTable.styled'
 import Rating from '../../../components/Rating'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'

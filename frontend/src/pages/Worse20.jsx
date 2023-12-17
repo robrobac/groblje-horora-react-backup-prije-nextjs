@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { Grid } from '../components/postsGrid/PostsGrid.styles'
-import ReviewCard from '../components/postsGrid/ReviewCard'
-import { PageContainer } from './Pages.styles'
 import { ReviewsContainer } from './reviews/Reviews.styled'
 import PostsFlex from '../components/postsFlex/PostsFlex'
 

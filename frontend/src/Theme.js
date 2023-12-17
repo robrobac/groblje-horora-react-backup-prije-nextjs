@@ -41,6 +41,7 @@ const theme = {
         colorRED: '#7C2E2E',
         colorREDhover: '#552020',
         colorWHITE: '#eddede',
+        colorWHITE80: () => hexToRgba('#eddede', 0.8),
         colorWHITE50: () => hexToRgba('#eddede', 0.5),
         colorWHITE25: () => hexToRgba('#eddede', 0.25),
         colorBLACK: '#141414',

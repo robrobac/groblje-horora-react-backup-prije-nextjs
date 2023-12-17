@@ -40,8 +40,8 @@ export const PostTitle = styled.h2`
 
 export const PostSubTitle = styled.p`
     font-size: ${(props) => props.theme.dark.textS};
-
+    color: ${(props) => props.theme.dark.colorWHITE80};
     span {
-        opacity: .5;
+        color: ${(props) => props.theme.dark.colorWHITE50};
     }
 `

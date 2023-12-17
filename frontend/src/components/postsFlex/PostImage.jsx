@@ -1,6 +1,6 @@
 import React from 'react'
 import { PreviewImage, QuadImage, QuadImageContainer } from './PostImage.styled'
-import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 export default function PostImage({post}) {
     return (

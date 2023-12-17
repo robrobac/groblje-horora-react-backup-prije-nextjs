@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { LatestRecenzijaContainer, LatestSingleDate, LatestSingleImage, LatestSingleReview, RecenzijaDescription, RecenzijaSubTitle, RecenzijaTitle } from './LatestRecenzija.styled'
-import { ReadMoreButtonRed } from '../Button.styles'
+import { LatestRecenzijaContainer, LatestSingleImage, RecenzijaDescription, RecenzijaSubTitle, RecenzijaTitle } from './LatestRecenzija.styled'
 import Rating from '../Rating'
 import { format } from 'date-fns'
-import { Link, useNavigate } from 'react-router-dom'
-import draftToHtml from 'draftjs-to-html'
-import { StyledButton } from '../buttons/Buttons.styled'
+import { Link } from 'react-router-dom'
 import { draftToHtmlConvert } from '../../helpers/draftToHtmlConvert'
 import ButtonStandard from '../buttons/ButtonStandard'
 

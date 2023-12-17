@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const PreviewImage = styled.div`
     aspect-ratio: 20800 / 30513;
     overflow: hidden;
+    border-radius: ${(props) => props.theme.dark.radiusM};
 
     &:hover {
         -webkit-box-shadow: 0px 0px 21px 1px #000000; 
@@ -25,6 +26,7 @@ export const QuadImageContainer = styled.div`
     width: 100%;
     aspect-ratio: 20800 / 30513;
     overflow: hidden;
+    border-radius: ${(props) => props.theme.dark.radiusM};
 
     &:hover {
         -webkit-box-shadow: 0px 0px 21px 1px #000000; 
@@ -59,6 +61,6 @@ export const QuadImage = styled.div`
         
     }
     .image04 {
-        border-radius: 0 ${(props) => props.theme.dark.radiusM} ${(props) => props.theme.dark.radiusM} 0;
+        border-radius: 0 0 ${(props) => props.theme.dark.radiusM} 0;
     }
 `
