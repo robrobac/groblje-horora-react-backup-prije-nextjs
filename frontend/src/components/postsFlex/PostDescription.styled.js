@@ -45,3 +45,8 @@ export const PostSubTitle = styled.p`
         color: ${(props) => props.theme.dark.colorWHITE50};
     }
 `
+
+export const PostDate = styled.p`
+    font-size: ${(props) => props.theme.dark.textS};
+    color: ${(props) => props.theme.dark.colorWHITE50};
+`

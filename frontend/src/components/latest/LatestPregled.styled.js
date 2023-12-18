@@ -62,7 +62,7 @@ export const PregledSubTitle = styled.p`
     margin-bottom: 1rem;
 
     span {
-        opacity: .5;
+        color: ${(props) => props.theme.dark.colorWHITE50};
     }
 
     @media (max-width: 680px) {

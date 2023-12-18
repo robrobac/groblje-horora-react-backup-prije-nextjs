@@ -1,7 +1,8 @@
 import React from 'react'
-import { PostSubTitle, PostTitle, PreviewDetails } from './PostDescription.styled'
+import { PostDate, PostSubTitle, PostTitle, PreviewDetails } from './PostDescription.styled'
 import Rating from '../Rating'
 import { Link } from 'react-router-dom'
+import { format } from 'date-fns'
 
 export default function PostDescription({post}) {
 
@@ -11,6 +12,9 @@ export default function PostDescription({post}) {
         <PreviewDetails>
             {post?.movies.length === 1 ? (
                 <>
+                    <PostDate>
+                        {format(new Date(post.createdAt), 'dd.MM.yyyy')}
+                    </PostDate>
                     <Link to={`/recenzije/${post?._id}`}>
                         <PostTitle>{post?.movies[0].title} <span>({post?.movies[0].year})</span></PostTitle>
                     </Link>
@@ -18,6 +22,9 @@ export default function PostDescription({post}) {
                 </>
             ) : (
                 <>
+                    <PostDate>
+                        {format(new Date(post.createdAt), 'dd.MM.yyyy')}
+                    </PostDate>
                     <Link to={`/recenzije/${post?._id}`}>
                         <PostTitle>{post?.reviewTitle}</PostTitle>
                     </Link>

@@ -78,7 +78,7 @@ export const RecenzijaSubTitle = styled.p`
     font-size: ${(props) => props.theme.dark.textS};
 
     span {
-        opacity: .5;
+        color: ${(props) => props.theme.dark.colorWHITE50};
     }
 `
 
