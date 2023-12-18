@@ -11,6 +11,7 @@ const {
     getWorse20,
     getLatestSingle,
     getLatestQuad,
+    countReviews,
 } = require('../controllers/reviewsController')
 
 const router = express.Router()
@@ -41,6 +42,9 @@ router.delete('/reviews/:id', deleteReview)
 
 // UPDATE a Review
 router.patch('/reviews/:id', updateReview)
+
+// Count Reviews
+router.get('/reviewsCount', countReviews)
 
 
 module.exports = router

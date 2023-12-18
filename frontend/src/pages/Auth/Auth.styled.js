@@ -19,6 +19,7 @@ export const AuthPage = styled.div`
     svg {
         scale: 2;
         filter: drop-shadow(0px 0px 25px #000000);
+        fill: ${(props) => props.theme.dark.colorWHITE};
     }
 `
 

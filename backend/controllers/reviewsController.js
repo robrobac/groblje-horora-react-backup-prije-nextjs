@@ -342,6 +342,22 @@ const updateReview = async (req, res) => {
     }
 }
 
+// Count reviews
+const countReviews = async (req, res) => {
+
+    const singleReviews = await Review.countDocuments({ reviewType: 'single' })
+    const quadReviews = await Review.countDocuments({ reviewType: 'quad' })
+    const numberOfReviews = singleReviews + quadReviews
+    const numberOfMovies = quadReviews * 4 + singleReviews
+
+    return res.status(200).json({
+        singleReviews,
+        quadReviews,
+        numberOfReviews,
+        numberOfMovies
+    })
+}
+
 
 module.exports = {
     createReview,
@@ -353,4 +369,5 @@ module.exports = {
     getWorse20,
     getLatestSingle,
     getLatestQuad,
+    countReviews,
 }

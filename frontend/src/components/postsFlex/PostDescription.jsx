@@ -6,8 +6,6 @@ import { format } from 'date-fns'
 
 export default function PostDescription({post}) {
 
-    console.log(post)
-
     return (
         <PreviewDetails>
             {post?.movies.length === 1 ? (

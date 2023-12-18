@@ -37,7 +37,7 @@ export const TopTitle = styled.h2`
     }
 
     span {
-        opacity: .5;
+        color: ${(props) => props.theme.dark.colorWHITE50};
     }
 
     @media (max-width: 360px) {

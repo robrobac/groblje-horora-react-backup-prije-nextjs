@@ -3,8 +3,14 @@ import { FilterControl, SearchBar, SearchComp, SearchContainer, SearchControls, 
 import { ReactComponent as SearchIconSVG } from '../../images/search-icon.svg';
 import { SORT_OPTIONS } from '../../helpers/sortOptions';
 import { FilterButton, SortButton } from '../buttons/Buttons.styled';
+import useCountReviews from '../../hooks/useCountReviews';
 
 export default function Search({ search, handleSearch, sort, order, handleSortAndOrder, handleFilter, filter, controls }) {
+
+    const {
+        count
+    } = useCountReviews()
+
     return (
         <SearchComp>
         <SearchContainer>
@@ -17,13 +23,13 @@ export default function Search({ search, handleSearch, sort, order, handleSortAn
             <SearchControls>
                 <FilterControl>
                     <FilterButton onClick={() => handleFilter('')} className={filter === '' && !search ? 'active' : ''} style={{pointerEvents: search ? 'none' : 'auto', opacity: search ? .25 : 1}}>
-                        Sve
+                        Sve <span>{count?.numberOfReviews}</span>
                     </FilterButton>
                     <FilterButton onClick={() => handleFilter('quad')} className={filter === 'quad' && !search ? 'active' : ''} style={{pointerEvents: search ? 'none' : 'auto', opacity: search ? .25 : 1}}>
-                        Kratki Pregledi
+                        Kratki Pregledi <span>{count?.quadReviews}</span>
                     </FilterButton>
                     <FilterButton onClick={() => handleFilter('single')} className={filter === 'single' && !search ? 'active' : ''} style={{pointerEvents: search ? 'none' : 'auto', opacity: search ? .25 : 1}}>
-                        Recenzije
+                        Recenzije <span>{count?.singleReviews}</span>
                     </FilterButton>
                 </FilterControl>
                 <SortControl>

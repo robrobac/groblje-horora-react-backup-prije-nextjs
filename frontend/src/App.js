@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import styled from "styled-components";
 
 // Pages
-import Home from './pages/home/Home';
+import Home from './pages/Home';
 import Top25 from './pages/Top25';
 import Reviews from './pages/reviews/Reviews';
 import About from './pages/About';

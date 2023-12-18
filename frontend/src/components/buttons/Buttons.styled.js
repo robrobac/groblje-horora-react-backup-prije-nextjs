@@ -9,6 +9,15 @@ export const StyledButton = styled.button`
     border: none;
     cursor: pointer;
     padding: 20px;
+
+    span {
+        font-weight: 400;
+        color: ${(props) => props.theme.dark.colorWHITE50};
+        @media (max-width: 250px) {
+                display: none;
+    }
+    }
+
     &:hover {
         background-color: ${(props) => props.theme.dark.colorREDhover};
     }
@@ -35,11 +44,20 @@ export const FilterButton = styled.button`
     border-radius: ${(props) => props.theme.dark.radiusS};
     font-size: ${(props) => props.theme.dark.textS};
 
+    span {
+        display: none;
+    }
+
     &.active {
         background-color: ${(props) => props.theme.dark.colorRED};
         border: 1px solid transparent;
         color: ${(props) => props.theme.dark.primary};
         pointer-events: none;
+
+        span {
+            display: inline;
+            color: ${(props) => props.theme.dark.colorWHITE50};
+        }
     }
 
     &:hover {
