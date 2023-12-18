@@ -10,6 +10,7 @@ import useFetchReviewsWithParams from '../../../hooks/useFetchReviewsWithParams'
 import {ReactComponent as DeleteIcon} from '../../../images/deleteicon.svg'
 import {ReactComponent as EditIcon} from '../../../images/editicon.svg'
 import Pagination from '../../../components/pagination/Pagination';
+import { deleteImageFromFirebaseStorage } from '../../../helpers/firebaseUtils';
 
 export default function PostsTable() {
 
@@ -27,14 +28,34 @@ export default function PostsTable() {
         totalItems
     } = useFetchReviewsWithParams('dashboard', SORT_OPTIONS.CREATED, 'desc', 1)
 
-    const handleDelete = async (id) => {
+    const handleDelete = async (review) => {
+        let imagesToDelete = []
+
+        if (review.contentImages) {
+            review.contentImages.forEach((image) => {
+                imagesToDelete.push(image.path)
+            })
+        }
+        if (review.movies) {
+            review.movies.forEach((movie) => {
+                imagesToDelete.push(movie.coverImagePath)
+            })
+        }
+
         try {
-            const deleteResponse = await fetch(`http://localhost:4000/api/reviews/${id}`, {
+            const deleteResponse = await fetch(`http://localhost:4000/api/reviews/${review._id}`, {
                 method: 'DELETE',
             });
             const deleteJson = await deleteResponse.json();
             if (deleteResponse.ok) {
                 console.log('Review Deleted', deleteJson);
+
+                imagesToDelete.forEach(async (image) => {
+                    await deleteImageFromFirebaseStorage(image)
+                    console.log("image deleted from firebase")
+                })
+                console.log("all images removed from firebase")
+
                 handleRefresh()
             }
         } catch (err) {
@@ -87,7 +108,7 @@ export default function PostsTable() {
                                     <Link to={`/recenzije/${review._id}/edit`}>
                                         <EditIcon />
                                     </Link>
-                                    <DeleteIcon onClick={() => handleDelete(review._id)}/>
+                                    <DeleteIcon onClick={() => handleDelete(review)}/>
                                 </div>
                                 
                             </div>
