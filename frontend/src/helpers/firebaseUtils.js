@@ -14,6 +14,7 @@ export const uploadImageToFirebaseStorage = async (file, path) => {
 }
 
 export const deleteImageFromFirebaseStorage = async (path) => {
+
     if (path) {
         const oldFileRef = ref(storage, path)
 
