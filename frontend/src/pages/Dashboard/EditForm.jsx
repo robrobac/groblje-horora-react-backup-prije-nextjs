@@ -430,12 +430,12 @@ export default function EditForm() {
                             <div className="dualInput">
                             <div>
                                 <label htmlFor='top25'>Top25</label>
-                                <input id='top25' type='checkbox' value={movie.top25} onChange={(e) => handleChange(index, 'top25', !movie.top25)}/>
+                                <input id='top25' type='checkbox' value={movie.top25} checked={movie.top25} onChange={(e) => handleChange(index, 'top25', !movie.top25)}/>
                             </div>
                                 <div>
                                     <label htmlFor='worse20'>
                                         Worse20
-                                        <input id='worse20' type='checkbox' value={movie.worse20} onChange={(e) => handleChange(index, 'worse20', !movie.worse20)}/>
+                                        <input id='worse20' type='checkbox' value={movie.worse20} checked={movie.worse20} onChange={(e) => handleChange(index, 'worse20', !movie.worse20)}/>
                                     </label>
                                 </div>
                             </div>
