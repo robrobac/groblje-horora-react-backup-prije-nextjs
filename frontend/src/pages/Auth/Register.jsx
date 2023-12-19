@@ -8,8 +8,10 @@ import { AuthButton } from '../../components/Button.styles'
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
 import { auth } from '../../firebase/config'
 import { useNavigate } from 'react-router-dom';
+import HandleDocumentTitle from '../../helpers/handleDocumentTitle'
 
 export default function Register() {
+    HandleDocumentTitle('Registracija - Groblje Horora')
 
     const navigate = useNavigate();
 
@@ -18,6 +20,8 @@ export default function Register() {
     const [password, setPassword] = useState('')
 
     const [errors, setErrors] = useState([])
+
+    
     
 
     // Handle registration form submission

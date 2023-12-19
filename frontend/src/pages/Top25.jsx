@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { ReviewsContainer } from './reviews/Reviews.styled'
 import PostsFlex from '../components/postsFlex/PostsFlex'
+import HandleDocumentTitle from '../helpers/handleDocumentTitle'
 
 export default function Top25() {
+    HandleDocumentTitle('Top 25 - Groblje Horora')
+
     const [reviews, setReviews] = useState(null)
-    console.log(reviews)
 
     useEffect(() => {
         const fetchReviews = async () => {
@@ -19,6 +21,8 @@ export default function Top25() {
 
         fetchReviews()
     }, [])
+
+    
 
     return (
         <ReviewsContainer>

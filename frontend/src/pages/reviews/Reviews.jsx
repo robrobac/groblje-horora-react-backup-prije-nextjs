@@ -5,11 +5,14 @@ import Search from '../../components/searchBar/Search'
 import { ReviewsContainer } from './Reviews.styled'
 import Pagination from '../../components/pagination/Pagination'
 import PostsFlex from '../../components/postsFlex/PostsFlex'
+import HandleDocumentTitle from '../../helpers/handleDocumentTitle'
 
 // Styled Components
 
 
 export default function Reviews() {
+    HandleDocumentTitle('Recenzije - Groblje Horora')
+
     const {
         handleSearch,
         search,
@@ -24,6 +27,8 @@ export default function Reviews() {
         page,
         totalItems
     } = useFetchReviewsWithParams('recenzije', SORT_OPTIONS.CREATED, 'desc', 30)
+
+    
     
     return (
         <ReviewsContainer>

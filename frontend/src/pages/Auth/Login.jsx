@@ -8,8 +8,10 @@ import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../../firebase/config'
 import { AuthButton } from '../../components/Button.styles'
 import { useNavigate } from 'react-router-dom';
+import HandleDocumentTitle from '../../helpers/handleDocumentTitle'
 
 function Login() {
+    HandleDocumentTitle('Prijava - Groblje Horora')
 
     const navigate = useNavigate();
 
