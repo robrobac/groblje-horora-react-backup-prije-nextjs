@@ -19,6 +19,7 @@ import { File, FileLabel, StyledForm, FormContainer, FormContent, FormImage, Inp
 import { FormSection, PageContainer } from '../Pages.styles';
 
 import { useNavigate } from 'react-router-dom';
+import HandleDocumentTitle from '../../helpers/handleDocumentTitle';
 
 export default function NewForm({ numberOfMovies }) {
     const [reviewTitle, setReviewTitle] = useState(numberOfMovies === 1 ? 'Not required for single movie review' : '');
@@ -36,6 +37,14 @@ export default function NewForm({ numberOfMovies }) {
     const [emptyFields, setEmptyFields] = useState([])
     
     const navigate = useNavigate();
+
+    if (numberOfMovies === 1) {
+        HandleDocumentTitle(`Nova Recenzija - Groblje Horora`)
+    }
+
+    if (numberOfMovies === 4) {
+        HandleDocumentTitle(`Novi Kratki Pregled - Groblje Horora`)
+    }
     
     // Creating State for Preview Screen before Submitting the Form
     useEffect(() => {

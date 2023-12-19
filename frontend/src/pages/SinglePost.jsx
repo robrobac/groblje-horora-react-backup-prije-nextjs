@@ -11,7 +11,7 @@ export default function SinglePost() {
     const [post, setPost] = useState(null)
     
 
-        HandleDocumentTitle(`${post?.reviewTitle} - Groblje Horora`)
+    HandleDocumentTitle(`${post?.reviewTitle} - Groblje Horora`)
 
 
     useEffect(() => {

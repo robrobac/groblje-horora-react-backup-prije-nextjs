@@ -15,7 +15,7 @@ export default function DesktopNav() {
     return (
         <DesktopNavigation>
                     <ul>
-                        <DesktopNavItem className='headerLink' to='/'>Početna</DesktopNavItem>
+                        <DesktopNavItem className='headerLink' to='/'>Naslovna</DesktopNavItem>
                         <DesktopNavItem className='headerLink' to='/top25'>Top 25</DesktopNavItem>
                         <DesktopNavItem className='headerLink' to='/recenzije'>Recenzije</DesktopNavItem>
                         <DesktopNavItem className='headerLink' to='/top20smeca'>Top 20 Smeća</DesktopNavItem>

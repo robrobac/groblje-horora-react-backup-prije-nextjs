@@ -19,6 +19,7 @@ import { FormSection, PageContainer } from '../Pages.styles';
 
 import { useParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
+import HandleDocumentTitle from '../../helpers/handleDocumentTitle';
 
 
 export default function EditForm() {
@@ -81,6 +82,8 @@ export default function EditForm() {
             
         }
     ])
+
+    HandleDocumentTitle(`Editing ${reviewTitle} - Groblje Horora`)
 
     const [formSubmitted, setFormSubmitted] = useState(false)
     // If form fails checks on backend, change the state to trigger useEffect in PreviewDialog components and that way close the Preview Modal.
