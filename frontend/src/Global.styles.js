@@ -52,21 +52,8 @@ const GlobalStyles = createGlobalStyle`
         }
     }
 
-    h1.reviewTitleH1 {
-        width: 100%;
-        font-size: 40px;
-        line-height: 60px;
-        color: ${(props) => props.theme.dark.lightText};
-    }
-
     h2 {
         font-size: 25px;
-    }
-
-    h2.movieTitleH2 {
-        font-size: 32px;
-        line-height: 48px;
-        color: ${(props) => props.theme.dark.lightText};
     }
 
     .centerHorizontally {

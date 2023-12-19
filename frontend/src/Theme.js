@@ -35,6 +35,7 @@ const theme = {
         textL: '20px',
         textXL: '24px',
         textXXL: '32px',
+        textXXXL: '48px',
         textHUGE: '60px',
 
         // Colors

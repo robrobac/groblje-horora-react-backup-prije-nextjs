@@ -7,7 +7,7 @@ import Top25 from './pages/Top25';
 import Reviews from './pages/reviews/Reviews';
 import About from './pages/About';
 import Worse20 from './pages/Worse20';
-import SinglePost from './pages/SinglePost';
+import SinglePost from './pages/SinglePost/SinglePost';
 
 // Styled Components
 import Theme from './Theme';
