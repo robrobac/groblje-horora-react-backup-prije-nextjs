@@ -9,6 +9,10 @@ import HandleDocumentTitle from '../helpers/handleDocumentTitle'
 export default function SinglePost() {
     const { id } = useParams()
     const [post, setPost] = useState(null)
+    
+
+        HandleDocumentTitle(`${post?.reviewTitle} - Groblje Horora`)
+
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -17,14 +21,13 @@ export default function SinglePost() {
 
             if (response.ok) {
                 setPost(data)
+                
             }
         }
 
         fetchPost()
     }, [id])
 
-
-    HandleDocumentTitle(`${post.reviewTitle} - Groblje Horora`)
 
     return (
         <SinglePostContainer>
