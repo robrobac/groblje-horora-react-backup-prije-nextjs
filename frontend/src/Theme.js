@@ -56,6 +56,7 @@ const theme = {
 
         radiusS: '5px',
         radiusM: '10px',
+        radiusL: '20px',
     }
 }
 

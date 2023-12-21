@@ -14,8 +14,8 @@ export const StyledButton = styled.button`
         font-weight: 400;
         color: ${(props) => props.theme.dark.colorWHITE50};
         @media (max-width: 250px) {
-                display: none;
-    }
+            display: none;
+        }
     }
 
     &:hover {

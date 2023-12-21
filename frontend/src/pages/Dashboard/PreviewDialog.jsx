@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import { MovieContainer, MovieInfo, PageSection, ReadingSection, SinglePostContainer } from '../Pages.styles'
-import draftToHtml from 'draftjs-to-html'
+import { CloseIcon, PreviewDialogBox } from './PreviewDialog.styles'
+import { SinglePostContainer } from '../SinglePost/SinglePost.styled'
+import SinglePostCover from '../../components/singlePostCover/SinglePostCover'
+import { MovieContainer, MovieDate, MovieImage, MovieInfo, ReadingContent, ReadingSection, TitleH1, TitleH2 } from '../../components/movie/Movie.styled'
+import { format } from 'date-fns'
 import Rating from '../../components/Rating'
-import { CoverContainer, CoverImageContainer } from '../../components/postsGrid/ReviewPostCover.styles'
-import { PreviewDialogBox } from './PreviewDialog.styles'
+import draftToHtml from 'draftjs-to-html'
+import { StyledButton } from '../../components/buttons/Buttons.styled'
+import {ReactComponent as MenuX} from '../../images/xicon.svg'
+
 
 export default function PreviewDialog({postPreview, formFailed}) {
     const [post, setPost] = useState(null)
+    const [reviewType, setReviewType] = useState('quad')
+    console.log(reviewType)
+    console.log(post?.movies.length, "adadadadadadadada")
 
     useEffect(() => {
         const modal = document.getElementById('previewDialog')
@@ -38,64 +46,68 @@ export default function PreviewDialog({postPreview, formFailed}) {
 
     useEffect(() => {
         setPost(postPreview)
+        if (postPreview.movies.length === 4) {
+            setReviewType('quad')
+        }
+        if (postPreview.movies.length === 1) {
+            setReviewType('single')
+        }
     }, [postPreview])
 
     return (
         <>
         <PreviewDialogBox id='previewDialog'>
+            <CloseIcon id='previewDialogCloseButton'>
+                <MenuX />
+            </CloseIcon>
+        
             <SinglePostContainer>
-                {post?.movies.length === 4 ? (
-                        <CoverContainer>
-                        {post?.movies.map((movie, index) => (
-                            <CoverImageContainer key={index}>
-                            <img src={movie.compressedCoverImage ? URL.createObjectURL(movie.compressedCoverImage) : movie.coverImage} alt='movie-cover'></img>
-                            </CoverImageContainer>
-                        ))}
-                    </CoverContainer>
-                ) : (
-                    <CoverContainer>
-                    <CoverImageContainer>
-                        <img src={post?.movies[0].compressedCoverImage ? URL.createObjectURL(post?.movies[0].compressedCoverImage) : post?.movies[0].coverImage} alt='movie-cover'></img>
-                    </CoverImageContainer>
-                    <CoverImageContainer>
-                        <img src={post?.movies[0].compressedCoverImage ? URL.createObjectURL(post?.movies[0].compressedCoverImage) : post?.movies[0].coverImage} alt='movie-cover'></img>
-                    </CoverImageContainer>
-                    <CoverImageContainer>
-                        <img src={post?.movies[0].compressedCoverImage ? URL.createObjectURL(post?.movies[0].compressedCoverImage) : post?.movies[0].coverImage} alt='movie-cover'></img>
-                    </CoverImageContainer>
-                    <CoverImageContainer>
-                        <img src={post?.movies[0].compressedCoverImage ? URL.createObjectURL(post?.movies[0].compressedCoverImage) : post?.movies[0].coverImage} alt='movie-cover'></img>
-                    </CoverImageContainer>
-                </CoverContainer>
-                )}
-                {post?.movies.length === 4 ? (
-                    <PageSection>
-                        <h1 className='reviewTitleH1'>{post?.reviewTitle}</h1>
-                    </PageSection>
-                ) : ''}
+                {reviewType === 'quad' ? (
+                    <>
+                    <SinglePostCover post={post}/>
+                    <div className="movieAndDate">
+                        <MovieDate>
+                            {/* {format(new Date(post?.createdAt), 'dd.MM.yyyy')} */}
+                        </MovieDate>
+                        <TitleH1 className='pregledTitle'>{post?.reviewTitle}</TitleH1>
+                    </div>   
+                    </>
+                ) : ('')}
                 
-                {post?.movies.map((movie, index) => (
-                    <MovieContainer key={index}>
-                        <MovieInfo>
-                            <h2 className='movieTitleH2'>{movie.title} ({movie.year})</h2>
-                            <img style={{maxWidth:'500px', height: 'auto'}} src={movie.compressedCoverImage ? URL.createObjectURL(movie.compressedCoverImage): movie.coverImage} alt='movie-cover'></img>
-                            
+                {post?.movies.map((movie) => (
+                    <MovieContainer>
+                    {reviewType === 'single' ? (
+                        <MovieInfo id={movie._id}>
+                            <MovieImage>
+                                <img src={movie.coverImage} alt='movie-cover'></img>
+                            </MovieImage>
+                            <MovieDate>
+                                {/* {format(new Date(post?.createdAt), 'dd.MM.yyyy')} */}
+                            </MovieDate>
+                            <TitleH1>{movie.title} <span>({movie.year})</span></TitleH1>
                             <Rating rating={movie.rating} detailed={true}/>
                         </MovieInfo>
-                        <PageSection>
-                            <ReadingSection className='textEditorContent' dangerouslySetInnerHTML={{__html: draftToHtml(movie.reviewContent)}}/>
-                        </PageSection>
-                    </MovieContainer>
+                    ) : (
+                        <MovieInfo id={movie._id}>
+                            <MovieImage>
+                                <img src={movie.coverImage} alt='movie-cover'></img>
+                            </MovieImage>
+                            <TitleH2>{movie.title} <span>({movie.year})</span></TitleH2>
+                            <Rating rating={movie.rating} detailed={true}/>
+                        </MovieInfo>
+                    )}
+                    <ReadingSection>
+                        <ReadingContent className='textEditorContent' dangerouslySetInnerHTML={{__html: draftToHtml(movie.reviewContent)}}/>
+                    </ReadingSection>
+                </MovieContainer>
                 ))}
-                <div>
-                <button type='submit'>Publish</button>
-                <button type='button' id='previewDialogCloseButton'>Back</button>
-                </div>
             </SinglePostContainer>
-            
+            <div className='submitBtnContainer'>
+                <StyledButton type='submit'>Publish</StyledButton>
+            </div>
         </PreviewDialogBox>
-        <button type='button' id='previewDialogOpenButton'>Preview and Publish</button>
-        
+        <StyledButton type='button' id='previewDialogOpenButton'>Preview and Publish</StyledButton>
         </>
     )
 }
+

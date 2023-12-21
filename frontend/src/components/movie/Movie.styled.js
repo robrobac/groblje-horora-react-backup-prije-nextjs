@@ -24,6 +24,7 @@ export const ReadingSection = styled.section`
 
 export const TitleH1 = styled.h1`
     font-size: ${(props) => props.theme.dark.textHUGE};
+    color: ${(props) => props.theme.dark.colorWHITE};
 
     span {
         color: ${(props) => props.theme.dark.colorWHITE50};
@@ -41,6 +42,7 @@ export const TitleH1 = styled.h1`
 
 export const TitleH2 = styled.h2`
     font-size: ${(props) => props.theme.dark.textXXXL};
+    color: ${(props) => props.theme.dark.colorWHITE};
 
     span {
         color: ${(props) => props.theme.dark.colorWHITE50};

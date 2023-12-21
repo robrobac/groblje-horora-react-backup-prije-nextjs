@@ -19,7 +19,7 @@ export default function Top20smecaComponent() {
                 <ButtonStandard path={`/top20smeca`} content='Pročitaj više'/>
             </div>
             <TopImage>
-                <Link to={`/top20smeca`}>
+                <Link to={`/top20smeca`} style={{display: 'flex'}}>
                     <img src={topImage} alt='movie-cover'></img>
                 </Link>
             </TopImage>

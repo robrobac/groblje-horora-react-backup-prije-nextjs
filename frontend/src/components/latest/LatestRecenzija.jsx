@@ -72,13 +72,13 @@ export default function LatestRecenzija() {
 
         {/* MOBILE VERSION, component reordered only. */}
         <LatestRecenzijaContainer className='mobileRecenzija'>
-        <RecenzijaSubTitle>
+            <RecenzijaSubTitle>
                 Najnovija Recenzija <span>{createdDate}</span>
             </RecenzijaSubTitle>
-        <div className='latestSingleInfo'>
+            <div className='latestSingleInfo'>
             
             <LatestSingleImage>
-                <Link to={`/recenzije/${review?._id}`}>
+                <Link to={`/recenzije/${review?._id}`} style={{display: 'flex'}}>
                     <img src={review?.movies[0].coverImage} alt='movie-cover' ></img>
                 </Link>
             </LatestSingleImage>

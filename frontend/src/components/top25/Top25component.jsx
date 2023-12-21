@@ -10,7 +10,7 @@ export default function Top25component() {
     return (
         <TopContainer>
             <TopImage>
-                <Link to={`/top25`}>
+                <Link to={`/top25`} style={{display: 'flex'}}>
                     <img src={topImage} alt='movie-cover'></img>
                 </Link>
             </TopImage>

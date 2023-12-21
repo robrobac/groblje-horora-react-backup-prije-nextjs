@@ -8,13 +8,16 @@ export default function Movie({ post, movie, type}) {
     const [reviewContent, setReviewContent] = useState({})
     
     useEffect(() => {
-        // Formatting react-draft-wysiwyg editor data for 
-        const rawContent = JSON.parse(movie.reviewContent)
-        const markup = draftToHtml(
+        // Formatting react-draft-wysiwyg editor data for
+        if (movie) {
+            const rawContent = JSON.parse(movie?.reviewContent)
+            const markup = draftToHtml(
                 rawContent,
         )
         // Setting state that will be 
         setReviewContent(markup)
+        }
+        
     }, [movie.reviewContent])
 
     return (
