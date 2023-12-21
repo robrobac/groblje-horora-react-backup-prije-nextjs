@@ -1,5 +1,5 @@
 import React from 'react'
-import homeCoverImage from '../images/groblje-horora-home-page-cover.jpg'
+import homeCoverImage from '../images/groblje-horora-home-page-cover.webp'
 import leftTree from '../images/groblje-horora-cover-left-tree.png'
 import rightTree from '../images/groblje-horora-cover-right-tree.png'
 import { CoverImage, CoverTrees } from './HomeCoverImage.styled'

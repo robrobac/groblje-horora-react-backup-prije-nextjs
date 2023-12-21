@@ -1,7 +1,7 @@
 import React from 'react'
 import { TopContainer, TopDescription, TopImage, TopTitle } from './Top.styled'
 import { Link } from 'react-router-dom'
-import topImage from '../../images/groblje-horora-top25-image.jpg'
+import topImage from '../../images/groblje-horora-top25-image.webp'
 import ButtonStandard from '../buttons/ButtonStandard'
 
 export default function Top25component() {

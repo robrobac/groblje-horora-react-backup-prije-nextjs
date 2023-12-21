@@ -1,6 +1,6 @@
 import React from 'react'
 import { RecenzijeHomeCoverContainer } from './RecenzijeHomeCover.styled'
-import recenzijeHomeCoverImage from '../../images/groblje-horora-recenzije-home-image.jpg'
+import recenzijeHomeCoverImage from '../../images/groblje-horora-recenzije-home-image.webp'
 import ButtonStandard from '../buttons/ButtonStandard'
 import useCountReviews from '../../hooks/useCountReviews'
 

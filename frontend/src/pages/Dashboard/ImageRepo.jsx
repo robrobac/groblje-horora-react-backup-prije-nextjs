@@ -28,9 +28,10 @@ export default function ImageRepo({handleContentImages, contentImages, formSubmi
                 // Compress only if file is of image type
                 if (file.type.startsWith('image/')) {
                     new Compressor(file, {
-                        quality: 0.5,
+                        quality: 0.6,
                         width: 700,
-                        convertSize: 100,
+                        mimeType: 'image/webp',
+                        convertSize: Infinity,
                         success: (compressedResult) => {
                             setCompressedImages(prev => [...prev, compressedResult]);
                         }
