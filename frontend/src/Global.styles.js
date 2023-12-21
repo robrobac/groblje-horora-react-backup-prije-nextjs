@@ -5,6 +5,10 @@ const GlobalStyles = createGlobalStyle`
     body {
         background-color: ${(props) => props.theme.dark.colorBLACK};
         color: ${(props) => props.theme.dark.colorWHITE};
+
+        &.loading {
+            overflow: hidden;
+        }
     }
 
     * {

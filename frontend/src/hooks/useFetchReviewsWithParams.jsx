@@ -6,6 +6,8 @@ export default function useFetchReviewsWithParams(pageName, initialSort, initial
     const [refresh, setRefresh] = useState(false)
     const [reviews, setReviews] = useState([])
 
+    const [loading, setLoading] = useState(false)
+
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
 
@@ -31,16 +33,23 @@ export default function useFetchReviewsWithParams(pageName, initialSort, initial
 
     useEffect(() => {
         const fetchReviews = async () => {
-            const response = await fetch(`http://localhost:4000/api/reviews?search=${search}&sort=${sort}&order=${order}&page=${page}&perPage=${perPage}&filter=${filter}`);
-            const json = await response.json();
+            setLoading(true)
+            try {
+                const response = await fetch(`http://localhost:4000/api/reviews?search=${search}&sort=${sort}&order=${order}&page=${page}&perPage=${perPage}&filter=${filter}`);
+                const json = await response.json();
 
-            if (response.ok) {
-                setReviews(json.reviews);
-                const pagesArray = Array.from({ length: json.totalPages }, (_, index) => index + 1);
-                setTotalPages(pagesArray);
-                setTotalItems(json.totalItems)
-                
+                if (response.ok) {
+                    setReviews(json.reviews);
+                    const pagesArray = Array.from({ length: json.totalPages }, (_, index) => index + 1);
+                    setTotalPages(pagesArray);
+                    setTotalItems(json.totalItems)
+                }
+            } catch (err) {
+                console.log(err)
+            } finally {
+                setLoading(false)
             }
+            
         };
 
         fetchReviews();
@@ -121,6 +130,7 @@ export default function useFetchReviewsWithParams(pageName, initialSort, initial
     handlePageChange,
     page,
     handleRefresh,
-    totalItems
+    totalItems,
+    loading
   }
 }

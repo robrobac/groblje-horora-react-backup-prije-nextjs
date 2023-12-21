@@ -1,31 +1,42 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { LatestRecenzijaContainer, LatestSingleImage, RecenzijaDescription, RecenzijaSubTitle, RecenzijaTitle } from './LatestRecenzija.styled'
 import Rating from '../Rating'
 import { format } from 'date-fns'
 import { Link } from 'react-router-dom'
 import { draftToHtmlConvert } from '../../helpers/draftToHtmlConvert'
 import ButtonStandard from '../buttons/ButtonStandard'
+import { LoadingContext } from '../../App'
+import Loading from '../loading/Loading'
 
 export default function LatestRecenzija() {
     const [review, setReview] = useState(null)
     const [createdDate, setCreatedDate] = useState("00.00.0000")
     const [reviewDescription, setReviewDescription] = useState('')
+    const {loading, handleLoading} = useContext(LoadingContext)
     console.log(review)
 
     useEffect(() => {
         const fetchReview = async () => {
+            handleLoading(true)
+            document.body.classList.add('loading');
+            try {
+                const response = await fetch(`http://localhost:4000/api/reviews/latestSingle`)
+                const json = await response.json()
 
-        const response = await fetch(`http://localhost:4000/api/reviews/latestSingle`)
-            const json = await response.json()
+                if (response.ok) {
+                    setReview(json[0])
 
-            if (response.ok) {
-                setReview(json[0])
-
-                const createdAtDate = new Date(json[0].createdAt);
-                const formattedDate = format(createdAtDate, 'dd.MM.yyyy')
-                setCreatedDate(formattedDate)
-                const formattedDescription = draftToHtmlConvert(JSON.parse(json[0].movies[0].reviewContent))
-                setReviewDescription(formattedDescription)
+                    const createdAtDate = new Date(json[0].createdAt);
+                    const formattedDate = format(createdAtDate, 'dd.MM.yyyy')
+                    setCreatedDate(formattedDate)
+                    const formattedDescription = draftToHtmlConvert(JSON.parse(json[0].movies[0].reviewContent))
+                    setReviewDescription(formattedDescription)
+                }
+            } catch (err) {
+                console.log(err)
+            } finally {
+                handleLoading(false)
+                document.body.classList.remove('loading');
             }
         }
 
@@ -34,6 +45,7 @@ export default function LatestRecenzija() {
 
     return (
         <>
+        {loading ? <Loading variant='transparent'/> : ''}
         {/* DESKTOP VERSION */}
         <LatestRecenzijaContainer className='desktopRecenzija'>
             <div className='latestSingleInfo'>

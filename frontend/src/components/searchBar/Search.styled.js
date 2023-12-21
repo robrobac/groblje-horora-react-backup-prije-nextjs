@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const SearchComp = styled.div`
+z-index: 90;
     display: flex;
     flex-direction: column;
     gap: 8px;
