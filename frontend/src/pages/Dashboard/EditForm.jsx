@@ -283,7 +283,7 @@ export default function EditForm() {
         Promise.all(movieReviews)
             .then(async(resolvedMovieReviews) => {
                 const review = {
-                    reviewTitle: reviewTitle,
+                    reviewTitle: resolvedMovieReviews.length === 1 ? resolvedMovieReviews[0].title : reviewTitle,
                     movies: resolvedMovieReviews,
                     contentImages: contentImages,
                 }

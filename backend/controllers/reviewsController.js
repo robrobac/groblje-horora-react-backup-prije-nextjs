@@ -1,5 +1,7 @@
 const Review = require('../models/reviewModel')
 const mongoose = require('mongoose')
+const slugify = require('../helpers/slugify')
+
 
 // Get all reviews
 const getReviews = async (req, res) => {
@@ -193,6 +195,9 @@ const getReview = async (req, res) => {
 const createReview = async (req, res) => {
     const { reviewTitle, movies, comments, likes, contentImages } = req.body
 
+
+    console.log(slugify(reviewTitle))
+
     let emptyFields = []
 
     if (!reviewTitle) {
@@ -276,6 +281,8 @@ const updateReview = async (req, res) => {
     }
 
     const { reviewTitle, movies, comments, likes, contentImages } = req.body
+
+    console.log(slugify(reviewTitle))
 
     let emptyFields = []
 
