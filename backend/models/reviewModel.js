@@ -59,6 +59,10 @@ const ReviewSchema = new Schema({
         type: String,
         required: true
     },
+    slug: {
+        type: String,
+        required: true
+    },
     contentImages: {
         type: Array,
         required: false,

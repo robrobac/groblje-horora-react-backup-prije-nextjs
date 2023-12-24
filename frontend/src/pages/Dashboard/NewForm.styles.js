@@ -72,10 +72,9 @@ export const FormContent = styled.div`
     flex: 1;
 `
 export const InputContainer = styled.div`
-width: 100%;
+    width: 100%;
     display: flex; 
     flex-direction: column;
-    
 `
 export const InputField = styled.input`
     padding: 10px 10px;
@@ -101,6 +100,10 @@ export const InputLabel = styled.label`
     padding-left: 10px;
     font-size: .9rem;
     font-weight: 600;
+
+    span.error {
+        color: red;
+    }
 `
 
 // TEXT EDITOR

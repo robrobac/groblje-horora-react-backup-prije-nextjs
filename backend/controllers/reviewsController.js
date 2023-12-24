@@ -195,13 +195,18 @@ const getReview = async (req, res) => {
 const createReview = async (req, res) => {
     const { reviewTitle, movies, comments, likes, contentImages } = req.body
 
-
-    console.log(slugify(reviewTitle))
+    const slug = slugify(reviewTitle)
+    console.log(slug)
 
     let emptyFields = []
 
     if (!reviewTitle) {
         emptyFields.push('reviewTitle')
+    }
+
+    const existingSlug = await Review.findOne({ slug: slug })
+    if (existingSlug) {
+        emptyFields.push('titleExists')
     }
 
     movies.forEach((movie, index) => {
@@ -231,7 +236,8 @@ const createReview = async (req, res) => {
         let review = {}
         if (movies.length === 1) {
             review = await Review.create({
-                reviewTitle: movies[0].title,
+                reviewTitle,
+                slug: slug,
                 movies,
                 comments,
                 likes,
@@ -242,6 +248,7 @@ const createReview = async (req, res) => {
         if (movies.length === 4) {
             review = await Review.create({
                 reviewTitle,
+                slug: slug,
                 movies,
                 comments,
                 likes,
@@ -282,12 +289,18 @@ const updateReview = async (req, res) => {
 
     const { reviewTitle, movies, comments, likes, contentImages } = req.body
 
-    console.log(slugify(reviewTitle))
+    const slug = slugify(reviewTitle)
+    console.log(slug)
 
     let emptyFields = []
 
     if (!reviewTitle) {
         emptyFields.push('reviewTitle')
+    }
+
+    const existingSlug = await Review.findOne({ slug: slug, _id: { $ne: id } })
+    if (existingSlug) {
+        emptyFields.push('titleExists')
     }
 
     movies.forEach((movie, index) => {

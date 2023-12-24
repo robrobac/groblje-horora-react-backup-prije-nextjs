@@ -29,6 +29,7 @@ export default function EditForm() {
     const [selectedTab, setSelectedTab] = useState('movie1')
 
     const [post, setPost] = useState({})
+    console.log(post)
 
     const [reviewTitle, setReviewTitle] = useState('')
     const [contentImages, setContentImages] = useState([])
@@ -302,6 +303,7 @@ export default function EditForm() {
                     setEmptyFields(json.emptyFields)
                     setFormFailed(!formFailed)
                     window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+                    console.log(json)
                 }
                 if(response.ok) {
                     // If response is OK, restart form states
@@ -386,8 +388,8 @@ export default function EditForm() {
             <FormSection>
                 <StyledForm onSubmit={handleSubmit}>
                     {movies.length === 4 ? (
-                        <InputContainer>
-                        <InputLabel htmlFor='reviewTitle'>Review Title</InputLabel>
+                    <InputContainer>
+                        <InputLabel htmlFor='reviewTitle'>Review Title {emptyFields.includes('titleExists') ? <span className='error'>Title already exists</span> : ''}</InputLabel>
                         <InputField className={emptyFields.includes('reviewTitle') ? 'error' : '' } id='reviewTitle' type='text' value={reviewTitle} onChange={(e) => setReviewTitle(e.target.value)}/>
                     </InputContainer>
                     ) : ''}
@@ -415,7 +417,7 @@ export default function EditForm() {
                         </FormImage>
                         <FormContent>
                             <InputContainer>
-                                <InputLabel htmlFor='title'>Title</InputLabel>
+                                <InputLabel htmlFor='title'>Title {emptyFields.includes('titleExists') && movies.length === 1 ? <span className='error'>Title already exists</span> : ''}</InputLabel>
                                 <InputField className={emptyFields.includes(`movie${index}title`) ? 'error' : ''} id='title' type='text' value={movie.title} onChange={(e) => handleChange(index, 'title', e.target.value)}/>
                             </InputContainer>
                             <InputContainer>
