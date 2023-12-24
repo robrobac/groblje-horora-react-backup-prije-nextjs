@@ -26,7 +26,7 @@ export default function PostsTable() {
         page,
         handleRefresh,
         totalItems
-    } = useFetchReviewsWithParams('dashboard', SORT_OPTIONS.CREATED, 'desc', 1)
+    } = useFetchReviewsWithParams('dashboard', SORT_OPTIONS.CREATED, 'desc', 10)
 
     const handleDelete = async (review) => {
         let imagesToDelete = []
@@ -121,7 +121,7 @@ export default function PostsTable() {
                         </TableItem>
                     ))}
                 </TableContainer>
-                <Pagination itemsPerPage={1} items={reviews} totalItems={totalItems} handlePageChange={handlePageChange}/>
+                <Pagination itemsPerPage={10} items={reviews} totalItems={totalItems} handlePageChange={handlePageChange}/>
             </PageSection>
         </PageContainer>
     )
