@@ -3,7 +3,6 @@ import styled from "styled-components";
 export const PostCardContainer = styled.div`
     
     flex-basis: 20%;
-    width: 232px;
     position: relative;
     padding: ${(props) => props.theme.dark.contentPadding};
     display: flex;

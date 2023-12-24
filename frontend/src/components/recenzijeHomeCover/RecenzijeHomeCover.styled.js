@@ -44,13 +44,17 @@ export const RecenzijeHomeCoverContainer = styled.div`
             transition: .1s;
             text-shadow: 0px 0px 18px #141414;
 
-            @media (max-width: 768px) {
-                font-size: ${(props) => props.theme.dark.textHUGE};
+            
+
+            @media (max-width: 360px) {
+                font-size: ${(props) => props.theme.dark.textXXL};
             }
 
-            @media (max-width: 350px) {
-                font-size: 45px;
+            @media (max-width: 230px) {
+                font-size: ${(props) => props.theme.dark.textXL};
             }
+
+            
             
         }
 

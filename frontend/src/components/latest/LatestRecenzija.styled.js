@@ -30,7 +30,7 @@ export const LatestRecenzijaContainer = styled.div`
         display: flex;
         flex-direction: column;
         gap: 1rem;
-        
+        max-width: 100%;
     }
     @media (max-width: 768px) {
         flex-direction: column;
