@@ -48,9 +48,9 @@ function App() {
                                 <Route path='/' element={<Home />} />
                                 <Route path='/top25/' element={<Top25 />} />
                                 <Route path='/recenzije/' element={<Reviews />} />
-                                <Route path='/recenzije/:id/' element={<SinglePost />} />
+                                <Route path='/recenzije/:slug/' element={<SinglePost />} />
 
-                                {/* Restricted */} <Route path='/recenzije/:id/edit' element={isAuth?.role === 'admin' ? <EditForm /> : <Navigate to='/' />} />
+                                {/* Restricted */} <Route path='/recenzije/:slug/edit' element={isAuth?.role === 'admin' ? <EditForm /> : <Navigate to='/' />} />
 
 
                                 <Route path='/top20smeca/' element={<Worse20 />} />

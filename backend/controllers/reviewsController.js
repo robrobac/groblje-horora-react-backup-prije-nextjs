@@ -176,13 +176,13 @@ const getLatestSingle = async (req, res) => {
 
 // Get a single review
 const getReview = async (req, res) => {
-    const { id } = req.params
+    const { slug } = req.params
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({ error: 'No such review' })
-    }
+    // if (!mongoose.Types.ObjectId.isValid(id)) {
+    //     return res.status(404).json({ error: 'No such review' })
+    // }
 
-    const review = await Review.findById(id)
+    const review = await Review.findOne({ slug: slug })
 
     if (!review) {
         return res.status(404).json({ error: 'No such review' })
@@ -281,7 +281,8 @@ const deleteReview = async (req, res) => {
 
 // Update Review
 const updateReview = async (req, res) => {
-    const { id } = req.params
+    const { slug } = req.params
+    const { id } = req.query
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).json({ error: 'No such review' })
@@ -289,8 +290,8 @@ const updateReview = async (req, res) => {
 
     const { reviewTitle, movies, comments, likes, contentImages } = req.body
 
-    const slug = slugify(reviewTitle)
-    console.log(slug)
+    const newSlug = slugify(reviewTitle)
+    console.log(newSlug)
 
     let emptyFields = []
 
@@ -298,7 +299,7 @@ const updateReview = async (req, res) => {
         emptyFields.push('reviewTitle')
     }
 
-    const existingSlug = await Review.findOne({ slug: slug, _id: { $ne: id } })
+    const existingSlug = await Review.findOne({ slug: newSlug, _id: { $ne: id } })
     if (existingSlug) {
         emptyFields.push('titleExists')
     }
@@ -330,6 +331,7 @@ const updateReview = async (req, res) => {
         if (movies.length === 1) {
             review = await Review.findOneAndUpdate({ _id: id }, {
                 reviewTitle: movies[0].title,
+                slug: newSlug,
                 movies,
                 comments,
                 likes,
@@ -340,6 +342,7 @@ const updateReview = async (req, res) => {
         if (movies.length === 4) {
             review = await Review.findOneAndUpdate({ _id: id }, {
                 reviewTitle,
+                slug: newSlug,
                 movies,
                 comments,
                 likes,

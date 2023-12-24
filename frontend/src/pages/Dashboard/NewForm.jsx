@@ -231,7 +231,7 @@ export default function NewForm({ numberOfMovies }) {
                     setContentImages([]);
 
                     // Navigate to new post
-                    navigate(`/recenzije/${json._id}`);
+                    navigate(`/recenzije/${json.slug}`);
                 }
             });
     };

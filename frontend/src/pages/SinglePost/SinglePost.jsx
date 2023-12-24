@@ -8,7 +8,7 @@ import { MovieDate, TitleH1 } from '../../components/movie/Movie.styled'
 import { format } from 'date-fns'
 
 export default function SinglePost() {
-    const { id } = useParams()
+    const { slug } = useParams()
     const [post, setPost] = useState(null)
     
 
@@ -17,7 +17,7 @@ export default function SinglePost() {
 
     useEffect(() => {
         const fetchPost = async () => {
-            const response = await fetch(`http://localhost:4000/api/reviews/${id}`)
+            const response = await fetch(`http://localhost:4000/api/reviews/${slug}`)
             const data = await response.json()
 
             if (response.ok) {
@@ -26,7 +26,7 @@ export default function SinglePost() {
         }
 
         fetchPost()
-    }, [id])
+    }, [slug])
 
 
     return (

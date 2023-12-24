@@ -21,9 +21,8 @@ import { useParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import HandleDocumentTitle from '../../helpers/handleDocumentTitle';
 
-
 export default function EditForm() {
-    const { id } = useParams()
+    const { slug } = useParams()
     
     const [postPreview, setPostPreview] = useState(null)
     const [selectedTab, setSelectedTab] = useState('movie1')
@@ -100,7 +99,7 @@ export default function EditForm() {
     useEffect(() => {
         const fetchPost = async () => {
             try {
-                const response = await fetch(`http://localhost:4000/api/reviews/${id}`)
+                const response = await fetch(`http://localhost:4000/api/reviews/${slug}`)
                 const data = await response.json()
                 
                 if (response.ok) {
@@ -131,7 +130,7 @@ export default function EditForm() {
             }   
         }
         fetchPost()
-    }, [id])
+    }, [slug])
 
     // Creating State for Preview Screen before Submitting the Form
     useEffect(() => {
@@ -290,7 +289,7 @@ export default function EditForm() {
                 }
 
                 // API Call to post a new Review
-                const response = await fetch(`http://localhost:4000/api/reviews/${post._id}`, {
+                const response = await fetch(`http://localhost:4000/api/reviews/${post.slug}?id=${post._id}`, {
                     method: 'PATCH',
                     body: JSON.stringify(review),
                     headers: {
@@ -378,7 +377,7 @@ export default function EditForm() {
                     setContentImages([])
 
                     // Navigate to edited post
-                    navigate(`/recenzije/${json._id}`)
+                    navigate(`/recenzije/${json.slug}`)
                 }
             })
     }

@@ -103,9 +103,9 @@ export default function PostsTable() {
                     {reviews?.map((review) => (
                         <TableItem className="tableItem">
                             <div className='title'>
-                                <Link to={`/recenzije/${review._id}`}>{review.reviewTitle}</Link>
+                                <Link to={`/recenzije/${review.slug}`}>{review.reviewTitle}</Link>
                                 <div className='icons'>
-                                    <Link to={`/recenzije/${review._id}/edit`}>
+                                    <Link to={`/recenzije/${review.slug}/edit`}>
                                         <EditIcon />
                                     </Link>
                                     <DeleteIcon onClick={() => handleDelete(review)}/>

@@ -13,7 +13,7 @@ export default function PostDescription({post}) {
                     <PostDate>
                         {format(new Date(post.createdAt), 'dd.MM.yyyy')}
                     </PostDate>
-                    <Link to={`/recenzije/${post?._id}`}>
+                    <Link to={`/recenzije/${post?.slug}`}>
                         <PostTitle>{post?.movies[0].title} <span>({post?.movies[0].year})</span></PostTitle>
                     </Link>
                     <Rating rating={post?.movies[0].rating} detailed={false}/>
@@ -23,7 +23,7 @@ export default function PostDescription({post}) {
                     <PostDate>
                         {format(new Date(post.createdAt), 'dd.MM.yyyy')}
                     </PostDate>
-                    <Link to={`/recenzije/${post?._id}`}>
+                    <Link to={`/recenzije/${post?.slug}`}>
                         <PostTitle>{post?.reviewTitle}</PostTitle>
                     </Link>
                     <PostSubTitle>

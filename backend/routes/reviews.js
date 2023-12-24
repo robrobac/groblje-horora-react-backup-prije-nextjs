@@ -32,7 +32,7 @@ router.get('/reviews/latestSingle', getLatestSingle)
 router.get('/reviews/latestQuad', getLatestQuad)
 
 // GET a SINGLE Review
-router.get('/reviews/:id', getReview)
+router.get('/reviews/:slug', getReview)
 
 // POST a NEW Review
 router.post('/reviews', createReview)
@@ -41,7 +41,7 @@ router.post('/reviews', createReview)
 router.delete('/reviews/:id', deleteReview)
 
 // UPDATE a Review
-router.patch('/reviews/:id', updateReview)
+router.patch('/reviews/:slug', updateReview)
 
 // Count Reviews
 router.get('/reviewsCount', countReviews)
