@@ -13,6 +13,7 @@ import {ReactComponent as MenuX} from '../../images/xicon.svg'
 export default function PreviewDialog({postPreview, formFailed}) {
     const [post, setPost] = useState(null)
     const [reviewType, setReviewType] = useState('quad')
+    console.log(post)
     console.log(reviewType)
     console.log(post?.movies.length, "adadadadadadadada")
 
@@ -79,7 +80,11 @@ export default function PreviewDialog({postPreview, formFailed}) {
                     {reviewType === 'single' ? (
                         <MovieInfo id={movie._id}>
                             <MovieImage>
-                                <img src={movie.coverImage} alt='movie-cover'></img>
+                                {movie.coverImage ? (
+                                    <img src={movie.coverImage} alt='movie-cover'></img>
+                                ) : (
+                                    <img src={movie.compressedCoverImage ? URL.createObjectURL(movie.compressedCoverImage) : ''} alt='movie-cover'></img>
+                                )}
                             </MovieImage>
                             <MovieDate>
                                 {/* {format(new Date(post?.createdAt), 'dd.MM.yyyy')} */}
@@ -90,7 +95,11 @@ export default function PreviewDialog({postPreview, formFailed}) {
                     ) : (
                         <MovieInfo id={movie._id}>
                             <MovieImage>
-                                <img src={movie.coverImage} alt='movie-cover'></img>
+                                {movie.coverImage ? (
+                                    <img src={movie.coverImage} alt='movie-cover'></img>
+                                ) : (
+                                    <img src={movie.compressedCoverImage ? URL.createObjectURL(movie.compressedCoverImage) : ''} alt='movie-cover'></img>
+                                )}
                             </MovieImage>
                             <TitleH2>{movie.title} <span>({movie.year})</span></TitleH2>
                             <Rating rating={movie.rating} detailed={true}/>
