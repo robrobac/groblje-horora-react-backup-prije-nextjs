@@ -53,6 +53,13 @@ export const FilterButton = styled.button`
         display: none;
     }
 
+    @media (hover: hover) {
+        &:hover {
+            background-color: transparent;
+            color: ${(props) => props.theme.dark.colorWHITE};
+        }
+    }
+
     &.active {
         background-color: ${(props) => props.theme.dark.colorRED};
         border: 1px solid transparent;
@@ -65,12 +72,7 @@ export const FilterButton = styled.button`
         }
     }
 
-    @media (hover: hover) {
-        &:hover {
-            background-color: transparent;
-            color: ${(props) => props.theme.dark.colorWHITE};
-        }
-    }
+
 
     @media (max-width: 768px) {
         font-size: ${(props) => props.theme.dark.textXS};

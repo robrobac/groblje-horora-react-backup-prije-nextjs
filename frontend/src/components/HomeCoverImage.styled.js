@@ -1,12 +1,13 @@
 import styled from "styled-components";
 
 export const CoverImage = styled.div`
+    position: relative;
     display: flex;
     justify-content: space-between;
 
     width: 100%;
     max-height: 800px;
-    height: 90vh;
+    height: 88vh;
     max-width: 2560px;
     margin-top: -2rem;
     

@@ -38,6 +38,13 @@ const theme = {
         textXXXL: '48px',
         textHUGE: '60px',
 
+        // Main Title Sizes
+        textXXXLtitle: '120px',
+        textXXLtitle: '100px',
+        textXLtitle: '80px',
+        textLtitle: '60px',
+        textMtitle: '40px',
+
         // Colors
         colorRED: '#7C2E2E',
         colorREDhover: '#552020',

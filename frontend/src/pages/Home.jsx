@@ -14,6 +14,7 @@ export default function Home() {
         return (
             <main className='centerHorizontally'>
                 <HomeCoverImage />
+                <h1 className="mainTitle">Groblje Horora</h1>
                 <LatestPregled />
                 <LatestRecenzija />
                 <Top25component />

@@ -1,7 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 
-const GlobalStyles = createGlobalStyle`
 
+const GlobalStyles = createGlobalStyle`
 
     body {
         background-color: ${(props) => props.theme.dark.colorBLACK};
@@ -38,24 +38,35 @@ const GlobalStyles = createGlobalStyle`
     }
 
     h1.mainTitle {
-        font-family: 'Creepster', sans-serif;
-        font-size: 128px;
-        margin-bottom: 50px;
         text-align: center;
-        color: ${(props) => props.theme.dark.secondary};
-        line-height: 120px;
+        letter-spacing: 5px;
+        font-family: 'Creepster', sans-serif;
+        font-size: ${(props) => props.theme.dark.textXXXLtitle};
+        text-align: center;
+        color: ${(props) => props.theme.dark.colorRED};
+        margin: 50px 0;
 
-        @media (max-width: 780px) {
-            font-size: 100px;
-            
+
+        @media (max-width: 900px) {
+            font-size: ${(props) => props.theme.dark.textXXLtitle};
         }
-        @media (max-width: 590px) {
-            line-height: 95px;
+        @media (max-width: 768px) {
+            font-size: ${(props) => props.theme.dark.textXXXLtitle};
+        }
+        @media (max-width: 530px) {
+            font-size: ${(props) => props.theme.dark.textXXLtitle};
+        }
+        @media (max-width: 425px) {
+            font-size: ${(props) => props.theme.dark.textXLtitle};
         }
         @media (max-width: 320px) {
-            font-size: 70px;
-            line-height: 65px;
+            font-size: ${(props) => props.theme.dark.textLtitle};
         }
+        @media (max-width: 240px) {
+            font-size: ${(props) => props.theme.dark.textMtitle};
+        }
+
+
     }
 
     h2 {
