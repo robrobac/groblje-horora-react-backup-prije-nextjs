@@ -111,7 +111,6 @@ export const GoogleLoginButton = styled.button`
     background-color: #ffffff10;
     color: ${(props) => props.theme.dark.lightText};
     font-size: 14px;
-    font-weight: 500;
 
     svg {
         scale: 1.3;

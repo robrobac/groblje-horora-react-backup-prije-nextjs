@@ -49,7 +49,6 @@ const RatingContainer = styled.div`
 
     span {
         font-size: 14px;
-        color: #fff;
-        opacity: .5;
+        color: ${(props) => props.theme.dark.colorWHITE50};
     }
 `

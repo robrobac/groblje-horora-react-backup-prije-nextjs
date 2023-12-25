@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { NavLink } from 'react-router-dom';
 
 export const MobileNavigation = styled.nav`
-    background-color: ${(props) => props.theme.dark.background};
+    background-color: ${(props) => props.theme.dark.colorBLACK};
     position: fixed;
     top: 0;
     right: -100vw;

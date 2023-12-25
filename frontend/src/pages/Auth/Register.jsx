@@ -4,11 +4,11 @@ import { AuthContainer, AuthForm, AuthPage, GoogleLoginButton, RedirectLink } fr
 import {ReactComponent as Logo} from '../../images/groblje-horora-logo.svg'
 import homeCoverImage from '../../images/groblje-horora-bg-image.jpg'
 import {ReactComponent as GoogleIcon} from '../../images/googleicon.svg'
-import { AuthButton } from '../../components/Button.styles'
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
 import { auth } from '../../firebase/config'
 import { useNavigate } from 'react-router-dom';
 import HandleDocumentTitle from '../../helpers/handleDocumentTitle'
+import { StyledButton } from '../../components/buttons/Buttons.styled'
 
 export default function Register() {
     HandleDocumentTitle('Registracija - Groblje Horora')
@@ -121,7 +121,7 @@ export default function Register() {
                         <InputLabel htmlFor='password'>Password</InputLabel>
                         <InputField id='password' type='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
                     </InputContainer>
-                    <AuthButton type='submit'>Register</AuthButton>
+                    <StyledButton type='submit'>Register</StyledButton>
                 </AuthForm>
                 <p className='separator'>OR</p>
                 <GoogleLoginButton type="button" disabled>

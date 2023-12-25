@@ -71,10 +71,10 @@ export const PregledSubTitle = styled.p`
 `
 export const PregledDescription = styled.p`
     font-size: ${(props) => props.theme.dark.textL};
-    opacity: .8;
+    color: ${(props) => props.theme.dark.colorWHITE80};
 
     span {
-        opacity: .5;
+        color: ${(props) => props.theme.dark.colorWHITE50};
     }
 `
 

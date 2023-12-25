@@ -6,9 +6,9 @@ import homeCoverImage from '../../images/groblje-horora-bg-image.jpg'
 import {ReactComponent as GoogleIcon} from '../../images/googleicon.svg'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../../firebase/config'
-import { AuthButton } from '../../components/Button.styles'
 import { useNavigate } from 'react-router-dom';
 import HandleDocumentTitle from '../../helpers/handleDocumentTitle'
+import { StyledButton } from '../../components/buttons/Buttons.styled'
 
 function Login() {
     HandleDocumentTitle('Prijava - Groblje Horora')
@@ -58,7 +58,7 @@ function Login() {
                         <InputLabel htmlFor='password'>Password</InputLabel>
                         <InputField id='password' type='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
                     </InputContainer>
-                    <AuthButton type='submit'>Login</AuthButton>
+                    <StyledButton type='submit'>Login</StyledButton>
                 </AuthForm>
                 <p>OR</p>
                 <GoogleLoginButton type="button" disabled>

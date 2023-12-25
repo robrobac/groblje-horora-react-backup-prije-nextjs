@@ -35,6 +35,7 @@ export const TextButton = styled(StyledButton)`
 `
 
 export const FilterButton = styled.button`
+min-height: 31px;
     height: fit-content;
     border: 1px solid ${(props) => props.theme.dark.colorWHITE50};
     background-color: transparent;
@@ -70,8 +71,18 @@ export const FilterButton = styled.button`
 `
 
 export const SortButton = styled(FilterButton)`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 31px;
+    flex-wrap: wrap;
+    gap: 5px;
 
     &.active {
         color: ${(props) => props.theme.dark.primary};
+    }
+
+    svg {
+        fill: ${(props) => props.theme.dark.colorWHITE80};
     }
 `

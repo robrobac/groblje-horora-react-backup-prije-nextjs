@@ -67,7 +67,7 @@ export const RecenzijaTitle = styled.h2`
     }
 
     span {
-        opacity: .5;
+        color: ${(props) => props.theme.dark.colorWHITE50};
     }
 
     @media (max-width: 230px) {
@@ -88,16 +88,16 @@ export const RecenzijaDescription = styled.p`
         font-size: ${(props) => props.theme.dark.textL};
         line-height: 25px;
     }
-    opacity: .8;
+    span {
+        color: ${(props) => props.theme.dark.colorWHITE50};
+    }
 
     display: -webkit-box;
     -webkit-line-clamp: 6; /* Change the number to the desired line limit */
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    span {
-        opacity: .5;
-    }
+    
     @media (max-width: 900px) {
         -webkit-line-clamp: 4; /* Change the number to the desired line limit */
     }

@@ -4,6 +4,8 @@ import { ReactComponent as SearchIconSVG } from '../../images/search-icon.svg';
 import { SORT_OPTIONS } from '../../helpers/sortOptions';
 import { FilterButton, SortButton } from '../buttons/Buttons.styled';
 import useCountReviews from '../../hooks/useCountReviews';
+import Filter from './Filter';
+import Sort from './Sort';
 
 export default function Search({ search, handleSearch, sort, order, handleSortAndOrder, handleFilter, filter, controls }) {
 
@@ -22,26 +24,14 @@ export default function Search({ search, handleSearch, sort, order, handleSortAn
         {controls ? (
             <SearchControls>
                 <FilterControl>
-                    <FilterButton onClick={() => handleFilter('')} className={filter === '' && !search ? 'active' : ''} style={{pointerEvents: search ? 'none' : 'auto', opacity: search ? .25 : 1}}>
-                        Sve <span>{count?.numberOfReviews}</span>
-                    </FilterButton>
-                    <FilterButton onClick={() => handleFilter('quad')} className={filter === 'quad' && !search ? 'active' : ''} style={{pointerEvents: search ? 'none' : 'auto', opacity: search ? .25 : 1}}>
-                        Kratki Pregledi <span>{count?.quadReviews}</span>
-                    </FilterButton>
-                    <FilterButton onClick={() => handleFilter('single')} className={filter === 'single' && !search ? 'active' : ''} style={{pointerEvents: search ? 'none' : 'auto', opacity: search ? .25 : 1}}>
-                        Recenzije <span>{count?.singleReviews}</span>
-                    </FilterButton>
+                    <Filter clickFunction={handleFilter} title='Sve' label='' filter={filter} search={search} count={count}/>
+                    <Filter clickFunction={handleFilter} title='Kratki Pregledi' label='quad' filter={filter} search={search} count={count}/>
+                    <Filter clickFunction={handleFilter} title='Recenzije' label='single' filter={filter} search={search} count={count}/>
                 </FilterControl>
                 <SortControl>
-                    <SortButton onClick={() => handleSortAndOrder(SORT_OPTIONS.TITLE, order)} className={sort === SORT_OPTIONS.TITLE && !search ? 'active' : ''} style={{pointerEvents: search ? 'none' : 'auto', opacity: search ? .25 : 1}}>
-                        Naslov <span>{sort === SORT_OPTIONS.TITLE && !search ? (order === 'desc' ? '🔽' : '🔼') : ''}</span>
-                    </SortButton>
-                    <SortButton onClick={() => handleSortAndOrder(SORT_OPTIONS.RATING, order)} className={sort === SORT_OPTIONS.RATING && !search ? 'active' : ''} style={{pointerEvents: search ? 'none' : 'auto', opacity: search ? .25 : 1}}>
-                        Ocjena <span>{sort === SORT_OPTIONS.RATING && !search ? (order === 'desc' ? '🔽' : '🔼') : ''}</span>
-                    </SortButton>
-                    <SortButton onClick={() => handleSortAndOrder(SORT_OPTIONS.CREATED, order)} className={sort === SORT_OPTIONS.CREATED && !search ? 'active' : ''} style={{pointerEvents: search ? 'none' : 'auto', opacity: search ? .25 : 1}}>
-                        Datum <span>{sort === SORT_OPTIONS.CREATED && !search ? (order === 'desc' ? '🔽' : '🔼') : ''}</span>
-                    </SortButton>
+                    <Sort clickFunction={handleSortAndOrder} title='Naslov' sortOption={SORT_OPTIONS.TITLE} sort={sort} order={order} search={search}/>
+                    <Sort clickFunction={handleSortAndOrder} title='Ocjena' sortOption={SORT_OPTIONS.RATING} sort={sort} order={order} search={search}/>
+                    <Sort clickFunction={handleSortAndOrder} title='Datum' sortOption={SORT_OPTIONS.CREATED} sort={sort} order={order} search={search}/>
                 </SortControl>
             </SearchControls>
         ) : ''}
