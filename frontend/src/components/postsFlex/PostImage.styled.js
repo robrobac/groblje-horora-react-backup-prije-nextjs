@@ -5,9 +5,11 @@ export const PreviewImage = styled.div`
     overflow: hidden;
     border-radius: ${(props) => props.theme.dark.radiusM};
 
-    &:hover {
-        -webkit-box-shadow: 0px 0px 21px 1px #000000; 
-        box-shadow: 0px 0px 21px 1px #000000;
+    @media (hover: hover) {
+        &:hover {
+            -webkit-box-shadow: 0px 0px 21px 1px #000000; 
+            box-shadow: 0px 0px 21px 1px #000000;
+        }
     }
    
     .singleMovieImage {
@@ -28,9 +30,11 @@ export const QuadImageContainer = styled.div`
     overflow: hidden;
     border-radius: ${(props) => props.theme.dark.radiusM};
 
-    &:hover {
-        -webkit-box-shadow: 0px 0px 21px 1px #000000; 
-        box-shadow: 0px 0px 21px 1px #000000;
+    @media (hover: hover) {
+        &:hover {
+            -webkit-box-shadow: 0px 0px 21px 1px #000000; 
+            box-shadow: 0px 0px 21px 1px #000000;
+        }
     }
     
 `

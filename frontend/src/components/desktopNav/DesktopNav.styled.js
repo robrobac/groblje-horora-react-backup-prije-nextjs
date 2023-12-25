@@ -33,9 +33,11 @@ export const DesktopNavItem = styled(NavLink)`
         transition: .1s;
     }
 
-    &:hover {
-        cursor: pointer;
-        color: ${(props) => props.theme.dark.colorRED};
-        /* border-bottom: 2px solid ${(props) => props.theme.dark.colorRED}; */
+    @media (hover: hover) {
+        &:hover {
+            cursor: pointer;
+            color: ${(props) => props.theme.dark.colorRED};
+            /* border-bottom: 2px solid ${(props) => props.theme.dark.colorRED}; */
+        }
     }
 `

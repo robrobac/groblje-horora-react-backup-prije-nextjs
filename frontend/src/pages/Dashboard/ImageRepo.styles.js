@@ -34,9 +34,10 @@ export const RepoImages = styled.div`
         border: 1px solid ${(props) => props.theme.dark.inputBorder};
         cursor: copy;
         
-
-        &:hover {
-            background-color: ${(props) => props.theme.dark.secondary};
+        @media (hover: hover) {
+            &:hover {
+                background-color: ${(props) => props.theme.dark.secondary};
+            }
         }
     
         .deleteButton {
@@ -110,9 +111,11 @@ padding: 10px;
     text-align: center;
     cursor: pointer;
     background-color: ${(props) => props.theme.dark.secondary};
-
-    &:hover {
-        font-weight: 600;
+    
+    @media (hover: hover) {
+        &:hover {
+            font-weight: 600;
+        }
     }
 
 `

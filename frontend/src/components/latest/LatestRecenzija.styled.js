@@ -62,8 +62,10 @@ export const RecenzijaTitle = styled.h2`
     font-size: ${(props) => props.theme.dark.textXXL};
     transition: .1s;
 
-    &:hover {
-        color: ${(props) => props.theme.dark.colorRED};
+    @media (hover: hover) {
+        &:hover {
+            color: ${(props) => props.theme.dark.colorRED};
+        }
     }
 
     span {
@@ -108,6 +110,8 @@ export const LatestSingleImage = styled.div`
     min-width: 300px;
     border-radius: ${(props) => props.theme.dark.radiusM};
     transition: .1s;
+    aspect-ratio: 20800 / 30513;
+    overflow: hidden;
 
     img {  
         object-fit: cover;
@@ -116,13 +120,19 @@ export const LatestSingleImage = styled.div`
         
         border-radius: ${(props) => props.theme.dark.radiusM};
         }
-    &:hover {
-        -webkit-box-shadow: 0px 0px 21px 1px #000000; 
-        box-shadow: 0px 0px 21px 1px #000000;
+    @media (hover: hover) {
+        &:hover {
+            -webkit-box-shadow: 0px 0px 21px 1px #000000; 
+            box-shadow: 0px 0px 21px 1px #000000;
+        }
+    }
+    @media (max-width: 810px) {
+        min-width: 260px;
     }
     @media (max-width: 768px) {
         max-width: 425px;
         min-width: unset;
+        aspect-ratio: unset;
     }
 `
 

@@ -22,8 +22,10 @@ export const PostTitle = styled.h2`
     font-size: ${(props) => props.theme.dark.textL};
     transition: .1s;
 
-    &:hover {
-        color: ${(props) => props.theme.dark.colorRED};
+    @media (hover: hover) {
+        &:hover {
+            color: ${(props) => props.theme.dark.colorRED};
+        }
     }
 
     span {

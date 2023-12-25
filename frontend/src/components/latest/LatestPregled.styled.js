@@ -49,8 +49,10 @@ export const PregledTitle = styled.h2`
     font-size: ${(props) => props.theme.dark.textXXL};
     transition: .1s;
 
-    &:hover {
-        color: ${(props) => props.theme.dark.colorRED};
+    @media (hover: hover) {
+        &:hover {
+            color: ${(props) => props.theme.dark.colorRED};
+        }
     }
 
     @media (max-width: 230px) {
@@ -89,9 +91,11 @@ export const QuadCoverContainer = styled.div`
     transition: .1s;
     border-radius: ${(props) => props.theme.dark.radiusM};
 
-    &:hover {
-        -webkit-box-shadow: 0px 0px 21px 1px #000000; 
+    @media (hover: hover) {
+        &:hover {
+            -webkit-box-shadow: 0px 0px 21px 1px #000000; 
         box-shadow: 0px 0px 21px 1px #000000;
+        }
     }
 
     .image0 {

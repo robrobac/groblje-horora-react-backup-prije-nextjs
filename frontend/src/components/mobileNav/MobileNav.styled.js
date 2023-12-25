@@ -50,9 +50,12 @@ export const MobileNavItem = styled(NavLink)`
         border-bottom: 2px solid ${(props) => props.theme.dark.primary};
     }
 
-    &:hover {
-        cursor: pointer;
-        color: ${(props) => props.theme.dark.primary};
-        border-bottom: 2px solid ${(props) => props.theme.dark.primary};
+    @media (hover: hover) {
+        &:hover {
+            cursor: pointer;
+            color: ${(props) => props.theme.dark.primary};
+            border-bottom: 2px solid ${(props) => props.theme.dark.primary};
+        }
     }
+    
 `

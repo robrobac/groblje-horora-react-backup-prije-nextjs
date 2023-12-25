@@ -18,9 +18,11 @@ export const StyledButton = styled.button`
         }
     }
 
-    &:hover {
-        background-color: ${(props) => props.theme.dark.colorREDhover};
+    @media (hover: hover) {
+        &:hover {
+            background-color: ${(props) => props.theme.dark.colorREDhover};
     }
+}
 `
 export const TextButton = styled(StyledButton)`
     font-size: ${(props) => props.theme.dark.textM};
@@ -28,14 +30,16 @@ export const TextButton = styled(StyledButton)`
     color: ${(props) => props.theme.dark.colorWHITE};
     padding: 0;
 
-    &:hover {
-        background-color: transparent;
-        color: ${(props) => props.theme.dark.colorRED};
+    @media (hover: hover) {
+        &:hover {
+            background-color: transparent;
+            color: ${(props) => props.theme.dark.colorRED};
+        }
     }
 `
 
 export const FilterButton = styled.button`
-min-height: 31px;
+    min-height: 31px;
     height: fit-content;
     border: 1px solid ${(props) => props.theme.dark.colorWHITE50};
     background-color: transparent;
@@ -61,8 +65,11 @@ min-height: 31px;
         }
     }
 
-    &:hover {
-        color: ${(props) => props.theme.dark.colorWHITE};
+    @media (hover: hover) {
+        &:hover {
+            background-color: transparent;
+            color: ${(props) => props.theme.dark.colorWHITE};
+        }
     }
 
     @media (max-width: 768px) {

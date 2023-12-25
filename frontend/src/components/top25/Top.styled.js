@@ -32,8 +32,10 @@ export const TopTitle = styled.h2`
     font-size: ${(props) => props.theme.dark.textHUGE};
     transition: .1s;
 
-    &:hover {
-        color: ${(props) => props.theme.dark.colorRED};
+    @media (hover: hover) {
+        &:hover {
+            color: ${(props) => props.theme.dark.colorRED};
+        }
     }
 
     span {
@@ -51,11 +53,7 @@ export const TopTitle = styled.h2`
 
 export const TopDescription = styled.p`
     font-size: ${(props) => props.theme.dark.textL};
-    opacity: .8;
-
-    span {
-        opacity: .5;
-    }
+    color: ${(props) => props.theme.dark.colorWHITE80};
 `
 
 export const TopImage = styled.div`
@@ -69,10 +67,13 @@ export const TopImage = styled.div`
         width: 100%;
         
         border-radius: ${(props) => props.theme.dark.radiusM};
-        }
-    &:hover {
-        -webkit-box-shadow: 0px 0px 21px 1px #000000; 
+    }
+
+    @media (hover: hover) {
+        &:hover {
+            -webkit-box-shadow: 0px 0px 21px 1px #000000; 
         box-shadow: 0px 0px 21px 1px #000000;
+        }
     }
     @media (max-width: 768px) {
         max-width: 425px;

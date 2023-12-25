@@ -24,8 +24,10 @@ export const StyledPagination = styled.div`
                 
             }
 
-            &:hover {
-                background-color: ${(props) => props.theme.dark.colorWHITE25};
+            @media (hover: hover) {
+                &:hover {
+                    background-color: ${(props) => props.theme.dark.colorWHITE25};
+                }
             }
         }
 

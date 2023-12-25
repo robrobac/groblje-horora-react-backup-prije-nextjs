@@ -77,8 +77,10 @@ export const LogoutLink = styled.span`
     cursor: pointer;
     color: ${(props) => props.theme.dark.colorWHITE};
 
-    &:hover {
-        text-decoration: underline;
+    @media (hover: hover) {
+        &:hover {
+            text-decoration: underline;
+        }
     }
 `
 
@@ -87,8 +89,11 @@ export const RedirectLink = styled(NavLink)`
         cursor: pointer;
         color: ${(props) => props.theme.dark.colorWHITE};
 
-        &:hover {
-            text-decoration: underline;
+
+        @media (hover: hover) {
+            &:hover {
+                text-decoration: underline;
+            }
         }
 `
 
@@ -115,10 +120,12 @@ export const GoogleLoginButton = styled.button`
     svg {
         scale: 1.3;
     }
-    
-    &:hover {
-        -webkit-box-shadow: 0px 0px 24px 1px rgba(0,0,0,0.5); 
-        box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.5);
+
+    @media (hover: hover) {
+        &:hover {
+            -webkit-box-shadow: 0px 0px 24px 1px rgba(0,0,0,0.5); 
+            box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.5);
+        }
     }
     
     &:focus {

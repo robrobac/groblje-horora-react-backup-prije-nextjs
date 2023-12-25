@@ -44,8 +44,11 @@ export const TableItem = styled.div`
             display: inline;
             cursor: pointer;
             padding-bottom: 2px;
-            &:hover {
-                border-bottom: 1px solid white;
+
+            @media (hover: hover) {
+                &:hover {
+                    border-bottom: 1px solid white;
+                }
             }
         }
     }
@@ -65,22 +68,19 @@ export const TableItem = styled.div`
             fill: ${(props) => props.theme.dark.grayText}
         }
 
-        svg:first-child:hover {
-            fill: ${(props) => props.theme.dark.lightText};
+        @media (hover: hover) {
+            svg:hover {
+                fill: ${(props) => props.theme.dark.colorRED};
+            }
         }
-
-        svg:last-child:hover {
-            fill: ${(props) => props.theme.dark.secondary};
-        }
-
-
-        
     }
 
-    &:hover {
-        .icons {
-            display: flex;
-            gap: .5rem;
+    @media (hover: hover) {
+        &:hover {
+            .icons {
+                display: flex;
+                gap: .5rem;
+            }
         }
     }
 `

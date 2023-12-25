@@ -38,7 +38,9 @@ export const CloseIcon = styled.div`
     border-radius: ${(props) => props.theme.dark.radiusM};
     cursor: pointer;
 
-    &:hover {
-        fill: ${(props) => props.theme.dark.colorRED};
+    @media (hover: hover) {
+        &:hover {
+            fill: ${(props) => props.theme.dark.colorRED};
+        }
     }
 `
