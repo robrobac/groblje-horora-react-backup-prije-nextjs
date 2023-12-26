@@ -23,12 +23,12 @@ export default function About() {
                 
                 <CountersWrap>
                     <CounterContainer>
-                        <Counter duration={1000} targetNumber={count.numberOfMovies ? count.numberOfMovies : 0}/>
+                        <Counter duration={1000} targetNumber={count.numberOfMovies}/>
                         <br></br>
                         <span>HORORA</span> 
                     </CounterContainer>
                     <CounterContainer>
-                        <Counter duration={1000} targetNumber={count.numberOfReviews ? count.numberOfReviews : 0}/>
+                        <Counter duration={1000} targetNumber={count.numberOfReviews}/>
                         <br></br>
                         <span>OBJAVA</span> 
                     </CounterContainer>
