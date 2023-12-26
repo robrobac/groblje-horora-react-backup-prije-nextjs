@@ -1,5 +1,6 @@
 import React from "react";
 import { StyledPie } from "./Pie.styled";
+import Counter from "./Counter";
 
 const cleanPercentage = (percentage) => {
   const tooLow = !Number.isFinite(+percentage) || percentage < 0;
@@ -33,7 +34,7 @@ const Text = ({ percentage }) => {
       textAnchor="middle"
       fontSize={"1.5em"}
     >
-      {percentage}
+      <Counter duration={1000} targetNumber={percentage}/>
     </text>
   );
 };

@@ -7,6 +7,7 @@ import Top20smecaComponent from '../components/top25/Top20smecaComponent'
 import RecenzijeHomeCover from '../components/recenzijeHomeCover/RecenzijeHomeCover'
 import HandleDocumentTitle from '../helpers/handleDocumentTitle'
 import Loading from '../components/loading/Loading'
+import Introduction from '../components/introduction/Introduction'
 
 export default function Home() {
     HandleDocumentTitle('Naslovna - Groblje Horora')
@@ -14,7 +15,7 @@ export default function Home() {
         return (
             <main className='centerHorizontally'>
                 <HomeCoverImage />
-                <h1 className="mainTitle">Groblje Horora</h1>
+                <Introduction />
                 <LatestPregled />
                 <LatestRecenzija />
                 <Top25component />

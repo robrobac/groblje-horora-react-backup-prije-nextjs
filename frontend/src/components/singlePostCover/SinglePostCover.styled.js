@@ -5,7 +5,7 @@ export const SinglePostCoverWrap = styled.div`
     max-width: 2560px;
     margin-top: -2rem;
     
-    @media (max-width: 425px) {
+    @media (max-width: 768px) {
         padding: 0 ${(props) => props.theme.dark.contentPadding};
         margin-top: 0;
 
@@ -33,10 +33,10 @@ export const SinglePostCoverContainer = styled.div`
     transition: .1s;
     border-radius: ${(props) => props.theme.dark.radiusM};
 
-    @media (max-width: 425px) {
+    @media (max-width: 768px) {
         grid-template-columns: repeat(2, 1fr);
         max-width: 425px;
-    } 
+    }  
 `;
 
 export const QuadImageContainer = styled.div`

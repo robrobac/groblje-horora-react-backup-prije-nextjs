@@ -74,9 +74,14 @@ export const PregledSubTitle = styled.p`
 export const PregledDescription = styled.p`
     font-size: ${(props) => props.theme.dark.textL};
     color: ${(props) => props.theme.dark.colorWHITE80};
+    line-height: 30px;
 
     span {
         color: ${(props) => props.theme.dark.colorWHITE50};
+    }
+
+    @media (max-width: 425px) {
+        font-size: ${(props) => props.theme.dark.textM};
     }
 `
 

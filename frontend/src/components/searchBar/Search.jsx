@@ -24,9 +24,9 @@ export default function Search({ search, handleSearch, sort, order, handleSortAn
         {controls ? (
             <SearchControls>
                 <FilterControl>
-                    <Filter clickFunction={handleFilter} title='Sve' label='' filter={filter} search={search} count={count}/>
-                    <Filter clickFunction={handleFilter} title='Kratki Pregledi' label='quad' filter={filter} search={search} count={count}/>
-                    <Filter clickFunction={handleFilter} title='Recenzije' label='single' filter={filter} search={search} count={count}/>
+                    <Filter clickFunction={handleFilter} title='Sve' label='' filter={filter} search={search} count={count} counting={count?.numberOfReviews}/>
+                    <Filter clickFunction={handleFilter} title='Kratki Pregledi' label='quad' filter={filter} search={search} count={count} counting={count?.quadReviews}/>
+                    <Filter clickFunction={handleFilter} title='Recenzije' label='single' filter={filter} search={search} count={count} counting={count?.singleReviews}/>
                 </FilterControl>
                 <SortControl>
                     <Sort clickFunction={handleSortAndOrder} title='Naslov' sortOption={SORT_OPTIONS.TITLE} sort={sort} order={order} search={search}/>
