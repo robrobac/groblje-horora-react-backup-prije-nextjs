@@ -7,12 +7,10 @@ import {ReactComponent as GoogleIcon} from '../../images/googleicon.svg'
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
 import { auth } from '../../firebase/config'
 import { useNavigate } from 'react-router-dom';
-import HandleDocumentTitle from '../../helpers/handleDocumentTitle'
 import { StyledButton } from '../../components/buttons/Buttons.styled'
+import HelmetSettings from '../../components/HelmetSettings'
 
 export default function Register() {
-    HandleDocumentTitle('Registracija - Groblje Horora')
-
     const navigate = useNavigate();
 
     const [username, setUsername] = useState('')
@@ -101,34 +99,45 @@ export default function Register() {
     };
 
     return (
-        <AuthPage style={{backgroundImage: `url(${homeCoverImage})`}}>
-            <RedirectLink to='/'>
-                <Logo />
-            </RedirectLink>
-            <AuthContainer>
-                <h3>REGISTRACIJA</h3>
-                <p className='error'>{errors.join(', ')}</p>
-                <AuthForm onSubmit={handleRegister}>
-                    <InputContainer>
-                        <InputLabel htmlFor='username'>Username</InputLabel>
-                        <InputField id='username' type='text' value={username} onChange={(e) => setUsername(e.target.value)}/>
-                    </InputContainer>
-                    <InputContainer>
-                        <InputLabel htmlFor='email'>Email</InputLabel>
-                        <InputField id='email' type='email' value={email} onChange={(e) => setEmail(e.target.value)}/>
-                    </InputContainer>
-                    <InputContainer>
-                        <InputLabel htmlFor='password'>Password</InputLabel>
-                        <InputField id='password' type='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
-                    </InputContainer>
-                    <StyledButton type='submit'>Register</StyledButton>
-                </AuthForm>
-                <p className='separator'>OR</p>
-                <GoogleLoginButton type="button" disabled>
-                    <GoogleIcon /> Sign in with Google
-                </GoogleLoginButton>
-                <p>Already have an account? <RedirectLink to='/login'><span className='loginLink'>Login</span></RedirectLink></p>
-            </AuthContainer>
-        </AuthPage>
+
+        <>
+            <HelmetSettings
+                title={`Registracija - Groblje Horora`}
+                description={`
+                    Registracija
+                `}
+                url={`https://www.groblje-horora.com/register`}
+                image={`%PUBLIC_URL%/images/groblje-horora-og-image.webp`}
+            />
+            <AuthPage style={{backgroundImage: `url(${homeCoverImage})`}}>
+                <RedirectLink to='/'>
+                    <Logo />
+                </RedirectLink>
+                <AuthContainer>
+                    <h3>REGISTRACIJA</h3>
+                    <p className='error'>{errors.join(', ')}</p>
+                    <AuthForm onSubmit={handleRegister}>
+                        <InputContainer>
+                            <InputLabel htmlFor='username'>Username</InputLabel>
+                            <InputField id='username' type='text' value={username} onChange={(e) => setUsername(e.target.value)}/>
+                        </InputContainer>
+                        <InputContainer>
+                            <InputLabel htmlFor='email'>Email</InputLabel>
+                            <InputField id='email' type='email' value={email} onChange={(e) => setEmail(e.target.value)}/>
+                        </InputContainer>
+                        <InputContainer>
+                            <InputLabel htmlFor='password'>Password</InputLabel>
+                            <InputField id='password' type='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
+                        </InputContainer>
+                        <StyledButton type='submit'>Register</StyledButton>
+                    </AuthForm>
+                    <p className='separator'>OR</p>
+                    <GoogleLoginButton type="button" disabled>
+                        <GoogleIcon /> Sign in with Google
+                    </GoogleLoginButton>
+                    <p>Already have an account? <RedirectLink to='/login'><span className='loginLink'>Login</span></RedirectLink></p>
+                </AuthContainer>
+            </AuthPage>
+        </>
     )
 }

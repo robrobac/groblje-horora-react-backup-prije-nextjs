@@ -7,11 +7,10 @@ import {ReactComponent as GoogleIcon} from '../../images/googleicon.svg'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../../firebase/config'
 import { useNavigate } from 'react-router-dom';
-import HandleDocumentTitle from '../../helpers/handleDocumentTitle'
 import { StyledButton } from '../../components/buttons/Buttons.styled'
+import HelmetSettings from '../../components/HelmetSettings'
 
 function Login() {
-    HandleDocumentTitle('Prijava - Groblje Horora')
 
     const navigate = useNavigate();
 
@@ -42,31 +41,42 @@ function Login() {
     }
 
     return (
-        <AuthPage style={{backgroundImage: `url(${homeCoverImage})`}}>
-            <RedirectLink to='/'>
-                <Logo />
-            </RedirectLink>
-            <AuthContainer>
-                <h3>PRIJAVA</h3>
-                <p className='error'>{error}</p>
-                <AuthForm onSubmit={handleLogin}>
-                    <InputContainer>
-                        <InputLabel htmlFor='email'>Email</InputLabel>
-                        <InputField id='email' type='email' value={email} onChange={(e) => setEmail(e.target.value)}/>
-                    </InputContainer>
-                    <InputContainer>
-                        <InputLabel htmlFor='password'>Password</InputLabel>
-                        <InputField id='password' type='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
-                    </InputContainer>
-                    <StyledButton type='submit'>Login</StyledButton>
-                </AuthForm>
-                <p>OR</p>
-                <GoogleLoginButton type="button" disabled>
-                    <GoogleIcon /> Sign in with Google
-                </GoogleLoginButton>
-                <p>Don't have an account? <RedirectLink to='/register'><span className='loginLink'>Register</span></RedirectLink></p>
-            </AuthContainer>
-        </AuthPage>
+
+        <>
+            <HelmetSettings
+                title={`Prijava - Groblje Horora`}
+                description={`
+                    Prijava
+                `}
+                url={`https://www.groblje-horora.com/login`}
+                image={`%PUBLIC_URL%/images/groblje-horora-og-image.webp`}
+            />
+            <AuthPage style={{backgroundImage: `url(${homeCoverImage})`}}>
+                <RedirectLink to='/'>
+                    <Logo />
+                </RedirectLink>
+                <AuthContainer>
+                    <h3>PRIJAVA</h3>
+                    <p className='error'>{error}</p>
+                    <AuthForm onSubmit={handleLogin}>
+                        <InputContainer>
+                            <InputLabel htmlFor='email'>Email</InputLabel>
+                            <InputField id='email' type='email' value={email} onChange={(e) => setEmail(e.target.value)}/>
+                        </InputContainer>
+                        <InputContainer>
+                            <InputLabel htmlFor='password'>Password</InputLabel>
+                            <InputField id='password' type='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
+                        </InputContainer>
+                        <StyledButton type='submit'>Login</StyledButton>
+                    </AuthForm>
+                    <p>OR</p>
+                    <GoogleLoginButton type="button" disabled>
+                        <GoogleIcon /> Sign in with Google
+                    </GoogleLoginButton>
+                    <p>Don't have an account? <RedirectLink to='/register'><span className='loginLink'>Register</span></RedirectLink></p>
+                </AuthContainer>
+            </AuthPage>
+        </>
     )
 }
 

@@ -19,7 +19,7 @@ import { File, FileLabel, StyledForm, FormContainer, FormContent, FormImage, Inp
 import { FormSection, PageContainer } from '../Pages.styles';
 
 import { useNavigate } from 'react-router-dom';
-import HandleDocumentTitle from '../../helpers/handleDocumentTitle';
+import HelmetSettings from '../../components/HelmetSettings';
 
 export default function NewForm({ numberOfMovies }) {
     const [reviewTitle, setReviewTitle] = useState(numberOfMovies === 1 ? 'Not required for single movie review' : '');
@@ -37,14 +37,6 @@ export default function NewForm({ numberOfMovies }) {
     const [emptyFields, setEmptyFields] = useState([])
     
     const navigate = useNavigate();
-
-    if (numberOfMovies === 1) {
-        HandleDocumentTitle(`Nova Recenzija - Groblje Horora`)
-    }
-
-    if (numberOfMovies === 4) {
-        HandleDocumentTitle(`Novi Kratki Pregled - Groblje Horora`)
-    }
     
     // Creating State for Preview Screen before Submitting the Form
     useEffect(() => {
@@ -237,95 +229,105 @@ export default function NewForm({ numberOfMovies }) {
     };
 
   return (
-    <PageContainer>
-        <FormSection>
-            <StyledForm onSubmit={handleSubmit}>
-                {numberOfMovies === 4 ? (
-                    <InputContainer>
-                        <InputLabel htmlFor='reviewTitle'>Review Title {emptyFields.includes('titleExists') ? <span className='error'>Title already exists</span> : ''}</InputLabel>
-                        <InputField className={emptyFields.includes('reviewTitle') ? 'error' : '' } id='reviewTitle' type='text' value={reviewTitle} onChange={(e) => setReviewTitle(e.target.value)}/>
-                    </InputContainer>
-                ) : ''}
-                <Tabs>
-                    <TabList>
-                        {movies.map((movie, index) => (
-                            <Tab key={`movie${index + 1}`} $isActive={selectedTab === `movie${index + 1}`} onClick={() => setSelectedTab(`movie${index + 1}`)}>Movie {index + 1}</Tab>
-                        ))}
-                    </TabList>
-                </Tabs>
-                {movies.map((movie, index) => (
-                    <TabPanel key={`movie${index + 1}`} $isActive={selectedTab === `movie${index + 1}`}>
-                        <h3>Movie {index + 1}</h3>
-                        <FormContainer>
-                        <FormImage>
-                            <div>
-                                {movie.compressedCoverImage
-                                ?
-                                    <img src={URL.createObjectURL(movie.compressedCoverImage)} alt='uploadedImage' onClick={() => handleUploadClick(index)}/>
-                                :
-                                    <FileLabel className={emptyFields.includes(`movie${index}coverImage`) ? 'error' : ''} htmlFor={`coverImage${index}`}>Cover Image</FileLabel>
-                                }
-                                <File id={`coverImage${index}`} type='file' accept='image/' onChange={(e) => handleCompressImage(e, index)}/>
-                            </div>
-                        </FormImage>
-                        <FormContent>
-                            <InputContainer>
-                                <InputLabel htmlFor='title'>Title {emptyFields.includes('titleExists') && numberOfMovies === 1 ? <span className='error'>Title already exists</span> : ''}</InputLabel>
-                                <InputField className={emptyFields.includes(`movie${index}title`) ? 'error' : ''} id='title' type='text' value={movie.title} onChange={(e) => handleChange(index, 'title', e.target.value)}/>
-                            </InputContainer>
-                            <InputContainer>
-                                <InputLabel htmlFor='year'>Year</InputLabel>
-                                <InputField className={emptyFields.includes(`movie${index}year`) ? 'error' : '' } id='year' type='number' value={movie.year} onChange={(e) => handleChange(index, 'year', e.target.value)}/>
-                            </InputContainer>
-                            <InputContainer>
-                                <InputLabel htmlFor='rating'>Rating</InputLabel>
-                                <InputField className={emptyFields.includes(`movie${index}rating`) ? 'error' : '' } id='rating' type='number' value={movie.rating} onChange={(e) => handleChange(index, 'rating', parseFloat(e.target.value))} step='0.5' min='1' max='5'/>
-                            </InputContainer>
-                            <InputContainer>
-                                <InputLabel htmlFor='imdbLink'>Imdb Link</InputLabel>
-                                <InputField id='imdbLink'  type='text' value={movie.imdbLink} onChange={(e) => handleChange(index, 'imdbLink', e.target.value)}/>
-                            </InputContainer>
-                            <div className="dualInput">
-                            <div>
-                                <label htmlFor='top25'>Top25</label>
-                                <input id='top25' type='checkbox' value={movie.top25} onChange={(e) => handleChange(index, 'top25', !movie.top25)}/>
-                            </div>
+    <>
+        <HelmetSettings
+            title={`${numberOfMovies ? (numberOfMovies === 4 ? 'Novi Kratki Pregled Pogledanog' : 'Nova Recenzija') : ''} - Groblje Horora`}
+            description={`
+                Dashboard
+            `}
+            url={``}
+            image={`%PUBLIC_URL%/images/groblje-horora-og-image.webp`}
+        />
+        <PageContainer>
+            <FormSection>
+                <StyledForm onSubmit={handleSubmit}>
+                    {numberOfMovies === 4 ? (
+                        <InputContainer>
+                            <InputLabel htmlFor='reviewTitle'>Review Title {emptyFields.includes('titleExists') ? <span className='error'>Title already exists</span> : ''}</InputLabel>
+                            <InputField className={emptyFields.includes('reviewTitle') ? 'error' : '' } id='reviewTitle' type='text' value={reviewTitle} onChange={(e) => setReviewTitle(e.target.value)}/>
+                        </InputContainer>
+                    ) : ''}
+                    <Tabs>
+                        <TabList>
+                            {movies.map((movie, index) => (
+                                <Tab key={`movie${index + 1}`} $isActive={selectedTab === `movie${index + 1}`} onClick={() => setSelectedTab(`movie${index + 1}`)}>Movie {index + 1}</Tab>
+                            ))}
+                        </TabList>
+                    </Tabs>
+                    {movies.map((movie, index) => (
+                        <TabPanel key={`movie${index + 1}`} $isActive={selectedTab === `movie${index + 1}`}>
+                            <h3>Movie {index + 1}</h3>
+                            <FormContainer>
+                            <FormImage>
                                 <div>
-                                    <label htmlFor='worse20'>
-                                        Worse20
-                                        <input id='worse20' type='checkbox' value={movie.worse20} onChange={(e) => handleChange(index, 'worse20', !movie.worse20)}/>
-                                    </label>
+                                    {movie.compressedCoverImage
+                                    ?
+                                        <img src={URL.createObjectURL(movie.compressedCoverImage)} alt='uploadedImage' onClick={() => handleUploadClick(index)}/>
+                                    :
+                                        <FileLabel className={emptyFields.includes(`movie${index}coverImage`) ? 'error' : ''} htmlFor={`coverImage${index}`}>Cover Image</FileLabel>
+                                    }
+                                    <File id={`coverImage${index}`} type='file' accept='image/' onChange={(e) => handleCompressImage(e, index)}/>
                                 </div>
-                            </div>
-                        </FormContent>
-                        </FormContainer>
-                        <TextEditorContainer>
-                            <InputLabel>Post Content</InputLabel>
-                            <StyledEditor>
-                                <Editor wrapperClassName={emptyFields.includes(`movie${index}reviewContent`) ? 'error' : '' } editorState={movie.editorState} onEditorStateChange={(newEditorState) => handleEditorStateChange(index, newEditorState)}
-                                    toolbar={{
-                                        options: ['inline', 'image', 'link', 'history'],
-                                        inline: {
-                                            options: ['bold', 'italic']
-                                        },
-                                        image: {
-                                            urlEnabled: true,
-                                            uploadEnabled: false,
-                                            alignmentEnabled: true,
-                                            className: 'imageButton',
-                                            popupClassName: 'imagePopup',
-                                        }
-                                    }}
-                                />
-                            </StyledEditor>
-                        </TextEditorContainer>
-                    </TabPanel>
-                ))}
-                {postPreview ? <PreviewDialog postPreview={postPreview} formFailed={formFailed}/> : ''}
-            </StyledForm>
-            <ImageRepo handleContentImages={handleContentImages} contentImages={contentImages} formSubmitted={formSubmitted}/>
-        </FormSection>
-    </PageContainer>
+                            </FormImage>
+                            <FormContent>
+                                <InputContainer>
+                                    <InputLabel htmlFor='title'>Title {emptyFields.includes('titleExists') && numberOfMovies === 1 ? <span className='error'>Title already exists</span> : ''}</InputLabel>
+                                    <InputField className={emptyFields.includes(`movie${index}title`) ? 'error' : ''} id='title' type='text' value={movie.title} onChange={(e) => handleChange(index, 'title', e.target.value)}/>
+                                </InputContainer>
+                                <InputContainer>
+                                    <InputLabel htmlFor='year'>Year</InputLabel>
+                                    <InputField className={emptyFields.includes(`movie${index}year`) ? 'error' : '' } id='year' type='number' value={movie.year} onChange={(e) => handleChange(index, 'year', e.target.value)}/>
+                                </InputContainer>
+                                <InputContainer>
+                                    <InputLabel htmlFor='rating'>Rating</InputLabel>
+                                    <InputField className={emptyFields.includes(`movie${index}rating`) ? 'error' : '' } id='rating' type='number' value={movie.rating} onChange={(e) => handleChange(index, 'rating', parseFloat(e.target.value))} step='0.5' min='1' max='5'/>
+                                </InputContainer>
+                                <InputContainer>
+                                    <InputLabel htmlFor='imdbLink'>Imdb Link</InputLabel>
+                                    <InputField id='imdbLink'  type='text' value={movie.imdbLink} onChange={(e) => handleChange(index, 'imdbLink', e.target.value)}/>
+                                </InputContainer>
+                                <div className="dualInput">
+                                <div>
+                                    <label htmlFor='top25'>Top25</label>
+                                    <input id='top25' type='checkbox' value={movie.top25} onChange={(e) => handleChange(index, 'top25', !movie.top25)}/>
+                                </div>
+                                    <div>
+                                        <label htmlFor='worse20'>
+                                            Worse20
+                                            <input id='worse20' type='checkbox' value={movie.worse20} onChange={(e) => handleChange(index, 'worse20', !movie.worse20)}/>
+                                        </label>
+                                    </div>
+                                </div>
+                            </FormContent>
+                            </FormContainer>
+                            <TextEditorContainer>
+                                <InputLabel>Post Content</InputLabel>
+                                <StyledEditor>
+                                    <Editor wrapperClassName={emptyFields.includes(`movie${index}reviewContent`) ? 'error' : '' } editorState={movie.editorState} onEditorStateChange={(newEditorState) => handleEditorStateChange(index, newEditorState)}
+                                        toolbar={{
+                                            options: ['inline', 'image', 'link', 'history'],
+                                            inline: {
+                                                options: ['bold', 'italic']
+                                            },
+                                            image: {
+                                                urlEnabled: true,
+                                                uploadEnabled: false,
+                                                alignmentEnabled: true,
+                                                className: 'imageButton',
+                                                popupClassName: 'imagePopup',
+                                            }
+                                        }}
+                                    />
+                                </StyledEditor>
+                            </TextEditorContainer>
+                        </TabPanel>
+                    ))}
+                    {postPreview ? <PreviewDialog postPreview={postPreview} formFailed={formFailed}/> : ''}
+                </StyledForm>
+                <ImageRepo handleContentImages={handleContentImages} contentImages={contentImages} formSubmitted={formSubmitted}/>
+            </FormSection>
+        </PageContainer>
+    </>
 )
 }
 
