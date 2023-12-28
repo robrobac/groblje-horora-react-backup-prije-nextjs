@@ -95,3 +95,22 @@ export const SortButton = styled(FilterButton)`
         fill: ${(props) => props.theme.dark.colorWHITE80};
     }
 `
+
+export const CommentsButton = styled(StyledButton)`
+
+    font-size: ${(props) => props.theme.dark.textM};
+    background-color: ${(props) => props.theme.dark.colorBLACK};
+    color: ${(props) => props.theme.dark.colorWHITE};
+    
+
+    @media (hover: hover) {
+        &:hover {
+            background-color: ${(props) => props.theme.dark.commentsBG};
+        }
+    }
+
+    &.active {
+        background-color: ${(props) => props.theme.dark.commentsBG};
+        border-radius: ${(props) => props.theme.dark.radiusS} ${(props) => props.theme.dark.radiusS} 0 0;
+    }
+`

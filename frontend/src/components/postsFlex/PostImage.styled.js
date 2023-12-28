@@ -47,6 +47,7 @@ export const QuadImage = styled.div`
         height: 100%;
         width: 100%;
         object-fit: cover;
+        background-color: red;
     }
 
     .image01 {

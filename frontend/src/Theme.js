@@ -52,12 +52,15 @@ const theme = {
         colorWHITE80: () => hexToRgba('#eddede', 0.8),
         colorWHITE50: () => hexToRgba('#eddede', 0.5),
         colorWHITE25: () => hexToRgba('#eddede', 0.25),
+        colorWHITE15: () => hexToRgba('#eddede', 0.15),
         colorWHITE05: () => hexToRgba('#eddede', 0.05),
 
         colorBLACK: '#141414',
         colorBLACK80: () => hexToRgba('#141414', 0.8),
         colorBLACK50: () => hexToRgba('#141414', 0.5),
         colorBLACK25: () => hexToRgba('#141414', 0.25),
+
+        commentsBG: '#00000020',
 
         // Content widths
         normalWidth: '1200px',

@@ -6,6 +6,7 @@ import SinglePostCover from '../../components/singlePostCover/SinglePostCover'
 import { MovieDate, TitleH1 } from '../../components/movie/Movie.styled'
 import { format } from 'date-fns'
 import HelmetSettings from '../../components/HelmetSettings'
+import Comments from '../../components/comments/Comments'
 
 export default function SinglePost() {
     const { slug } = useParams()
@@ -29,7 +30,7 @@ export default function SinglePost() {
 
         <>
             <HelmetSettings
-                title={`${post?.reviewTitle ? `${post?.reviewTitle} - ` : ''}Groblje Horora`}
+                title={`${post?.reviewTitle ? `${post?.reviewTitle} - ` : `${slug} - ` }Groblje Horora`}
                 description={`
                     Opis bloga i njegovog sadrzaja
                 `}
@@ -52,6 +53,7 @@ export default function SinglePost() {
                 {post?.movies.map((movie) => (
                     <Movie key={movie._id} post={post} movie={movie} type={post?.reviewType === 'single' ? 'single' : 'quad'}/>
                 ))}
+                <Comments />
             </SinglePostContainer>
         </>
     )
