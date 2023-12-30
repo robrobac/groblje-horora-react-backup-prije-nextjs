@@ -1,8 +1,9 @@
 import React from 'react'
-import { PostDate, PostSubTitle, PostTitle, PreviewDetails } from './PostDescription.styled'
+import { CommentIconContainer, PostDate, PostSubTitle, PostTitle, PreviewDetails } from './PostDescription.styled'
 import Rating from '../Rating'
 import { Link } from 'react-router-dom'
 import { format } from 'date-fns'
+import {ReactComponent as CommentIcon} from '../../images/commenticon.svg'
 
 export default function PostDescription({post}) {
 
@@ -13,6 +14,9 @@ export default function PostDescription({post}) {
                     <PostDate>
                         {format(new Date(post.createdAt), 'dd.MM.yyyy')}
                     </PostDate>
+                    <CommentIconContainer>
+                        <p>25</p> <CommentIcon />
+                    </CommentIconContainer>
                     <Link to={`/recenzije/${post?.slug}`}>
                         <PostTitle>{post?.movies[0].title} <span>({post?.movies[0].year})</span></PostTitle>
                     </Link>

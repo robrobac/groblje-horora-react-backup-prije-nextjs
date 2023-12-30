@@ -10,7 +10,6 @@ export const PostCardContainer = styled.div`
     justify-content: space-between;
     gap: 16px;
 
-
     @media(max-width: 1024px) {
         flex-basis: 33.33%;
     }

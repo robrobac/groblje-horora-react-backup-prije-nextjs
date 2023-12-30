@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const PreviewImage = styled.div`
+    position: relative;
     aspect-ratio: 20800 / 30513;
     overflow: hidden;
     border-radius: ${(props) => props.theme.dark.radiusM};
@@ -23,6 +24,7 @@ export const PreviewImage = styled.div`
 `
 
 export const QuadImageContainer = styled.div`
+position: relative;
     display: flex;
     flex-wrap: wrap;
     width: 100%;

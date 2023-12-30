@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const PreviewDetails = styled.div`
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -51,4 +52,23 @@ export const PostSubTitle = styled.p`
 export const PostDate = styled.p`
     font-size: ${(props) => props.theme.dark.textS};
     color: ${(props) => props.theme.dark.colorWHITE50};
+`
+
+export const CommentIconContainer = styled.div`
+        padding: 5px;
+        position: absolute;
+        display: flex;
+        gap: 8px;
+        top: -6px;
+        right: 10px;
+
+        background-color: ${(props) => props.theme.dark.colorBLACK80};
+        border-radius: ${(props) => props.theme.dark.radiusS};
+
+    p {
+        color: ${(props) => props.theme.dark.colorWHITE80};
+    }
+    svg {
+        fill: ${(props) => props.theme.dark.colorWHITE};
+    }
 `

@@ -22,6 +22,15 @@ export const StyledButton = styled.button`
         &:hover {
             background-color: ${(props) => props.theme.dark.colorREDhover};
     }
+
+    &.disabled {
+        opacity: .5;
+        cursor: default;
+
+        &:hover {
+            background-color: ${(props) => props.theme.dark.colorRED}
+        }
+    }
 }
 `
 export const TextButton = styled(StyledButton)`
@@ -101,6 +110,7 @@ export const CommentsButton = styled(StyledButton)`
     font-size: ${(props) => props.theme.dark.textM};
     background-color: ${(props) => props.theme.dark.colorBLACK};
     color: ${(props) => props.theme.dark.colorWHITE};
+    cursor: default;
     
 
     @media (hover: hover) {

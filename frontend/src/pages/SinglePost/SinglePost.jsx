@@ -53,7 +53,7 @@ export default function SinglePost() {
                 {post?.movies.map((movie) => (
                     <Movie key={movie._id} post={post} movie={movie} type={post?.reviewType === 'single' ? 'single' : 'quad'}/>
                 ))}
-                <Comments />
+                <Comments post={post}/>
             </SinglePostContainer>
         </>
     )

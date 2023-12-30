@@ -2,6 +2,7 @@ import React from 'react'
 import PostDescription from './PostDescription'
 import PostImage from './PostImage'
 import ButtonStandard from '../buttons/ButtonStandard'
+
 import { PostCardContainer, PostCardDetails } from './PostCard.styled'
 
 export default function PostCard({post}) {

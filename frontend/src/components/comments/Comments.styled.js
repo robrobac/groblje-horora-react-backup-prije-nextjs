@@ -35,28 +35,17 @@ export const CommentsContent = styled(CommentsHeader)`
     display: flex;
     flex-direction: column;
     gap: 48px;
-
-    transition: 1s ease;
-
-    &.notActive {
-        padding-top: 0px;
-        padding-bottom: 0px;
-        height: 0px;
-        overflow: hidden;
-    }
-
 `
 export const CommentsList = styled.ul`
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     gap: 32px;
-    opacity: 1;
 
-    transition: 1s ease;
-
-    &.notActive {
-        display: hidden;
+    .noComments {
+        text-align: center;
+        font-size: ${(props) => props.theme.dark.textS};
+        color: ${(props) => props.theme.dark.colorWHITE50};
     }
 `
 
