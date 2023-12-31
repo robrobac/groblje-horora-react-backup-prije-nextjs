@@ -47,6 +47,7 @@ const theme = {
 
         // Colors
         colorRED: '#7C2E2E',
+        colorREDbright: '#a53132',
         colorREDhover: '#552020',
         colorWHITE: '#eddede',
         colorWHITE80: () => hexToRgba('#eddede', 0.8),

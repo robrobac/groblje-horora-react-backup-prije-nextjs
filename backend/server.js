@@ -6,7 +6,7 @@ const mongoose = require('mongoose')
 const reviewRoutes = require('./routes/reviews')
 const tempMediaRoutes = require('./routes/tempMedia')
 const authRoutes = require('./routes/auth')
-const commentsRoutes = require('./routes/comments')
+const commentsAndLikesRoutes = require('./routes/commentsAndLikes')
 const cors = require('cors')
 const Review = require('./models/reviewModel')
 
@@ -37,7 +37,7 @@ app.use((req, res, next) => {
 app.use('/api', reviewRoutes)
 app.use('/api', tempMediaRoutes)
 app.use('/api', authRoutes)
-app.use('/api', commentsRoutes)
+app.use('/api', commentsAndLikesRoutes)
 
 // connect to DB
 mongoose.connect(process.env.MONGO_URI)

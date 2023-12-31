@@ -62,7 +62,65 @@ const deleteComment = async (req, res) => {
     }
 }
 
+// Create a LIKE
+const createLike = async (req, res) => {
+    const { id } = req.params;
+    const { likeName, likeEmail } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ error: 'No such review' });
+    }
+
+    const newLike = {
+        likeName,
+        likeEmail,
+    };
+
+    try {
+        const updatedReview = await Review.findOneAndUpdate(
+            { _id: id },
+            { $push: { likes: newLike } },
+            { new: true }
+        );
+
+        if (!updatedReview) {
+            return res.status(404).json({ error: 'No such review' });
+        }
+
+        res.status(200).json(updatedReview);
+    } catch (error) {
+        res.status(400).json({ error: error.message })
+    }
+}
+
+// Remove a LIKE
+const removeLike = async (req, res) => {
+    const { reviewId, likeEmail } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(reviewId)) {
+        return res.status(404).json({ error: 'No such review' });
+    }
+
+    try {
+        const updatedReview = await Review.findOneAndUpdate(
+            { _id: reviewId },
+            { $pull: { likes: { likeEmail: likeEmail } } },
+            { new: true }
+        );
+
+        if (!updatedReview) {
+            return res.status(404).json({ error: 'No such review' });
+        }
+
+        res.status(200).json(updatedReview);
+    } catch (error) {
+        res.status(400).json({ error: error.message })
+    }
+}
+
 module.exports = {
     createComment,
     deleteComment,
+    createLike,
+    removeLike,
 }

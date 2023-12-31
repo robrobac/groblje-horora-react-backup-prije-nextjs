@@ -1,11 +1,22 @@
-import React from 'react'
-import { CommentIconContainer, PostDate, PostSubTitle, PostTitle, PreviewDetails } from './PostDescription.styled'
+import React, { useContext, useEffect, useState } from 'react'
+import { CommentIconContainer, CommentsAndLikes, LikeIconContainer, PostDate, PostSubTitle, PostTitle, PreviewDetails } from './PostDescription.styled'
 import Rating from '../Rating'
 import { Link } from 'react-router-dom'
 import { format } from 'date-fns'
 import {ReactComponent as CommentIcon} from '../../images/commenticon.svg'
+import {ReactComponent as LikeIcon} from '../../images/likeicon.svg'
+import { AuthContext } from '../../App'
 
 export default function PostDescription({post}) {
+    const {isAuth} = useContext(AuthContext)
+    const [liked, setLiked] = useState(false)
+    console.log('liked', liked)
+
+    useEffect(() => {
+        // Check if the current user has liked the post
+        const hasLiked = post?.likes?.some(like => like.likeName === isAuth?.username || like.likeEmail === isAuth?.email);
+        setLiked(hasLiked);
+    }, [isAuth, post]);
 
     return (
         <PreviewDetails>
@@ -14,9 +25,14 @@ export default function PostDescription({post}) {
                     <PostDate>
                         {format(new Date(post.createdAt), 'dd.MM.yyyy')}
                     </PostDate>
-                    <CommentIconContainer>
-                        <p>25</p> <CommentIcon />
-                    </CommentIconContainer>
+                    <CommentsAndLikes>
+                        <LikeIconContainer>
+                            <p>{post?.likes.length}</p> <LikeIcon className={liked ? 'liked' : ''}/>
+                        </LikeIconContainer>
+                        <CommentIconContainer>
+                            <p>{post?.comments.length}</p> <CommentIcon />
+                        </CommentIconContainer>
+                    </CommentsAndLikes>
                     <Link to={`/recenzije/${post?.slug}`}>
                         <PostTitle>{post?.movies[0].title} <span>({post?.movies[0].year})</span></PostTitle>
                     </Link>
@@ -27,6 +43,14 @@ export default function PostDescription({post}) {
                     <PostDate>
                         {format(new Date(post.createdAt), 'dd.MM.yyyy')}
                     </PostDate>
+                    <CommentsAndLikes>
+                        <LikeIconContainer>
+                            <p>{post?.likes.length}</p> <LikeIcon className={liked ? 'liked' : ''}/>
+                        </LikeIconContainer>
+                        <CommentIconContainer>
+                            <p>{post?.comments.length}</p> <CommentIcon />
+                        </CommentIconContainer>
+                    </CommentsAndLikes>
                     <Link to={`/recenzije/${post?.slug}`}>
                         <PostTitle>{post?.reviewTitle}</PostTitle>
                     </Link>

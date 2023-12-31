@@ -54,21 +54,36 @@ export const PostDate = styled.p`
     color: ${(props) => props.theme.dark.colorWHITE50};
 `
 
-export const CommentIconContainer = styled.div`
-        padding: 5px;
-        position: absolute;
-        display: flex;
-        gap: 8px;
-        top: -6px;
-        right: 10px;
+export const CommentsAndLikes = styled.div`
+    padding: 5px;
+    position: absolute;
+    display: flex;
+    gap: 10px;
+    top: -6px;
+    right: 0;
+`
 
-        background-color: ${(props) => props.theme.dark.colorBLACK80};
-        border-radius: ${(props) => props.theme.dark.radiusS};
+export const CommentIconContainer = styled.div`
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
 
     p {
         color: ${(props) => props.theme.dark.colorWHITE80};
     }
     svg {
-        fill: ${(props) => props.theme.dark.colorWHITE};
+        fill: ${(props) => props.theme.dark.colorWHITE50};
+    }
+`
+
+export const LikeIconContainer = styled(CommentIconContainer)`
+
+    svg {
+        height: 20px;
+        width: 20px;
+
+        &.liked {
+            fill: ${(props) => props.theme.dark.colorREDbright};
+        }
     }
 `

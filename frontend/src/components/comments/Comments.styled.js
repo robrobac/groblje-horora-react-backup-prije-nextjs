@@ -19,7 +19,12 @@ export const LikeHead = styled.div`
     align-items: center;
 
     svg {
-        fill: ${(props) => props.theme.dark.colorRED};
+        cursor: pointer;
+        fill: ${(props) => props.theme.dark.colorWHITE25};
+
+        &.liked {
+            fill: ${(props) => props.theme.dark.colorREDbright};
+        }
     }
 
     p {

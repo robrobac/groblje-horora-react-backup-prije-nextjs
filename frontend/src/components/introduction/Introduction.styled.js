@@ -46,7 +46,7 @@ export const MainTitle = styled.h1`
     font-family: 'Creepster', sans-serif;
     font-size: ${(props) => props.theme.dark.textXXXLtitle};
     text-align: center;
-    color: ${(props) => props.theme.dark.colorRED};
+    color: ${(props) => props.theme.dark.colorREDbright};
     
     
 
