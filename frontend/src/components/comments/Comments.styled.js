@@ -73,6 +73,7 @@ export const Comment = styled.li`
 
         span {
             color: ${(props) => props.theme.dark.colorWHITE50};
+            font-size: ${(props) => props.theme.dark.textS};
         }
     }
 

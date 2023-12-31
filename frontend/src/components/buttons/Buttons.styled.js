@@ -21,6 +21,7 @@ export const StyledButton = styled.button`
     @media (hover: hover) {
         &:hover {
             background-color: ${(props) => props.theme.dark.colorREDhover};
+        }
     }
 
     &.disabled {
@@ -31,7 +32,6 @@ export const StyledButton = styled.button`
             background-color: ${(props) => props.theme.dark.colorRED}
         }
     }
-}
 `
 export const TextButton = styled(StyledButton)`
     font-size: ${(props) => props.theme.dark.textM};

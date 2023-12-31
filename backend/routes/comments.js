@@ -1,27 +1,18 @@
 const express = require('express')
-const Comment = require('../models/commentModel')
 
 const {
     createComment,
-    countComments,
-    getComments,
-    deleteComment
+    deleteComment,
 
 } = require('../controllers/commentsController')
 
 const router = express.Router()
 
-// GET Comments
-router.get('/getComments/:id', getComments)
-
 // POST a NEW Comment
-router.post('/comments', createComment)
+router.post('/comments/:id', createComment)
 
 // DELETE a Comment
-router.delete('/deleteComment/:id', deleteComment)
-
-// Count Comments per post
-router.get('/countComments/:id', countComments)
+router.delete('/reviews/:reviewId/comments/:commentId', deleteComment)
 
 
 module.exports = router

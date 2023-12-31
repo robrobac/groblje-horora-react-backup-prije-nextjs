@@ -5,6 +5,7 @@ import { SinglePostContainer } from './SinglePost.styled'
 import SinglePostCover from '../../components/singlePostCover/SinglePostCover'
 import { MovieDate, TitleH1 } from '../../components/movie/Movie.styled'
 import { format } from 'date-fns'
+import io from 'socket.io-client';
 import HelmetSettings from '../../components/HelmetSettings'
 import Comments from '../../components/comments/Comments'
 
@@ -13,6 +14,18 @@ export default function SinglePost() {
     const [post, setPost] = useState(null)
     
     useEffect(() => {
+        const socket = io('http://localhost:4000'); // Replace with your server URL and port
+
+        socket.on('connect', () => {
+            console.log('Connected to socket.io');
+        });
+
+        socket.on('reviewChange', (change) => {
+            console.log('changeeed', change)
+            // Update the post only if it matches the current slug
+            fetchPost()
+          });
+
         const fetchPost = async () => {
             const response = await fetch(`http://localhost:4000/api/reviews/${slug}`)
             const data = await response.json()
@@ -23,6 +36,10 @@ export default function SinglePost() {
         }
 
         fetchPost()
+
+        return () => {
+            socket.disconnect();
+        };
     }, [slug])
 
 

@@ -41,6 +41,23 @@ const MovieSchema = new Schema({
     }
 })
 
+const CommentSchema = new Schema({
+    authorName: {
+        type: String,
+        required: true
+    },
+    authorEmail: {
+        type: String,
+        required: true
+    },
+    message: {
+        type: String,
+        required: true
+    },
+}, {
+    timestamps: true
+})
+
 const ReviewSchema = new Schema({
     reviewTitle: {
         type: String,
@@ -59,7 +76,8 @@ const ReviewSchema = new Schema({
         type: String,
         required: true
     },
-    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    comments: [CommentSchema]
 }, {
     timestamps: true
 })
