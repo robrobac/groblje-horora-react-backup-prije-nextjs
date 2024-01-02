@@ -12,6 +12,7 @@ export default function LatestRecenzija() {
     const [review, setReview] = useState(null)
     const [createdDate, setCreatedDate] = useState("00.00.0000")
     const [reviewDescription, setReviewDescription] = useState('')
+    console.log(reviewDescription)
     const {loading, handleLoading} = useContext(LoadingContext)
     console.log(review)
 
@@ -30,7 +31,12 @@ export default function LatestRecenzija() {
                     const formattedDate = format(createdAtDate, 'dd.MM.yyyy')
                     setCreatedDate(formattedDate)
                     const formattedDescription = draftToHtmlConvert(JSON.parse(json[0].movies[0].reviewContent))
-                    setReviewDescription(formattedDescription)
+                    const descriptionWithoutImages = formattedDescription.replace(/<img[^>]*>/g, '');
+
+                    const words = descriptionWithoutImages.split(' ');
+                    const shortenedDescription = words.slice(0, 100).join(' ');
+
+                    setReviewDescription(shortenedDescription)
                 }
             } catch (err) {
                 console.log(err)

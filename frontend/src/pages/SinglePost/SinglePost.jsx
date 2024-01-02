@@ -8,10 +8,12 @@ import { format } from 'date-fns'
 import io from 'socket.io-client';
 import HelmetSettings from '../../components/HelmetSettings'
 import Comments from '../../components/comments/Comments'
+import Loading from '../../components/loading/Loading'
 
 export default function SinglePost() {
     const { slug } = useParams()
     const [post, setPost] = useState(null)
+    const [loading, setLoading] = useState(true)
     
     useEffect(() => {
         const socket = io('http://localhost:4000'); // Replace with your server URL and port
@@ -32,6 +34,7 @@ export default function SinglePost() {
 
             if (response.ok) {
                 setPost(data)
+                setLoading(false)
             }
         }
 
@@ -55,6 +58,7 @@ export default function SinglePost() {
                 image={`%PUBLIC_URL%/images/groblje-horora-og-image.webp`}
             />
             <SinglePostContainer>
+                {loading ? <Loading /> : ''}
                 {post?.reviewType === 'quad' ? (
                     <>
                     <SinglePostCover post={post}/>
@@ -70,7 +74,7 @@ export default function SinglePost() {
                 {post?.movies.map((movie) => (
                     <Movie key={movie._id} post={post} movie={movie} type={post?.reviewType === 'single' ? 'single' : 'quad'}/>
                 ))}
-                <Comments post={post}/>
+                <Comments post={post} setLoading={setLoading}/>
             </SinglePostContainer>
         </>
     )

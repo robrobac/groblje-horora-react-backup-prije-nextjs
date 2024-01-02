@@ -1,14 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Comment, CommentForm, CommentsContainer, CommentsContent, CommentsHeader, CommentsList, FormInput, LikeHead } from './Comments.styled'
-import { CommentsButton, StyledButton } from '../buttons/Buttons.styled'
+import { CommentsButton, SendCommentButton, StyledButton } from '../buttons/Buttons.styled'
 import {ReactComponent as LikeIcon} from '../../images/likeicon.svg'
 import { AuthContext } from '../../App'
 import { format } from 'date-fns'
+import GhostSpinner from '../ghostSpinner/GhostSpinner'
+
 
 export default function Comments({post}) {
     const [commentValue, setCommentValue] = useState('')
     const {isAuth} = useContext(AuthContext)
     const [liked, setLiked] = useState(false)
+    const [numberOfLikes, setNumberOfLikes] = useState(0)
+    const [postingComment, setPostingComment] = useState(false)
+    console.log('number of likes', numberOfLikes)
     console.log('liked', liked)
 
     useEffect(() => {
@@ -16,12 +21,17 @@ export default function Comments({post}) {
         const hasLiked = post?.likes?.some(like => like.likeName === isAuth?.username || like.likeEmail === isAuth?.email);
         setLiked(hasLiked);
     }, [isAuth, post]);
+
+    useEffect(() => {
+        const likes = post?.likes.length
+        setNumberOfLikes(likes)
+    }, [post])
     
     // Handle comment form submission
     const handleSubmitComment = async (e) => {
         e.preventDefault();
         console.log('Comment Form Submitted')
-
+        setPostingComment(true)
         try {
             // Prepare comment data for MongoDB
             const commentData = {
@@ -43,10 +53,12 @@ export default function Comments({post}) {
             console.log('server response', json)
             if (!response.ok) {
                 console.log(json);
+                setPostingComment(false)
                 return;
             }
             console.log('comment data stored to MongoDB', json);
             setCommentValue('')
+            setPostingComment(false)
             
         } catch (err) {
             console.log(err);
@@ -55,11 +67,12 @@ export default function Comments({post}) {
 
 
     // Handle liked submit
-    const handleSubmitLike = async (e) => {
+    const handleSubmitLike = async () => {
         console.log('Like Submitted')
-    
+        setLiked(!liked)
         try {
             if (liked) {
+                setNumberOfLikes(numberOfLikes - 1)
                 // Remove like data to MongoDB
                 const response = await fetch(`http://localhost:4000/api/reviews/${post._id}/likes/${isAuth?.email}`, {
                     method: 'DELETE',
@@ -74,6 +87,7 @@ export default function Comments({post}) {
             }
 
             if (!liked) {
+                setNumberOfLikes(numberOfLikes + 1)
                 // Prepare like data for MongoDB
                 const likeData = {
                     likeName: isAuth.username,
@@ -122,8 +136,8 @@ export default function Comments({post}) {
         <CommentsContainer>
             <CommentsHeader>
                 <LikeHead>
-                    <LikeIcon onClick={handleSubmitLike} className={liked ? 'liked' : ''}/>
-                    <p>{`${post?.likes.length}`}</p>
+                    <LikeIcon onClick={isAuth ? handleSubmitLike : null} className={liked ? 'liked' : ''}/>
+                    <p>{numberOfLikes}</p>
                 </LikeHead>
                 <CommentsButton className='active'>Komentari <span>{`(${post?.comments.length})`}</span></CommentsButton>
             </CommentsHeader>
@@ -156,12 +170,12 @@ export default function Comments({post}) {
                         value={commentValue}
                         onChange={(e) => {setCommentValue(e.target.value)}}
                     />
-                    <StyledButton
+                    <SendCommentButton
                         className={isAuth ? '' : 'disabled'}
                         type='submit'
                     >
-                        Pošalji
-                    </StyledButton>
+                        {postingComment ? <GhostSpinner /> : 'Pošalji'}
+                    </SendCommentButton>
                 </CommentForm>
             </CommentsContent>
         </CommentsContainer>

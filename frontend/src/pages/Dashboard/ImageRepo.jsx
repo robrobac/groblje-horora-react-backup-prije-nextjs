@@ -48,56 +48,63 @@ export default function ImageRepo({handleContentImages, contentImages, formSubmi
 
 
     // Uploading compressed images to Firebase Storage and retrieveing its url path
-    const getLinks = () => {
-        compressedImages.forEach(async (image) => {
-            let url = ''
-            let path = ''
-
+    const getLinks = async () => {
+        for (const image of compressedImages) {
+            let url = '';
+            let path = '';
+    
             // create firebase storage path
-            path = `postImages/${stringFormatting('post-image-', Date.now())}`
+            path = `postImages/${stringFormatting('post-image-', Date.now())}`;
+    
             try {
                 // Upload to Firebase and retrieve image's url and path
-                const result = await uploadImageToFirebaseStorage(image, path)
-                url = result.url
-                path = result.path
+                const result = await uploadImageToFirebaseStorage(image, path);
+                url = result.url;
+                path = result.path;
             } catch (error) {
-                console.log(error)
+                console.log(error);
             }
-
+    
             // Creating Uploaded Image object in order to save it to MongoDB
             const uploadedImage = {
                 url: url,
                 path: path,
-            }
-
+            };
+    
             // Saving uploaded image to MongoDB collection
             const response = await fetch('http://localhost:4000/api/tempMedia', {
                 method: 'POST',
                 body: JSON.stringify(uploadedImage),
                 headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            const json = await response.json()
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            const json = await response.json();
+    
             if (!response.ok) {
-                setError(json.error)
+                setError(json.error);
             }
-            if(response.ok) {
+    
+            if (response.ok) {
                 // Retrieving new MongoDB data
                 const uploaded = {
                     url,
                     path,
-                    id: json._id
-                }
-
+                    id: json._id,
+                };
+    
                 // setting uploaded images state and clearing compressed images state because all compressed images are uploaded to Storage.
-                setCompressedImages([])
+                setCompressedImages([]);
                 imagesInputRef.current.value = null;
-                handleContentImages(prev => [...prev, uploaded])
+                handleContentImages((prev) => [...prev, uploaded]);
             }
-        })
-    }
-
+    
+            // Introduce a 500ms delay before processing the next image
+            await new Promise((resolve) => setTimeout(resolve, 500));
+        }
+    };
+    
     const handleDeleteCompressed = (imageToDelete) => {
         const newArray = compressedImages.filter((image) => image !== imageToDelete)
         setCompressedImages(newArray)

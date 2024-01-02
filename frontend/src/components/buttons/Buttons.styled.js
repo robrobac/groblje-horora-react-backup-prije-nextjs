@@ -124,3 +124,12 @@ export const CommentsButton = styled(StyledButton)`
         border-radius: ${(props) => props.theme.dark.radiusS} ${(props) => props.theme.dark.radiusS} 0 0;
     }
 `
+
+export const SendCommentButton = styled(StyledButton)`
+    width: 102px;
+    height: 65px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`

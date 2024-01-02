@@ -71,6 +71,7 @@ export const Comment = styled.li`
         border-radius: 50px;
         font-weight: 600;
         background-color: ${(props) => props.theme.dark.colorRED};
+        color: ${(props) => props.theme.dark.colorBLACK};
     }
 
     .commentAuthor {

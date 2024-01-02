@@ -88,6 +88,7 @@ export const RecenzijaSubTitle = styled.p`
 export const RecenzijaDescription = styled.p`
     p {
         font-size: ${(props) => props.theme.dark.textL};
+        color: ${(props) => props.theme.dark.colorWHITE80};
         line-height: 25px;
     }
     span {

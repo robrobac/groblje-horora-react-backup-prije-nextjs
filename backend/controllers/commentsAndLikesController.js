@@ -9,6 +9,10 @@ const createComment = async (req, res) => {
     const { id } = req.params;
     const { authorName, authorEmail, message } = req.body;
 
+    if (!message || message.trim() === '') {
+        return res.status(400).json({ error: 'Please insert a non-empty message.' });
+    }
+
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).json({ error: 'No such review' });
     }
