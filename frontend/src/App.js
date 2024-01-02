@@ -31,7 +31,8 @@ export const LoadingContext = createContext()
 
 
 function App() {
-    const isAuth = useAuthCheck()
+    const { userData, firebaseUser } = useAuthCheck()
+    console.log('auth', useAuthCheck())
     const [loading, setLoading] = useState(true)
     const handleLoading = (loadingState) => {
         setLoading(loadingState)
@@ -42,7 +43,7 @@ function App() {
             <Theme>
                 <GlobalStyles />
                 <BrowserRouter>
-                    <AuthContext.Provider value={{ isAuth }}>
+                    <AuthContext.Provider value={{ userData, firebaseUser }}>
                         <LoadingContext.Provider value={{ loading, handleLoading }}>
                             <AppPage>
                                 <Header />
@@ -52,16 +53,16 @@ function App() {
                                     <Route path='/recenzije/' element={<Reviews />} />
                                     <Route path='/recenzije/:slug/' element={<SinglePost />} />
 
-                                    {/* Restricted */} <Route path='/recenzije/:slug/edit' element={isAuth?.role === 'admin' ? <EditForm /> : <Navigate to='/' />} />
+                                    {/* Restricted */} <Route path='/recenzije/:slug/edit' element={userData?.role === 'admin' ? <EditForm /> : <Navigate to='/' />} />
 
 
                                     <Route path='/top20smeca/' element={<Worse20 />} />
                                     <Route path='/o-blogu/' element={<About />} />
 
-                                    {/* Restricted */} <Route path='/dashboard/' element={isAuth?.role === 'admin' ? <Dashboard /> : <Navigate to='/' />} />
-                                    {/* Restricted */} <Route path='/dashboard/add-new' element={isAuth?.role === 'admin' ? <NewForm /> : <Navigate to='/' />} />
-                                    {/* Restricted */} <Route path='/dashboard/nova-recenzija' element={isAuth ? <NewForm numberOfMovies={1} /> : <Navigate to='/' />} />
-                                    {/* Restricted */} <Route path='/dashboard/novi-kratki-pregled' element={isAuth?.role === 'admin' ? <NewForm numberOfMovies={4} /> : <Navigate to='/' />} />
+                                    {/* Restricted */} <Route path='/dashboard/' element={userData?.role === 'admin' ? <Dashboard /> : <Navigate to='/' />} />
+                                    {/* Restricted */} <Route path='/dashboard/add-new' element={userData?.role === 'admin' ? <NewForm /> : <Navigate to='/' />} />
+                                    {/* Restricted */} <Route path='/dashboard/nova-recenzija' element={userData ? <NewForm numberOfMovies={1} /> : <Navigate to='/' />} />
+                                    {/* Restricted */} <Route path='/dashboard/novi-kratki-pregled' element={userData?.role === 'admin' ? <NewForm numberOfMovies={4} /> : <Navigate to='/' />} />
 
                                     <Route path='/login/' element={<Login />} />
                                     <Route path='/register/' element={<Register />} />

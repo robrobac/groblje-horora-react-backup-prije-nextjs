@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 
 export default function useCountReviews() {
     const [count, setCount] = useState({})
-    console.log(count)
 
 
     useEffect(() => {

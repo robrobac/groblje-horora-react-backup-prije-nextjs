@@ -11,8 +11,6 @@ export default function About() {
         count
     } = useCountReviews()
 
-
-    console.log(count)
     return (
         <>
             <HelmetSettings

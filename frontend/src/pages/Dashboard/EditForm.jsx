@@ -28,7 +28,6 @@ export default function EditForm() {
     const [selectedTab, setSelectedTab] = useState('movie1')
 
     const [post, setPost] = useState({})
-    console.log(post)
 
     const [reviewTitle, setReviewTitle] = useState('')
     const [contentImages, setContentImages] = useState([])
@@ -229,8 +228,6 @@ export default function EditForm() {
                 requiredInputs.push(`movie${index}coverImage`)
             }
         })
-
-        console.log(requiredInputs)
 
         const movieReviews = movies.map( async (movie) => {
             return new Promise(async (resolve, reject) => {

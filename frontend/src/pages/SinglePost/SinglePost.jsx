@@ -23,7 +23,7 @@ export default function SinglePost() {
         });
 
         socket.on('reviewChange', (change) => {
-            console.log('changeeed', change)
+            console.log('changed', change)
             // Update the post only if it matches the current slug
             fetchPost()
           });

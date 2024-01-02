@@ -10,7 +10,6 @@ export default function LatestPregled() {
     const [review, setReview] = useState(null)
     const [createdDate, setCreatedDate] = useState("00.00.0000")
     const {loading, handleLoading} = useContext(LoadingContext)
-    console.log(createdDate)
 
     useEffect(() => {
         const fetchReview = async () => {

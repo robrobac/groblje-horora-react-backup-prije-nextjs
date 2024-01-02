@@ -5,6 +5,7 @@ import { auth } from '../firebase/config';
 export default function useAuthCheck() {
     const [userData, setUserData] = useState(null)
     const [loggingIn, setLoggingIn] = useState(false)
+    const [firebaseUser, setFirebaseUser] = useState(null)
 
     // Effect hook to subscribe to authentication state changes
     useEffect(() => {
@@ -19,6 +20,7 @@ export default function useAuthCheck() {
                     if (response.ok) {
                         // Set user data if the fetch is successful
                         setUserData(json)
+                        setFirebaseUser(auth.currentUser)
 
                         if (json === null) {
                             setLoggingIn(!loggingIn)
@@ -32,6 +34,7 @@ export default function useAuthCheck() {
             } else {
                 // Reset user data if not authenticated
                 setUserData(null)
+                setFirebaseUser(null)
             }
         })
 
@@ -42,7 +45,10 @@ export default function useAuthCheck() {
         
     }, [loggingIn])
 
-    return userData
+    return {
+        userData,
+        firebaseUser
+    }
 }
 
 // Function to handle user logout.

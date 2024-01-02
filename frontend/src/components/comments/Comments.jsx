@@ -9,18 +9,16 @@ import GhostSpinner from '../ghostSpinner/GhostSpinner'
 
 export default function Comments({post}) {
     const [commentValue, setCommentValue] = useState('')
-    const {isAuth} = useContext(AuthContext)
+    const {userData} = useContext(AuthContext)
     const [liked, setLiked] = useState(false)
     const [numberOfLikes, setNumberOfLikes] = useState(0)
     const [postingComment, setPostingComment] = useState(false)
-    console.log('number of likes', numberOfLikes)
-    console.log('liked', liked)
 
     useEffect(() => {
         // Check if the current user has liked the post
-        const hasLiked = post?.likes?.some(like => like.likeName === isAuth?.username || like.likeEmail === isAuth?.email);
+        const hasLiked = post?.likes?.some(like => like.likeName === userData?.username || like.likeEmail === userData?.email);
         setLiked(hasLiked);
-    }, [isAuth, post]);
+    }, [userData, post]);
 
     useEffect(() => {
         const likes = post?.likes.length
@@ -35,8 +33,8 @@ export default function Comments({post}) {
         try {
             // Prepare comment data for MongoDB
             const commentData = {
-                authorName: isAuth.username,
-                authorEmail: isAuth.email,
+                authorName: userData.username,
+                authorEmail: userData.email,
                 message: commentValue,
             };
             console.log('Comment Data prepared for storing to MongoDB')
@@ -74,7 +72,7 @@ export default function Comments({post}) {
             if (liked) {
                 setNumberOfLikes(numberOfLikes - 1)
                 // Remove like data to MongoDB
-                const response = await fetch(`http://localhost:4000/api/reviews/${post._id}/likes/${isAuth?.email}`, {
+                const response = await fetch(`http://localhost:4000/api/reviews/${post._id}/likes/${userData?.email}`, {
                     method: 'DELETE',
                 });
                 const json = await response.json();
@@ -90,8 +88,8 @@ export default function Comments({post}) {
                 setNumberOfLikes(numberOfLikes + 1)
                 // Prepare like data for MongoDB
                 const likeData = {
-                    likeName: isAuth.username,
-                    likeEmail: isAuth.email,
+                    likeName: userData.username,
+                    likeEmail: userData.email,
                 };
                 console.log('like Data prepared for storing to MongoDB', likeData)
         
@@ -136,7 +134,7 @@ export default function Comments({post}) {
         <CommentsContainer>
             <CommentsHeader>
                 <LikeHead>
-                    <LikeIcon onClick={isAuth ? handleSubmitLike : null} className={liked ? 'liked' : ''}/>
+                    <LikeIcon onClick={userData ? handleSubmitLike : null} className={liked ? 'liked' : ''}/>
                     <p>{numberOfLikes}</p>
                 </LikeHead>
                 <CommentsButton className='active'>Komentari <span>{`(${post?.comments.length})`}</span></CommentsButton>
@@ -151,7 +149,7 @@ export default function Comments({post}) {
                     {post?.comments.map((comment) => (
                         <Comment>
                             <div className="commentAuthor">{comment?.authorName} @ <span>{format(new Date(comment?.createdAt), 'dd.MM.yyyy HH:mm:ss')}</span></div>
-                            {isAuth?.role === 'admin' || isAuth?.username === comment.authorName || isAuth?.email === comment.authorEmail ?
+                            {userData?.role === 'admin' || userData?.username === comment.authorName || userData?.email === comment.authorEmail ?
                                 <button className="removeComment" onClick={() => handleDeleteComment(comment._id)}>X</button>
                             :
                                 ''
@@ -165,13 +163,13 @@ export default function Comments({post}) {
                 </CommentsList>
                 <CommentForm onSubmit={handleSubmitComment}>
                     <FormInput
-                        disabled={isAuth ? false : true}
-                        type='text' placeholder={isAuth ? 'Upiši komentar' : 'Morate biti prijavljeni da bi ostavljali komentare'}
+                        disabled={userData ? false : true}
+                        type='text' placeholder={userData ? 'Upiši komentar' : 'Morate biti prijavljeni da bi ostavljali komentare'}
                         value={commentValue}
                         onChange={(e) => {setCommentValue(e.target.value)}}
                     />
                     <SendCommentButton
-                        className={isAuth ? '' : 'disabled'}
+                        className={userData ? '' : 'disabled'}
                         type='submit'
                     >
                         {postingComment ? <GhostSpinner /> : 'Pošalji'}

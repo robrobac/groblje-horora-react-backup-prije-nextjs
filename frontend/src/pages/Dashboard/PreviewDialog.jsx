@@ -13,9 +13,6 @@ import {ReactComponent as MenuX} from '../../images/xicon.svg'
 export default function PreviewDialog({postPreview, formFailed}) {
     const [post, setPost] = useState(null)
     const [reviewType, setReviewType] = useState('quad')
-    console.log(post)
-    console.log(reviewType)
-    console.log(post?.movies.length, "adadadadadadadada")
 
     useEffect(() => {
         const modal = document.getElementById('previewDialog')

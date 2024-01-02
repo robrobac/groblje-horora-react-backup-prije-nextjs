@@ -8,15 +8,14 @@ import {ReactComponent as LikeIcon} from '../../images/likeicon.svg'
 import { AuthContext } from '../../App'
 
 export default function PostDescription({post}) {
-    const {isAuth} = useContext(AuthContext)
+    const {userData} = useContext(AuthContext)
     const [liked, setLiked] = useState(false)
-    console.log('liked', liked)
 
     useEffect(() => {
         // Check if the current user has liked the post
-        const hasLiked = post?.likes?.some(like => like.likeName === isAuth?.username || like.likeEmail === isAuth?.email);
+        const hasLiked = post?.likes?.some(like => like.likeName === userData?.username || like.likeEmail === userData?.email);
         setLiked(hasLiked);
-    }, [isAuth, post]);
+    }, [userData, post]);
 
     return (
         <PreviewDetails>

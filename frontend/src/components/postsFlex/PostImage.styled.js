@@ -49,7 +49,7 @@ export const QuadImage = styled.div`
         height: 100%;
         width: 100%;
         object-fit: cover;
-        background-color: red;
+        background-color: ${(props) => props.theme.dark.colorWHITE15};
     }
 
     .image01 {

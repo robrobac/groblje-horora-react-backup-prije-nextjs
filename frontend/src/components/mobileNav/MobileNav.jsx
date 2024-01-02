@@ -6,7 +6,7 @@ import { handleLogout } from '../../hooks/useAuthCheck'
 
 
 export default function MobileNav({menuOpen, setMenuOpen}) {
-    const {isAuth} = useContext(AuthContext)
+    const {userData} = useContext(AuthContext)
     
 
     const handleLastVisitedURL = () => {
@@ -24,14 +24,14 @@ export default function MobileNav({menuOpen, setMenuOpen}) {
                         <MobileNavItem className='headerLink' to='/top20smeca' onClick={() => setMenuOpen(false)}>Top 20 Smeća</MobileNavItem>
                         <MobileNavItem className='headerLink' to='/o-blogu' onClick={() => setMenuOpen(false)}>O Blogu</MobileNavItem>
                         <br></br>
-                        {isAuth?.role === 'admin' ? (
+                        {userData?.role === 'admin' ? (
                             <MobileNavItem className='headerLink' to='/dashboard' onClick={() => setMenuOpen(false)}>Dashboard</MobileNavItem>
                         ) : ''}
                         
                     </ul>
                     <ul>
-                        {isAuth ? (
-                            <li>{isAuth.username}, <LogoutLink onClick={handleLogout}>Logout</LogoutLink></li>
+                        {userData ? (
+                            <li>{userData.username}, <LogoutLink onClick={handleLogout}>Logout</LogoutLink></li>
                         ) : (
                             <li><RedirectLink to='/login' onClick={handleLastVisitedURL}>Login</RedirectLink> or <RedirectLink to='/register' onClick={handleLastVisitedURL}>Register</RedirectLink></li>
                         )}

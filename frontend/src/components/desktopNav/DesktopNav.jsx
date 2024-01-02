@@ -5,7 +5,7 @@ import { AuthContext } from '../../App'
 import { handleLogout } from '../../hooks/useAuthCheck'
 
 export default function DesktopNav() {
-    const {isAuth} = useContext(AuthContext)
+    const {userData} = useContext(AuthContext)
 
     const handleLastVisitedURL = () => {
         const relativePath = window.location.pathname + window.location.search;
@@ -20,13 +20,13 @@ export default function DesktopNav() {
                         <DesktopNavItem className='headerLink' to='/recenzije'>Recenzije</DesktopNavItem>
                         <DesktopNavItem className='headerLink' to='/top20smeca'>Top 20 Smeća</DesktopNavItem>
                         <DesktopNavItem className='headerLink' to='/o-blogu'>O Blogu</DesktopNavItem>
-                        {isAuth?.role === 'admin' ? (
+                        {userData?.role === 'admin' ? (
                             <DesktopNavItem className='headerLink' to='/dashboard'>Dashboard</DesktopNavItem>
                         ) : ''}
                     </ul>
                     <ul>
-                        {isAuth ? (
-                            <li>{isAuth.username}, <LogoutLink onClick={handleLogout}>Logout</LogoutLink></li>
+                        {userData ? (
+                            <li>{userData.username}, <LogoutLink onClick={handleLogout}>Logout</LogoutLink></li>
                         ) : (
                             <li><RedirectLink to='/login' onClick={handleLastVisitedURL}>Login</RedirectLink> or <RedirectLink to='/register' onClick={handleLastVisitedURL}>Register</RedirectLink></li>
                         )}

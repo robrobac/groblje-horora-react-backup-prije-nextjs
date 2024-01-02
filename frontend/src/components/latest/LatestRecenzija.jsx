@@ -12,9 +12,7 @@ export default function LatestRecenzija() {
     const [review, setReview] = useState(null)
     const [createdDate, setCreatedDate] = useState("00.00.0000")
     const [reviewDescription, setReviewDescription] = useState('')
-    console.log(reviewDescription)
     const {loading, handleLoading} = useContext(LoadingContext)
-    console.log(review)
 
     useEffect(() => {
         const fetchReview = async () => {
