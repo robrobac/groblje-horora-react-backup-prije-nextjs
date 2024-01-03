@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { InputContainer, InputField, InputLabel, } from '../Dashboard/NewForm.styles'
 import { AuthContainer, AuthForm, AuthPage, GoogleLoginButton, RedirectLink } from './Auth.styled'
 import {ReactComponent as Logo} from '../../images/groblje-horora-logo.svg'
@@ -25,18 +25,15 @@ function Login() {
         console.log('Login Form Submitted')
 
         try {
-
-            
             // Sign in with email and password using Firebase
             const user = await signInWithEmailAndPassword(auth, email, password)
             console.log('Firebase User Signed In', user.user);
 
             if (!user.user.emailVerified) {
-                await auth.signOut();
+                await signOut(auth)
                 alert('Potvrdite e-adresu i pokušajte ponovo');
                 window.location.reload()
                 return
-                
             }
 
             // Redirect to the previous page stored in local storage

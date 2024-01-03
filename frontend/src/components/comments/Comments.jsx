@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Comment, CommentForm, CommentsContainer, CommentsContent, CommentsHeader, CommentsList, FormInput, LikeHead } from './Comments.styled'
-import { CommentsButton, SendCommentButton, StyledButton } from '../buttons/Buttons.styled'
+import { CommentsButton, SendCommentButton } from '../buttons/Buttons.styled'
 import {ReactComponent as LikeIcon} from '../../images/likeicon.svg'
 import { AuthContext } from '../../App'
 import { format } from 'date-fns'
