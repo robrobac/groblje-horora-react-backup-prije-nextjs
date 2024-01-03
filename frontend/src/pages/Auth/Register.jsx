@@ -4,7 +4,7 @@ import { AuthContainer, AuthForm, AuthPage, GoogleLoginButton, RedirectLink } fr
 import {ReactComponent as Logo} from '../../images/groblje-horora-logo.svg'
 import homeCoverImage from '../../images/groblje-horora-bg-image.jpg'
 import {ReactComponent as GoogleIcon} from '../../images/googleicon.svg'
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
+import { createUserWithEmailAndPassword, sendEmailVerification, signOut, updateProfile } from "firebase/auth"
 import { auth } from '../../firebase/config'
 import { useNavigate } from 'react-router-dom';
 import { StyledButton } from '../../components/buttons/Buttons.styled'
@@ -54,7 +54,6 @@ export default function Register() {
             });
             console.log('Firebase User Display Name Updated', user.user);
 
-
             // Prepare user data for MongoDB
             const userData = {
                 username: username,
@@ -78,6 +77,13 @@ export default function Register() {
             }
             console.log('User Data stored to MongoDB', json);
 
+            // Send email verification
+            await sendEmailVerification(auth.currentUser);
+            console.log('verification mail sent')
+
+            
+            await signOut(auth);
+            // Logged out for verification
 
             // Redirect to the previous page stored in local storage
             const backURL = localStorage.getItem('lastVisitedUrl');

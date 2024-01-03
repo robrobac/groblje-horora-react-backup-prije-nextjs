@@ -9,6 +9,7 @@ export default function useAuthCheck() {
 
     // Effect hook to subscribe to authentication state changes
     useEffect(() => {
+        
         // Function to be called on authentication state changes
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (auth.currentUser) {
@@ -43,11 +44,11 @@ export default function useAuthCheck() {
             unsubscribe();
         };
         
-    }, [loggingIn])
+    }, [loggingIn, firebaseUser])
 
     return {
         userData,
-        firebaseUser
+        firebaseUser,
     }
 }
 
