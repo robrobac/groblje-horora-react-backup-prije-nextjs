@@ -133,3 +133,11 @@ export const SendCommentButton = styled(StyledButton)`
     justify-content: center;
     align-items: center;
 `
+
+export const VerificationButtons = styled(StyledButton)`
+    padding: 10px;
+    font-size: ${(props) => props.theme.dark.textM};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`

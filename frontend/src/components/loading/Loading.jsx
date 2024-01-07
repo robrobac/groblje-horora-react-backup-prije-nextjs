@@ -2,10 +2,10 @@ import React from 'react'
 import { LoaderContainer } from './Loading.styled'
 // import './loadingEffect.css'
 
-export default function Loading({variant}) {
+export default function Loading({variant, mainText, altText}) {
     return (
         <LoaderContainer $variant={`${variant}`}>
-            <h1>Loading<br></br><span>Please Wait</span></h1>
+            <h5>{mainText ? mainText : "Loading"}<br></br><span>{altText ? altText : "please wait"}</span></h5>
         </LoaderContainer>
     )
 }

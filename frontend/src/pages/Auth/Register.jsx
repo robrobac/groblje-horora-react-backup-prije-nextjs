@@ -4,11 +4,12 @@ import { AuthContainer, AuthForm, AuthPage, GoogleLoginButton, RedirectLink } fr
 import {ReactComponent as Logo} from '../../images/groblje-horora-logo.svg'
 import homeCoverImage from '../../images/groblje-horora-bg-image.jpg'
 import {ReactComponent as GoogleIcon} from '../../images/googleicon.svg'
-import { createUserWithEmailAndPassword, sendEmailVerification, signOut, updateProfile } from "firebase/auth"
+import { createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "firebase/auth"
 import { auth } from '../../firebase/config'
 import { useNavigate } from 'react-router-dom';
 import { StyledButton } from '../../components/buttons/Buttons.styled'
 import HelmetSettings from '../../components/HelmetSettings'
+import Loading from '../../components/loading/Loading'
 
 export default function Register() {
     const navigate = useNavigate();
@@ -19,14 +20,14 @@ export default function Register() {
 
     const [errors, setErrors] = useState([])
 
-    
+    const [creatingUser, setCreatingUser] = useState(false)
     
 
     // Handle registration form submission
     const handleRegister = async (e) => {
         e.preventDefault();
         console.log('Register Form Submitted')
-
+        setCreatingUser(true)
         try {
             // Validate user input on backend
             const validation = await fetch('http://localhost:4000/api/validateNewUser', {
@@ -40,6 +41,7 @@ export default function Register() {
             if (!validation.ok) {
                 console.log(validationJson);
                 setErrors(validationJson.errorMessages)
+                setCreatingUser(false)
                 return;
             }
             console.log('Validation success');
@@ -73,6 +75,7 @@ export default function Register() {
             const json = await response.json();
             if (!response.ok) {
                 console.log(json);
+                setCreatingUser(false)
                 return;
             }
             console.log('User Data stored to MongoDB', json);
@@ -81,15 +84,12 @@ export default function Register() {
             await sendEmailVerification(auth.currentUser);
             console.log('verification mail sent')
 
-            
-            await signOut(auth);
-            // Logged out for verification
 
             // Redirect to the previous page stored in local storage
             const backURL = localStorage.getItem('lastVisitedUrl');
             localStorage.removeItem('lastVisitedUrl');
             navigate(backURL)
-            console.log('Registration Successful, Navigating back to last visited URL')
+            console.log('Registration Successful, Navigating to login screen')
         } catch (err) {
             console.log(err);
 
@@ -101,6 +101,7 @@ export default function Register() {
             if (deleteResponse.ok) {
                 console.log('User deleted from MongoDB', deleteJson);
             }
+            setCreatingUser(false)
         }
     };
 
@@ -115,7 +116,9 @@ export default function Register() {
                 url={`https://www.groblje-horora.com/register`}
                 image={`%PUBLIC_URL%/images/groblje-horora-og-image.webp`}
             />
+            
             <AuthPage style={{backgroundImage: `url(${homeCoverImage})`}}>
+                {creatingUser ? <Loading variant='transparent' mainText='Trenutak' altText='kreiram tvoj račun'/> : ''}
                 <RedirectLink to='/'>
                     <Logo />
                 </RedirectLink>

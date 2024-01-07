@@ -142,3 +142,38 @@ export const GoogleLoginButton = styled.button`
     }
     
 `
+
+export const VerifyEmailContainer = styled.div`
+    position: fixed;
+    z-index: 10000;
+    background-color: ${(props) => props.theme.dark.colorBLACK80};
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
+export const VerifyMessageWrap = styled.div`
+    display: flex;
+    flex-direction: column;
+    padding: ${(props) => props.theme.dark.contentPadding};
+    max-width: 500px;
+    gap: 1rem;
+    align-items: center;
+
+    div {
+        display: flex;
+        gap: 20px;
+    }
+
+    h5 {
+        font-size: ${(props) => props.theme.dark.textXXL};
+        text-align: center;
+    }
+    
+    p {
+        font-size: ${(props) => props.theme.dark.textM};
+        text-align: center;
+    }
+`

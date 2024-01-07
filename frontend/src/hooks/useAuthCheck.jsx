@@ -6,12 +6,14 @@ export default function useAuthCheck() {
     const [userData, setUserData] = useState(null)
     const [loggingIn, setLoggingIn] = useState(false)
     const [firebaseUser, setFirebaseUser] = useState(null)
+    console.log('AAAUUUUUUUTTTTTTHHHHHH', auth)
 
     // Effect hook to subscribe to authentication state changes
     useEffect(() => {
         
         // Function to be called on authentication state changes
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
+            
             if (auth.currentUser) {
                 try {
                     // Fetch user data from MongoDB based on Firebase Auth email
@@ -44,7 +46,7 @@ export default function useAuthCheck() {
             unsubscribe();
         };
         
-    }, [loggingIn, firebaseUser])
+    }, [loggingIn])
 
     return {
         userData,

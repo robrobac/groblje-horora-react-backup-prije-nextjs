@@ -23,7 +23,9 @@ import EditForm from './pages/Dashboard/EditForm';
 import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
 import useAuthCheck from './hooks/useAuthCheck';
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
+import VerifyEmail from './pages/Auth/VerifyEmail';
+import { auth } from './firebase/config';
 
 
 export const AuthContext = createContext();
@@ -47,6 +49,7 @@ function App() {
                         <LoadingContext.Provider value={{ loading, handleLoading }}>
                             <AppPage>
                                 <Header />
+                                {firebaseUser && !firebaseUser.emailVerified && <VerifyEmail />}
                                 <Routes>
                                     <Route path='/' element={<Home />} />
                                     <Route path='/top25/' element={<Top25 />} />

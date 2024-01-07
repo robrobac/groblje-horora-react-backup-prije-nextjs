@@ -9,7 +9,8 @@ import GhostSpinner from '../ghostSpinner/GhostSpinner'
 
 export default function Comments({post}) {
     const [commentValue, setCommentValue] = useState('')
-    const {userData} = useContext(AuthContext)
+    const {userData, firebaseUser} = useContext(AuthContext)
+    console.log(firebaseUser)
     const [liked, setLiked] = useState(false)
     const [numberOfLikes, setNumberOfLikes] = useState(0)
     const [postingComment, setPostingComment] = useState(false)
@@ -134,7 +135,7 @@ export default function Comments({post}) {
         <CommentsContainer>
             <CommentsHeader>
                 <LikeHead>
-                    <LikeIcon onClick={userData ? handleSubmitLike : null} className={liked ? 'liked' : ''}/>
+                    <LikeIcon onClick={userData && firebaseUser.emailVerified ? handleSubmitLike : null} className={liked ? 'liked' : ''}/>
                     <p>{numberOfLikes}</p>
                 </LikeHead>
                 <CommentsButton className='active'>Komentari <span>{`(${post?.comments.length})`}</span></CommentsButton>
@@ -163,7 +164,7 @@ export default function Comments({post}) {
                 </CommentsList>
                 <CommentForm onSubmit={handleSubmitComment}>
                     <FormInput
-                        disabled={userData ? false : true}
+                        disabled={userData && firebaseUser.emailVerified ? false : true}
                         type='text' placeholder={userData ? 'Upiši komentar' : 'Morate biti prijavljeni da bi ostavljali komentare'}
                         value={commentValue}
                         onChange={(e) => {setCommentValue(e.target.value)}}

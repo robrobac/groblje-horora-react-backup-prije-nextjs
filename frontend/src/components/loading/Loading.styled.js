@@ -1,15 +1,15 @@
 import styled from "styled-components";
 
 export const LoaderContainer = styled.div`
-    position: fixed;
+    position: absolute;
     z-index: 80;
-    background-color: ${(props) => props.$variant === 'transparent' ? props.theme.dark.colorBLACK50 : props.theme.dark.colorBLACK};
+    background-color: ${(props) => props.$variant === 'transparent' ? props.theme.dark.colorBLACK80 : props.theme.dark.colorBLACK};
     height: 100%;
     width: 100%;
     overflow: hidden;
-    margin-top: -2rem;
+    margin-top: -4rem;
 
-  h1 {
+  h5 {
     color: transparent;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     text-transform: uppercase;
@@ -18,7 +18,7 @@ export const LoaderContainer = styled.div`
     text-align: center;
     position: relative;
     left: 50%;
-    top: 25%;
+    top: 35%;
     margin-left: -100%;
 
     animation: horror-animation 5s infinite;
@@ -40,22 +40,18 @@ export const LoaderContainer = styled.div`
   0% {
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
     left: 51%;
-    top: 26%;
   }
   5% {
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
     left: 50%;
-    top: 25%;
   }
   10% {
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
     left: 49%;
-    top: 24%;
   }
   15% {
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
     left: 50%;
-    top: 25%;
   }
   16% {
     text-shadow: 0 0 5px #212121;

@@ -29,13 +29,6 @@ function Login() {
             const user = await signInWithEmailAndPassword(auth, email, password)
             console.log('Firebase User Signed In', user.user);
 
-            if (!user.user.emailVerified) {
-                await signOut(auth)
-                alert('Potvrdite e-adresu i pokušajte ponovo');
-                window.location.reload()
-                return
-            }
-
             // Redirect to the previous page stored in local storage
             const backURL = localStorage.getItem('lastVisitedUrl');
             localStorage.removeItem('lastVisitedUrl');
@@ -43,7 +36,7 @@ function Login() {
             console.log('Login Successful, Navigating back to last visited URL')
         } catch (err) {
             console.log(err.message)
-            setError('Invalid email or password')
+            setError('Neispravan email ili lozinka')
         }
     }
 
