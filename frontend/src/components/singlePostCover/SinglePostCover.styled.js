@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const SinglePostCoverWrap = styled.div`
     width: 100%;
-    max-width: 2560px;
+    max-width: 1920px;
     margin-top: -2rem;
     
     @media (max-width: 768px) {

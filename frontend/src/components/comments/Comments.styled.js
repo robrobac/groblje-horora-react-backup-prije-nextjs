@@ -98,6 +98,9 @@ export const CommentForm = styled.form`
     display: flex;
     gap: 10px;
 
+    @media (max-width: 425px) {
+        flex-wrap: wrap;
+    } 
 `
 
 export const FormInput = styled.input`
@@ -108,7 +111,7 @@ export const FormInput = styled.input`
     padding: 10px 20px;
     border: 1px solid ${(props) => props.theme.dark.inputBorder};
     background-color: transparent;
-    
+    width: 100%;
     color: ${(props) => props.theme.dark.colorWHITE80};
 
     &:focus {
@@ -118,5 +121,9 @@ export const FormInput = styled.input`
 
     &::placeholder {
         color: ${(props) => props.theme.dark.colorWHITE15};
+    }
+
+    @media (max-width: 425px) {
+        padding: 20px 20px;
     }
 `

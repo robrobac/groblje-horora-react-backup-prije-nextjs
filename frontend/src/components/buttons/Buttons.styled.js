@@ -132,6 +132,10 @@ export const SendCommentButton = styled(StyledButton)`
     display: flex;
     justify-content: center;
     align-items: center;
+
+    @media (max-width: 425px) {
+        width: 100%;
+    }
 `
 
 export const VerificationButtons = styled(StyledButton)`
