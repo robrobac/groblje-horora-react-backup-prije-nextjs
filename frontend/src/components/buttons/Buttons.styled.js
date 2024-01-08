@@ -145,3 +145,33 @@ export const VerificationButtons = styled(StyledButton)`
     justify-content: center;
     align-items: center;
 `
+
+export const UploadImagesButton = styled.label`
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 150px;
+    height: 65px;
+
+    font-size: ${(props) => props.theme.dark.textL};
+    background-color: ${(props) => props.theme.dark.colorRED};
+    color: ${(props) => props.theme.dark.colorWHITE};
+    border-radius: ${(props) => props.theme.dark.radiusS};
+    border: none;
+    cursor: pointer;
+
+    
+
+    @media (hover: hover) {
+        &:hover {
+            background-color: ${(props) => props.theme.dark.colorREDhover};
+        }
+    }
+`
+
+export const GetLinksButton = styled(UploadImagesButton)`
+    
+
+`

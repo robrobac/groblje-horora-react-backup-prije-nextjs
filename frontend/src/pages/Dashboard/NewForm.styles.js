@@ -10,19 +10,42 @@ export const TabList = styled.div`
 `
 
 export const Tab = styled.div`
-cursor: pointer;
+    cursor: pointer;
+    padding: 10px 0;
+    border-radius: ${(props) => props.theme.dark.radiusS} ${(props) => props.theme.dark.radiusS} 0 0;
     flex: 1;
-    color: ${props => (props.$isActive ? props.theme.dark.lightText : props.theme.dark.grayText)};
+    color: ${props => (props.$isActive ? props.theme.dark.colorWHITE80 : props.theme.dark.colorWHITE25)};
+    background-color: ${props => (props.$isActive ? props.theme.dark.commentsBG : props.theme.dark.colorBLACK)};
+    margin-top: 1rem;
+
+    &:hover {
+        background-color: ${(props) => props.theme.dark.commentsBG};
+    }
 `
 
 export const TabPanel = styled.div`
     display: ${props => (props.$isActive ? 'block' : 'none')};
+    padding: ${(props) => props.theme.dark.contentPadding};
+    background-color: ${(props) => props.theme.dark.commentsBG};
+    border-radius: 0 0 ${(props) => props.theme.dark.radiusM} ${(props) => props.theme.dark.radiusM};
+    margin-bottom: 2rem;
+
+    h3 {
+        color: ${(props) => props.theme.dark.colorWHITE80};
+        font-size: ${(props) => props.theme.dark.textM};
+        span {
+            font-size: ${(props) => props.theme.dark.textS};
+            color: ${(props) => props.theme.dark.colorWHITE50};
+        }
+    }
 `
 
 export const FormContainer = styled.div`
     max-width: ${(props) => props.theme.dark.readingWidth};
     display: flex;
     flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1rem;
 
     .dualInput {
         display: flex;
@@ -45,6 +68,7 @@ export const File = styled.input`
 `
 export const FileLabel = styled.label`
     border: 1px solid ${(props) => props.theme.dark.inputBorder};
+    border-radius: ${(props) => props.theme.dark.radiusM};
     cursor: pointer;
     display: flex;
     justify-content: center;
@@ -60,16 +84,21 @@ export const FormImage = styled.div`
     cursor: pointer;
     width: 322px;
     height: 460px;
+    border-radius: ${(props) => props.theme.dark.borderM};
     img {
         width: 100%;
         height: 460px;
         object-fit: cover;
+        border-radius: ${(props) => props.theme.dark.radiusM};
     }
 `
 
 // FORM STYLES
 export const FormContent = styled.div`
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 `
 export const InputContainer = styled.div`
     width: 100%;
@@ -78,25 +107,27 @@ export const InputContainer = styled.div`
 `
 export const InputField = styled.input`
     padding: 10px 10px;
-    border: 1px solid ${(props) => props.theme.dark.inputBorder};
+    border: 1px solid ${(props) => props.theme.dark.colorWHITE15};
+    border-radius: ${(props) => props.theme.dark.radiusS};
     background-color: transparent;
-    font-size: 1rem;
-    color: white;
+    font-size: ${(props) => props.theme.dark.textM};
+    color: ${(props) => props.theme.dark.colorWHITE80};
 
     &.error {
         border: 1px solid red;
     }
 
     &:focus {
-        border: 1px solid ${(props) => props.theme.dark.primary};
+        border: 1px solid ${(props) => props.theme.dark.colorWHITE50};
         outline: none;
     }
 
     &::placeholder {
-        color: ${(props) => props.theme.dark.inputBorder};
+        color: ${(props) => props.theme.dark.colorWHITE15};
     }
 `
 export const InputLabel = styled.label`
+    color: ${(props) => props.theme.dark.colorWHITE80};
     padding-left: 10px;
     font-size: .9rem;
     font-weight: 600;

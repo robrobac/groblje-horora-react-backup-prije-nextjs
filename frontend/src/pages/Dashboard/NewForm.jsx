@@ -256,49 +256,49 @@ export default function NewForm({ numberOfMovies }) {
                     </Tabs>
                     {movies.map((movie, index) => (
                         <TabPanel key={`movie${index + 1}`} $isActive={selectedTab === `movie${index + 1}`}>
-                            <h3>Movie {index + 1}</h3>
+                            <h3>Cover Image <span>(movie {index + 1})</span></h3>
                             <FormContainer>
-                            <FormImage>
-                                <div>
-                                    {movie.compressedCoverImage
-                                    ?
-                                        <img src={URL.createObjectURL(movie.compressedCoverImage)} alt='uploadedImage' onClick={() => handleUploadClick(index)}/>
-                                    :
-                                        <FileLabel className={emptyFields.includes(`movie${index}coverImage`) ? 'error' : ''} htmlFor={`coverImage${index}`}>Cover Image</FileLabel>
-                                    }
-                                    <File id={`coverImage${index}`} type='file' accept='image/' onChange={(e) => handleCompressImage(e, index)}/>
-                                </div>
-                            </FormImage>
-                            <FormContent>
-                                <InputContainer>
-                                    <InputLabel htmlFor='title'>Title {emptyFields.includes('titleExists') && numberOfMovies === 1 ? <span className='error'>Title already exists</span> : ''}</InputLabel>
-                                    <InputField className={emptyFields.includes(`movie${index}title`) ? 'error' : ''} id='title' type='text' value={movie.title} onChange={(e) => handleChange(index, 'title', e.target.value)}/>
-                                </InputContainer>
-                                <InputContainer>
-                                    <InputLabel htmlFor='year'>Year</InputLabel>
-                                    <InputField className={emptyFields.includes(`movie${index}year`) ? 'error' : '' } id='year' type='number' value={movie.year} onChange={(e) => handleChange(index, 'year', e.target.value)}/>
-                                </InputContainer>
-                                <InputContainer>
-                                    <InputLabel htmlFor='rating'>Rating</InputLabel>
-                                    <InputField className={emptyFields.includes(`movie${index}rating`) ? 'error' : '' } id='rating' type='number' value={movie.rating} onChange={(e) => handleChange(index, 'rating', parseFloat(e.target.value))} step='0.5' min='1' max='5'/>
-                                </InputContainer>
-                                <InputContainer>
-                                    <InputLabel htmlFor='imdbLink'>Imdb Link</InputLabel>
-                                    <InputField id='imdbLink'  type='text' value={movie.imdbLink} onChange={(e) => handleChange(index, 'imdbLink', e.target.value)}/>
-                                </InputContainer>
-                                <div className="dualInput">
-                                <div>
-                                    <label htmlFor='top25'>Top25</label>
-                                    <input id='top25' type='checkbox' value={movie.top25} onChange={(e) => handleChange(index, 'top25', !movie.top25)}/>
-                                </div>
+                                <FormImage>
                                     <div>
-                                        <label htmlFor='worse20'>
-                                            Worse20
-                                            <input id='worse20' type='checkbox' value={movie.worse20} onChange={(e) => handleChange(index, 'worse20', !movie.worse20)}/>
-                                        </label>
+                                        {movie.compressedCoverImage
+                                        ?
+                                            <img src={URL.createObjectURL(movie.compressedCoverImage)} alt='uploadedImage' onClick={() => handleUploadClick(index)}/>
+                                        :
+                                            <FileLabel className={emptyFields.includes(`movie${index}coverImage`) ? 'error' : ''} htmlFor={`coverImage${index}`}>Cover Image</FileLabel>
+                                        }
+                                        <File id={`coverImage${index}`} type='file' accept='image/' onChange={(e) => handleCompressImage(e, index)}/>
                                     </div>
-                                </div>
-                            </FormContent>
+                                </FormImage>
+                                <FormContent>
+                                    <InputContainer>
+                                        <InputLabel htmlFor='title'>Title {emptyFields.includes('titleExists') && numberOfMovies === 1 ? <span className='error'>Title already exists</span> : ''}</InputLabel>
+                                        <InputField className={emptyFields.includes(`movie${index}title`) ? 'error' : ''} id='title' type='text' value={movie.title} onChange={(e) => handleChange(index, 'title', e.target.value)}/>
+                                    </InputContainer>
+                                    <InputContainer>
+                                        <InputLabel htmlFor='year'>Year</InputLabel>
+                                        <InputField className={emptyFields.includes(`movie${index}year`) ? 'error' : '' } id='year' type='number' value={movie.year} onChange={(e) => handleChange(index, 'year', e.target.value)}/>
+                                    </InputContainer>
+                                    <InputContainer>
+                                        <InputLabel htmlFor='rating'>Rating</InputLabel>
+                                        <InputField className={emptyFields.includes(`movie${index}rating`) ? 'error' : '' } id='rating' type='number' value={movie.rating} onChange={(e) => handleChange(index, 'rating', parseFloat(e.target.value))} step='0.5' min='1' max='5'/>
+                                    </InputContainer>
+                                    <InputContainer>
+                                        <InputLabel htmlFor='imdbLink'>Imdb Link</InputLabel>
+                                        <InputField id='imdbLink'  type='text' value={movie.imdbLink} onChange={(e) => handleChange(index, 'imdbLink', e.target.value)}/>
+                                    </InputContainer>
+                                    <div className="dualInput">
+                                        <div>
+                                            <label htmlFor='top25'>Top25</label>
+                                            <input id='top25' type='checkbox' value={movie.top25} onChange={(e) => handleChange(index, 'top25', !movie.top25)}/>
+                                        </div>
+                                        <div>
+                                            <label htmlFor='worse20'>
+                                                Worse20
+                                                <input id='worse20' type='checkbox' value={movie.worse20} onChange={(e) => handleChange(index, 'worse20', !movie.worse20)}/>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </FormContent>
                             </FormContainer>
                             <TextEditorContainer>
                                 <InputLabel>Post Content</InputLabel>

@@ -4,6 +4,8 @@ import stringFormatting from '../../helpers/stringFormatting';
 import { deleteImageFromFirebaseStorage, uploadImageToFirebaseStorage } from '../../helpers/firebaseUtils';
 import { GetLinks, Repo, RepoFile, RepoFileLabel, RepoImages, RepoSection, StickyContainer } from './ImageRepo.styles';
 import UploadedImage from './UploadedImage';
+import { GetLinksButton, UploadImagesButton } from '../../components/buttons/Buttons.styled';
+import GhostSpinner from '../../components/ghostSpinner/GhostSpinner';
 
 export default function ImageRepo({handleContentImages, contentImages, formSubmitted}) {
     // State that holds compressed images that are later uploaded to Firebase Storage, once upload is successful clear the state.
@@ -12,6 +14,8 @@ export default function ImageRepo({handleContentImages, contentImages, formSubmi
     // eslint-disable-next-line no-unused-vars
     const [error, setError] = useState(null)
 
+    const [uploadingImages, setUploadingImages] = useState(false)
+
     useEffect(() => {
         setCompressedImages([])
     }, [formSubmitted])
@@ -19,6 +23,7 @@ export default function ImageRepo({handleContentImages, contentImages, formSubmi
 
     // COmpressing images once uploaded to frontend in order to send them to Firebase Storage
     const handleCompressImage = (e) => {
+        setUploadingImages(true)
         // Getting all files uploaded to Input Type: File
         const files = e.target.files;
         // IF there's files uploaded proceed with compression
@@ -28,7 +33,7 @@ export default function ImageRepo({handleContentImages, contentImages, formSubmi
                 // Compress only if file is of image type
                 if (file.type.startsWith('image/')) {
                     new Compressor(file, {
-                        quality: 0.6,
+                        quality: 0.8,
                         width: 700,
                         mimeType: 'image/webp',
                         convertSize: Infinity,
@@ -41,14 +46,17 @@ export default function ImageRepo({handleContentImages, contentImages, formSubmi
                     console.log('file is not an image, skipped', file.name)
                 }
             });
+            setUploadingImages(false)
         } else {
             setCompressedImages(null)
+            setUploadingImages(false)
         }
     };
 
 
     // Uploading compressed images to Firebase Storage and retrieveing its url path
     const getLinks = async () => {
+        setUploadingImages(true)
         for (const image of compressedImages) {
             let url = '';
             let path = '';
@@ -103,6 +111,7 @@ export default function ImageRepo({handleContentImages, contentImages, formSubmi
             // Introduce a 500ms delay before processing the next image
             await new Promise((resolve) => setTimeout(resolve, 500));
         }
+        setUploadingImages(false)
     };
     
     const handleDeleteCompressed = (imageToDelete) => {
@@ -131,7 +140,7 @@ export default function ImageRepo({handleContentImages, contentImages, formSubmi
     <StickyContainer>
         <Repo>
             <RepoSection>
-                <RepoFileLabel htmlFor='contentImage'>UPLOAD Images</RepoFileLabel>
+                <UploadImagesButton htmlFor='contentImage'>{uploadingImages ? <GhostSpinner /> : 'Upload Slika'}</UploadImagesButton>
                 <RepoFile multiple={true} ref={imagesInputRef} id='contentImage' type='file' accept='image/' onChange={handleCompressImage}/>
             </RepoSection>
 
@@ -144,7 +153,7 @@ export default function ImageRepo({handleContentImages, contentImages, formSubmi
             </RepoImages>
             {compressedImages.length  !== 0 ? (
                 <RepoSection>
-                    <GetLinks onClick={getLinks}>Get Links</GetLinks>
+                    <GetLinksButton onClick={getLinks}>{uploadingImages ? <GhostSpinner /> : 'Get Links'}</GetLinksButton>
                 </RepoSection>
             ) : ''}
             {contentImages.length !== 0 ? (

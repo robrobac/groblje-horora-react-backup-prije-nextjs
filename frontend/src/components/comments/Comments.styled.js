@@ -109,7 +109,7 @@ export const FormInput = styled.input`
     font-size: ${(props) => props.theme.dark.textM};
     font-weight: 400;
     padding: 10px 20px;
-    border: 1px solid ${(props) => props.theme.dark.inputBorder};
+    border: 1px solid ${(props) => props.theme.dark.colorWHITE15};
     background-color: transparent;
     width: 100%;
     color: ${(props) => props.theme.dark.colorWHITE80};

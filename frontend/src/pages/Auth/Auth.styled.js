@@ -146,7 +146,7 @@ export const GoogleLoginButton = styled.button`
 export const VerifyEmailContainer = styled.div`
     position: fixed;
     z-index: 10000;
-    background-color: ${(props) => props.theme.dark.colorBLACK80};
+    background-color: ${(props) => props.theme.dark.colorBLACK};
     width: 100vw;
     height: 100vh;
     top: 0;

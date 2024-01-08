@@ -14,17 +14,17 @@ export const PreviewImage = styled.div`
     }
    
     .singleMovieImage {
-
         height: 100%;
         width: 100%;
         object-fit: cover;
         border-radius: ${(props) => props.theme.dark.radiusM};
+        background-color: ${(props) => props.theme.dark.colorWHITE15};
 }
 
 `
 
 export const QuadImageContainer = styled.div`
-position: relative;
+    position: relative;
     display: flex;
     flex-wrap: wrap;
     width: 100%;

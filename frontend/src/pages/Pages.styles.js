@@ -40,6 +40,7 @@ export const ReadingSection = styled.section`
 export const FormSection = styled.div`
     width: 100%;
     max-width: ${(props) => props.theme.dark.contentWidth};
+    gap: 1rem;
     display: flex;
     flex-wrap: wrap-reverse;
 `

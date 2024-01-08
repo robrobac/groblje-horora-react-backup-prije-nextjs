@@ -1,8 +1,12 @@
 import styled from "styled-components";
+import { StyledButton } from "../../components/buttons/Buttons.styled";
 
 export const Repo = styled.div`
     position: sticky;
     top: 87px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 `
 
 export const RepoSection = styled.div`
@@ -12,7 +16,8 @@ export const RepoSection = styled.div`
 
 export const RepoImages = styled.div`
     min-height: 100px;
-    border: 1px solid ${(props) => props.theme.dark.inputBorder};
+    border: 1px solid ${(props) => props.theme.dark.colorWHITE15};
+    border-radius: ${(props) => props.theme.dark.radiusM};
     padding: 10px;
     display: flex;
     justify-content: center;
@@ -106,7 +111,7 @@ export const RepoFile = styled.input`
     z-index: -1;
 `
 export const RepoFileLabel = styled.label`
-padding: 10px;
+    padding: 10px;
     width: 200px;
     text-align: center;
     cursor: pointer;
