@@ -42,12 +42,7 @@ export default function VerifyEmail() {
                     <br></br>
                     svoju email adresu.
                 </h5>
-                
-                
                 <p><i>Ako ne vidite email s linkom za potvrdu, pogledajte spam folder ili zatražite novu potvrdu.</i></p>
-
-                
-
                 <VerificationButtons style={{minWidth: '210px', minHeight: '50px'}} onClick={resendVerification}>
                     {verificationResent ? 'Nova potvrda poslana' : (sendingVerification ? <GhostSpinner/> : 'Ponovno posalji email')}
                 </VerificationButtons>

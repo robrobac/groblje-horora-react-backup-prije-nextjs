@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { StyledButton } from '../../components/buttons/Buttons.styled'
 import HelmetSettings from '../../components/HelmetSettings'
 import Loading from '../../components/loading/Loading'
+import GhostSpinner from '../../components/ghostSpinner/GhostSpinner'
 
 export default function Register() {
     const navigate = useNavigate();
@@ -118,7 +119,6 @@ export default function Register() {
             />
             
             <AuthPage style={{backgroundImage: `url(${homeCoverImage})`}}>
-                {creatingUser ? <Loading variant='transparent' mainText='Trenutak' altText='kreiram tvoj račun'/> : ''}
                 <RedirectLink to='/'>
                     <Logo />
                 </RedirectLink>
@@ -138,7 +138,7 @@ export default function Register() {
                             <InputLabel htmlFor='password'>Password</InputLabel>
                             <InputField id='password' type='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
                         </InputContainer>
-                        <StyledButton type='submit'>Register</StyledButton>
+                        <StyledButton style={{minWidth: '156px'}} type='submit'>{creatingUser ? <GhostSpinner /> : 'Registracija'}</StyledButton>
                     </AuthForm>
                     <p className='separator'>OR</p>
                     <GoogleLoginButton type="button" disabled>

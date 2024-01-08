@@ -4,26 +4,31 @@ import { AuthContainer, AuthForm, AuthPage, GoogleLoginButton, RedirectLink } fr
 import {ReactComponent as Logo} from '../../images/groblje-horora-logo.svg'
 import homeCoverImage from '../../images/groblje-horora-bg-image.jpg'
 import {ReactComponent as GoogleIcon} from '../../images/googleicon.svg'
-import { signInWithEmailAndPassword, signOut } from 'firebase/auth'
+import { sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { auth } from '../../firebase/config'
 import { useNavigate } from 'react-router-dom';
-import { StyledButton } from '../../components/buttons/Buttons.styled'
+import { StyledButton, TextButton } from '../../components/buttons/Buttons.styled'
 import HelmetSettings from '../../components/HelmetSettings'
+import GhostSpinner from '../../components/ghostSpinner/GhostSpinner'
 
 function Login() {
 
     const navigate = useNavigate();
+
+    const [loggingIn, setLoggingIn] = useState(false)
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     
     const [error, setError] = useState('')
 
+    const [forgotPassword, setForgotPassword] = useState(false)
+
     // Handle login form submission
     const handleLogin = async (e) => {
         e.preventDefault()
         console.log('Login Form Submitted')
-
+        setLoggingIn(true)
         try {
             // Sign in with email and password using Firebase
             const user = await signInWithEmailAndPassword(auth, email, password)
@@ -34,10 +39,32 @@ function Login() {
             localStorage.removeItem('lastVisitedUrl');
             navigate(backURL)
             console.log('Login Successful, Navigating back to last visited URL')
+            setLoggingIn(false)
         } catch (err) {
             console.log(err.message)
             setError('Neispravan email ili lozinka')
+            setLoggingIn(false)
         }
+    }
+
+    const handleForgotPassword = async (e) => {
+        e.preventDefault()
+        setLoggingIn(true)
+        try {
+            sendPasswordResetEmail(auth, email)
+            setError(`Email za oporavak lozinke poslan na ${email}`)
+            setLoggingIn(false)
+        } catch (err) {
+            console.log(err)
+            setLoggingIn(false)
+        }
+    }
+
+    const handleSwitch = (val) => {
+        setForgotPassword(val)
+        setError('')
+        setPassword('')
+        
     }
 
     return (
@@ -55,26 +82,42 @@ function Login() {
                 <RedirectLink to='/'>
                     <Logo />
                 </RedirectLink>
-                <AuthContainer>
-                    <h3>PRIJAVA</h3>
-                    <p className='error'>{error}</p>
-                    <AuthForm onSubmit={handleLogin}>
-                        <InputContainer>
-                            <InputLabel htmlFor='email'>Email</InputLabel>
-                            <InputField id='email' type='email' value={email} onChange={(e) => setEmail(e.target.value)}/>
-                        </InputContainer>
-                        <InputContainer>
-                            <InputLabel htmlFor='password'>Password</InputLabel>
-                            <InputField id='password' type='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
-                        </InputContainer>
-                        <StyledButton type='submit'>Login</StyledButton>
-                    </AuthForm>
-                    <p>OR</p>
-                    <GoogleLoginButton type="button" disabled>
-                        <GoogleIcon /> Sign in with Google
-                    </GoogleLoginButton>
-                    <p>Don't have an account? <RedirectLink to='/register'><span className='loginLink'>Register</span></RedirectLink></p>
-                </AuthContainer>
+                {!forgotPassword ? (
+                    <AuthContainer>
+                        <h3>PRIJAVA</h3>
+                        <p className='error'>{error}</p>
+                        <AuthForm onSubmit={handleLogin}>
+                            <InputContainer>
+                                <InputLabel htmlFor='email'>Email</InputLabel>
+                                <InputField id='email' type='email' value={email} onChange={(e) => setEmail(e.target.value)}/>
+                            </InputContainer>
+                            <InputContainer>
+                                <InputLabel htmlFor='password'>Password</InputLabel>
+                                <InputField id='password' type='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
+                            </InputContainer>
+                            <StyledButton style={{minWidth: '108px'}} type='submit'>{loggingIn ? <GhostSpinner /> : 'Prijava'}</StyledButton>
+                        </AuthForm>
+                        <p>OR</p>
+                        <GoogleLoginButton type="button" disabled>
+                            <GoogleIcon /> Sign in with Google
+                        </GoogleLoginButton>
+                        <p>Nemate korisnički račun? <RedirectLink to='/register'><span className='loginLink'>Registrirajte se</span></RedirectLink></p>
+                        <TextButton onClick={() => handleSwitch(true)}>Zaboravili ste lozinku?</TextButton>
+                    </AuthContainer>
+                ) : (
+                    <AuthContainer>
+                        <h3>ZABORAVLJENA LOZINKA</h3>
+                        <p className='error'>{error}</p>
+                        <AuthForm onSubmit={handleForgotPassword}>
+                            <InputContainer>
+                                <InputLabel htmlFor='email'>Email</InputLabel>
+                                <InputField id='email' type='email' value={email} onChange={(e) => setEmail(e.target.value)}/>
+                            </InputContainer>
+                            <StyledButton type='submit'>{loggingIn ? <GhostSpinner /> : 'Pošalji'}</StyledButton>
+                        </AuthForm>
+                        <TextButton onClick={() => handleSwitch(false)}>Povratak na prijavu</TextButton>
+                    </AuthContainer>
+                )}
             </AuthPage>
         </>
     )
