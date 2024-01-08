@@ -51,9 +51,19 @@ function Login() {
         e.preventDefault()
         setLoggingIn(true)
         try {
+            const response = await fetch(`http://localhost:4000/api/users/${email}`)
+            const json = await response.json()
+
+            if (json === null) {
+                setError('Email nije registriran')
+                setLoggingIn(false)
+                return
+            }
+
             sendPasswordResetEmail(auth, email)
             setError(`Email za oporavak lozinke poslan na ${email}`)
             setLoggingIn(false)
+            
         } catch (err) {
             console.log(err)
             setLoggingIn(false)
@@ -64,7 +74,6 @@ function Login() {
         setForgotPassword(val)
         setError('')
         setPassword('')
-        
     }
 
     return (
