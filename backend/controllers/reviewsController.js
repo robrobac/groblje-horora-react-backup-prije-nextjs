@@ -195,7 +195,14 @@ const getReview = async (req, res) => {
 const createReview = async (req, res) => {
     const { reviewTitle, movies, comments, likes, contentImages } = req.body
 
-    const slug = slugify(reviewTitle)
+    let slug = ''
+
+    if (movies.length === 4) {
+        slug = slugify(reviewTitle)
+    }
+    if (movies.length === 1) {
+        slug = slugify(reviewTitle, movies[0].year)
+    }
     console.log(slug)
 
     let emptyFields = []
@@ -290,7 +297,14 @@ const updateReview = async (req, res) => {
 
     const { reviewTitle, movies, comments, likes, contentImages } = req.body
 
-    const newSlug = slugify(reviewTitle)
+    let newSlug = ''
+
+    if (movies.length === 4) {
+        newSlug = slugify(reviewTitle)
+    }
+    if (movies.length === 1) {
+        newSlug = slugify(reviewTitle, movies[0].year)
+    }
     console.log(newSlug)
 
     let emptyFields = []

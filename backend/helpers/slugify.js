@@ -1,4 +1,4 @@
-const slugify = (input) => {
+const slugify = (input, year) => {
     if (!input)
         return '';
 
@@ -14,7 +14,35 @@ const slugify = (input) => {
     // replace multiple spaces or hyphens with a single hyphen
     slug = slug.replace(/[\s-]+/g, '-');
 
+    // add year at the end of the slug if year is provided
+    if (year) {
+        slug = slug + '-' + year;
+    }
+
     return slug;
 }
 
 module.exports = slugify;
+
+
+
+// const slugify = (input) => {
+//     if (!input)
+//         return '';
+
+//     // make lower case and trim
+//     var slug = input.toLowerCase().trim();
+
+//     // remove accents from charaters
+//     slug = slug.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+
+//     // replace invalid chars with spaces
+//     slug = slug.replace(/[^a-z0-9\s-]/g, ' ').trim();
+
+//     // replace multiple spaces or hyphens with a single hyphen
+//     slug = slug.replace(/[\s-]+/g, '-');
+
+//     return slug;
+// }
+
+// module.exports = slugify;
