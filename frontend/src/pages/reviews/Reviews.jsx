@@ -2,7 +2,7 @@ import React from 'react'
 import useFetchReviewsWithParams from '../../hooks/useFetchReviewsWithParams'
 import { SORT_OPTIONS } from '../../helpers/sortOptions'
 import Search from '../../components/searchBar/Search'
-import { ReviewsContainer } from './Reviews.styled'
+import { ReviewsContainer, ReviewsTitleContainer } from './Reviews.styled'
 import Pagination from '../../components/pagination/Pagination'
 import PostsFlex from '../../components/postsFlex/PostsFlex'
 import Loading from '../../components/loading/Loading'
@@ -41,10 +41,16 @@ export default function Reviews() {
                 image={`%PUBLIC_URL%/images/groblje-horora-og-image.webp`}
             />
             <ReviewsContainer>
+                <ReviewsTitleContainer>
+                    <h1>Recenzije</h1>
+                    <p>
+                        Na ovoj stranici pronađite sve recenzije i kratke preglede od 2007. godine do danas. Koristeći pretraživač filtrirajte, sortirajte, pretražite i pronađite željeni horor film.
+                    </p>
+                </ReviewsTitleContainer>
                 <Search controls={true} handleSearch={handleSearch} search={search} sort={sort} order={order} handleSortAndOrder={handleSortAndOrder} handleFilter={handleFilter} filter={filter}/>
-                {loading ? <Loading /> : ''}
-                <PostsFlex posts={reviews}/>
-                <Pagination itemsPerPage={30} items={reviews} totalItems={totalItems} handlePageChange={handlePageChange}/>   
+                
+                <PostsFlex posts={reviews} loading={loading}/>
+                {!loading ? <Pagination itemsPerPage={30} items={reviews} totalItems={totalItems} handlePageChange={handlePageChange}/> : ''}  
             </ReviewsContainer>
         </>
     )

@@ -6,3 +6,18 @@ export const ReviewsContainer = styled.main`
     align-items: center;
     gap: 50px;
 `
+
+export const ReviewsTitleContainer = styled.div`
+    position: relative;
+    z-index: 85;
+    width: 100%;
+    max-width: ${(props) => props.theme.dark.normalWidth};
+    padding: 0 ${(props) => props.theme.dark.contentPadding};
+
+    h1 {
+        font-size: ${(props) => props.theme.dark.textXXXL};
+    }
+    p {
+        max-width: ${(props) => props.theme.dark.smallWidth};
+    }
+`
