@@ -7,10 +7,8 @@ import {ReactComponent as GoogleIcon} from '../../images/googleicon.svg'
 import { createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "firebase/auth"
 import { auth } from '../../firebase/config'
 import { useNavigate } from 'react-router-dom';
-import { StyledButton } from '../../components/buttons/Buttons.styled'
 import HelmetSettings from '../../components/HelmetSettings'
-import Loading from '../../components/loading/Loading'
-import GhostSpinner from '../../components/ghostSpinner/GhostSpinner'
+import LoadingButton from '../../components/buttons/LoadingButton/LoadingButton'
 
 export default function Register() {
     const navigate = useNavigate();
@@ -138,13 +136,13 @@ export default function Register() {
                             <InputLabel htmlFor='password'>Password</InputLabel>
                             <InputField id='password' type='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
                         </InputContainer>
-                        <StyledButton style={{minWidth: '156px'}} type='submit'>{creatingUser ? <GhostSpinner /> : 'Registracija'}</StyledButton>
+                        <LoadingButton type={creatingUser ? 'button' : 'submit'} title='Registracija' loading={creatingUser} minWidth='160px'/>
                     </AuthForm>
                     <p className='separator'>OR</p>
                     <GoogleLoginButton type="button" disabled>
                         <GoogleIcon /> Sign in with Google
                     </GoogleLoginButton>
-                    <p>Already have an account? <RedirectLink to='/login'><span className='loginLink'>Login</span></RedirectLink></p>
+                    <p>Već imate račun? <RedirectLink to='/login'><span className='loginLink'>Prijavite se</span></RedirectLink></p>
                 </AuthContainer>
             </AuthPage>
         </>

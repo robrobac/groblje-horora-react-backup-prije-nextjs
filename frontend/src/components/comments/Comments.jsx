@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Comment, CommentForm, CommentsContainer, CommentsContent, CommentsHeader, CommentsList, FormInput, LikeHead } from './Comments.styled'
-import { CommentsButton, SendCommentButton } from '../buttons/Buttons.styled'
+import { CommentsButton } from '../buttons/Buttons.styled'
 import {ReactComponent as LikeIcon} from '../../images/likeicon.svg'
 import { AuthContext } from '../../App'
 import { format } from 'date-fns'
-import GhostSpinner from '../ghostSpinner/GhostSpinner'
+import LoadingButton from '../buttons/LoadingButton/LoadingButton'
 
 
 export default function Comments({post}) {
@@ -169,12 +169,7 @@ export default function Comments({post}) {
                         value={commentValue}
                         onChange={(e) => {setCommentValue(e.target.value)}}
                     />
-                    <SendCommentButton
-                        className={userData ? '' : 'disabled'}
-                        type='submit'
-                    >
-                        {postingComment ? <GhostSpinner /> : 'Pošalji'}
-                    </SendCommentButton>
+                    <LoadingButton disabled={userData ? false : true} customClass={userData ? '' : 'disabled'} type={postingComment ? 'button' : 'submit'} title='Pošalji' loading={postingComment} minWidth='110px'/>
                 </CommentForm>
             </CommentsContent>
         </CommentsContainer>

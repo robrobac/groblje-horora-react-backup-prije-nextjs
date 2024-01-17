@@ -152,7 +152,7 @@ export const UploadImagesButton = styled.label`
     justify-content: center;
     align-items: center;
 
-    width: 150px;
+    min-width: 160px;
     height: 65px;
 
     font-size: ${(props) => props.theme.dark.textL};
@@ -168,6 +168,10 @@ export const UploadImagesButton = styled.label`
         &:hover {
             background-color: ${(props) => props.theme.dark.colorREDhover};
         }
+    }
+
+    @media (max-width: 425px) {
+        width: 100%;
     }
 `
 

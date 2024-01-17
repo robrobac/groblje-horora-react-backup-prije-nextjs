@@ -7,6 +7,7 @@ import Pagination from '../../components/pagination/Pagination'
 import PostsFlex from '../../components/postsFlex/PostsFlex'
 import Loading from '../../components/loading/Loading'
 import HelmetSettings from '../../components/HelmetSettings'
+import LoadingButton from '../../components/buttons/LoadingButton/LoadingButton'
 
 // Styled Components
 

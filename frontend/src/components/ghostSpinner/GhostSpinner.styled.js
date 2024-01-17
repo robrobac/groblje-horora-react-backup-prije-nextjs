@@ -3,8 +3,8 @@ import styled from "styled-components";
 export const SpinnerContainer = styled.div`
     animation: rotate-center 1s ease-in-out 0s infinite normal none;
     svg {
-        height: 30px;
-        width: 30px;
+        height: 20px;
+        width: 20px;
         path {
             fill: ${(props) => props.theme.dark.colorWHITE};
         }

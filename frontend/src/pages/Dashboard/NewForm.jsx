@@ -35,6 +35,8 @@ export default function NewForm({ numberOfMovies }) {
 
     // State that is recieved from backend to handle errors on empty fields
     const [emptyFields, setEmptyFields] = useState([])
+
+    const [loading, setLoading] = useState(false)
     
     const navigate = useNavigate();
     
@@ -108,7 +110,7 @@ export default function NewForm({ numberOfMovies }) {
     // Function to handle all logic behind Form Submit.
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        setLoading(true)
         const requiredInputs = []
 
         if (!reviewTitle) {
@@ -156,6 +158,7 @@ export default function NewForm({ numberOfMovies }) {
                         }
                     } catch (err) {
                         reject(err);
+                        setLoading(false)
                     }
                 }
                 resolve({
@@ -197,6 +200,7 @@ export default function NewForm({ numberOfMovies }) {
                     setFormFailed(!formFailed)
                     window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
                     console.log(json)
+                    setLoading(false)
                 }
 
                 if (response.ok) {
@@ -219,6 +223,9 @@ export default function NewForm({ numberOfMovies }) {
                             console.log('deleted from tempImages', deleteJson);
                         }
                     });
+
+                    setLoading(false)
+
                     // Clear ContentImages state
                     setContentImages([]);
 
@@ -322,7 +329,7 @@ export default function NewForm({ numberOfMovies }) {
                             </TextEditorContainer>
                         </TabPanel>
                     ))}
-                    {postPreview ? <PreviewDialog postPreview={postPreview} formFailed={formFailed}/> : ''}
+                    {postPreview ? <PreviewDialog loading={loading} postPreview={postPreview} formFailed={formFailed}/> : ''}
                 </StyledForm>
                 <ImageRepo handleContentImages={handleContentImages} contentImages={contentImages} formSubmitted={formSubmitted}/>
             </FormSection>

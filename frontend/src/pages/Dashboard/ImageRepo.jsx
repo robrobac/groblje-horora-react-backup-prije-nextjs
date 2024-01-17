@@ -2,10 +2,11 @@ import React, { useEffect, useRef, useState } from 'react'
 import Compressor from 'compressorjs';
 import stringFormatting from '../../helpers/stringFormatting';
 import { deleteImageFromFirebaseStorage, uploadImageToFirebaseStorage } from '../../helpers/firebaseUtils';
-import { GetLinks, Repo, RepoFile, RepoFileLabel, RepoImages, RepoSection, StickyContainer } from './ImageRepo.styles';
+import { Repo, RepoFile, RepoFileLabel, RepoImages, RepoSection, StickyContainer } from './ImageRepo.styles';
 import UploadedImage from './UploadedImage';
-import { GetLinksButton, UploadImagesButton } from '../../components/buttons/Buttons.styled';
+import { UploadImagesButton } from '../../components/buttons/Buttons.styled';
 import GhostSpinner from '../../components/ghostSpinner/GhostSpinner';
+import LoadingButton from '../../components/buttons/LoadingButton/LoadingButton';
 
 export default function ImageRepo({handleContentImages, contentImages, formSubmitted}) {
     // State that holds compressed images that are later uploaded to Firebase Storage, once upload is successful clear the state.
@@ -140,7 +141,7 @@ export default function ImageRepo({handleContentImages, contentImages, formSubmi
     <StickyContainer>
         <Repo>
             <RepoSection>
-                <UploadImagesButton htmlFor='contentImage'>{uploadingImages ? <GhostSpinner /> : 'Upload Slika'}</UploadImagesButton>
+                <UploadImagesButton htmlFor='contentImage'>{uploadingImages ? <GhostSpinner /> : 'Odaberi Slike'}</UploadImagesButton>
                 <RepoFile multiple={true} ref={imagesInputRef} id='contentImage' type='file' accept='image/' onChange={handleCompressImage}/>
             </RepoSection>
 
@@ -153,7 +154,7 @@ export default function ImageRepo({handleContentImages, contentImages, formSubmi
             </RepoImages>
             {compressedImages.length  !== 0 ? (
                 <RepoSection>
-                    <GetLinksButton onClick={getLinks}>{uploadingImages ? <GhostSpinner /> : 'Get Links'}</GetLinksButton>
+                    <LoadingButton onClick={getLinks} type='button' title='Uploadaj Slike' loading={uploadingImages} minWidth='180px'/>
                 </RepoSection>
             ) : ''}
             {contentImages.length !== 0 ? (

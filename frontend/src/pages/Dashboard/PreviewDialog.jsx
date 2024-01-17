@@ -8,9 +8,10 @@ import Rating from '../../components/Rating'
 import draftToHtml from 'draftjs-to-html'
 import { StyledButton } from '../../components/buttons/Buttons.styled'
 import {ReactComponent as MenuX} from '../../images/xicon.svg'
+import LoadingButton from '../../components/buttons/LoadingButton/LoadingButton'
 
 
-export default function PreviewDialog({postPreview, formFailed}) {
+export default function PreviewDialog({postPreview, formFailed, loading}) {
     const [post, setPost] = useState(null)
     const [reviewType, setReviewType] = useState('quad')
 
@@ -109,7 +110,7 @@ export default function PreviewDialog({postPreview, formFailed}) {
                 ))}
             </SinglePostContainer>
             <div className='submitBtnContainer'>
-                <StyledButton type='submit'>Publish</StyledButton>
+                <LoadingButton type={loading ? 'button' : 'submit'} title='Objavi' loading={loading} minWidth='150px'/>
             </div>
         </PreviewDialogBox>
         <StyledButton type='button' id='previewDialogOpenButton'>Preview and Publish</StyledButton>

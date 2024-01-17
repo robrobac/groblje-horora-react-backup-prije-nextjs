@@ -7,9 +7,9 @@ import {ReactComponent as GoogleIcon} from '../../images/googleicon.svg'
 import { sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { auth } from '../../firebase/config'
 import { useNavigate } from 'react-router-dom';
-import { StyledButton, TextButton } from '../../components/buttons/Buttons.styled'
+import { TextButton } from '../../components/buttons/Buttons.styled'
 import HelmetSettings from '../../components/HelmetSettings'
-import GhostSpinner from '../../components/ghostSpinner/GhostSpinner'
+import LoadingButton from '../../components/buttons/LoadingButton/LoadingButton'
 
 function Login() {
 
@@ -104,7 +104,7 @@ function Login() {
                                 <InputLabel htmlFor='password'>Password</InputLabel>
                                 <InputField id='password' type='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
                             </InputContainer>
-                            <StyledButton style={{minWidth: '108px'}} type='submit'>{loggingIn ? <GhostSpinner /> : 'Prijava'}</StyledButton>
+                            <LoadingButton type={loggingIn ? 'button' : 'submit'} title='Prijava' loading={loggingIn} minWidth='110px'/>
                         </AuthForm>
                         <p>OR</p>
                         <GoogleLoginButton type="button" disabled>
@@ -122,7 +122,7 @@ function Login() {
                                 <InputLabel htmlFor='email'>Email</InputLabel>
                                 <InputField id='email' type='email' value={email} onChange={(e) => setEmail(e.target.value)}/>
                             </InputContainer>
-                            <StyledButton type='submit'>{loggingIn ? <GhostSpinner /> : 'Pošalji'}</StyledButton>
+                            <LoadingButton type={loggingIn ? 'button' : 'submit'} title='Pošalji' loading={loggingIn} minWidth='110px'/>
                         </AuthForm>
                         <TextButton onClick={() => handleSwitch(false)}>Povratak na prijavu</TextButton>
                     </AuthContainer>
