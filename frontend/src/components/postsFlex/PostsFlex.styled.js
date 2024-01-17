@@ -14,7 +14,7 @@ export const PostsFlexRow = styled.div`
     
 
     @media(max-width: ${(props) => props.theme.dark.normalWidth}) {
-        width: unset;
+        width: 100%;
         max-width: ${(props) => props.theme.dark.normalWidth};
     }
 
