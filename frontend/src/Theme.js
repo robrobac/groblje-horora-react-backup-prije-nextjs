@@ -55,6 +55,7 @@ const theme = {
         colorWHITE25: () => hexToRgba('#eddede', 0.25),
         colorWHITE15: () => hexToRgba('#eddede', 0.15),
         colorWHITE05: () => hexToRgba('#eddede', 0.05),
+        colorWHITE02: () => hexToRgba('#eddede', 0.02),
 
         colorBLACK: '#141414',
         colorBLACK90: () => hexToRgba('#141414', 0.9),
