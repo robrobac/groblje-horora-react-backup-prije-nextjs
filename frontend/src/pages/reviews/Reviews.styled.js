@@ -5,6 +5,7 @@ export const ReviewsContainer = styled.main`
     flex-direction: column;
     align-items: center;
     gap: 50px;
+    min-height: 100vh;
 `
 
 export const ReviewsTitleContainer = styled.div`

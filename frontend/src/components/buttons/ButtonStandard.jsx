@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { StyledButton, TextButton } from './Buttons.styled';
 
 export default function ButtonStandard({path, content, type, span}) {
@@ -12,13 +12,18 @@ export default function ButtonStandard({path, content, type, span}) {
 
     if (type === 'textOnly') {
         return (
-            <TextButton onClick={routeChange}>{content}</TextButton>
+            <Link to={path}>
+                <TextButton onClick={routeChange}>{content}</TextButton>
+            </Link>
         )
     }
 
     else {
         return (
-            <StyledButton onClick={routeChange}>{content} <span>{span}</span></StyledButton>
+            // <StyledButton onClick={routeChange}>{content} <span>{span}</span></StyledButton>
+            <Link to={path}>
+                <StyledButton>{content} <span>{span}</span></StyledButton>
+            </Link>
         )
     }
 }

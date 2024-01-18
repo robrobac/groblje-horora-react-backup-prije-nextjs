@@ -9,7 +9,7 @@ export const StyledFooter = styled.footer`
     color: ${(props) => props.theme.dark.colorWHITE80};
     padding: 10px ${(props) => props.theme.dark.contentPadding};
 
-    margin-top: 2rem;
+    margin-top: 100px;
 `
 
 export const Copyright = styled.p`
