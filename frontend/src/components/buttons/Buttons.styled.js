@@ -184,3 +184,7 @@ export const GetLinksButton = styled(UploadImagesButton)`
     
 
 `
+
+export const SmallButton = styled(StyledButton)`
+    font-size: ${(props) => props.theme.dark.textS};
+`

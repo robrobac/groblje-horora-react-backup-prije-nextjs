@@ -6,8 +6,8 @@ z-index: 90;
     flex-direction: column;
     gap: 8px;
     padding: 0 ${(props) => props.theme.dark.contentPadding};
-    width: 100%;
     max-width: ${(props) => props.theme.dark.normalWidth};
+    width: 100%;
 `
 
 export const SearchContainer = styled.div`

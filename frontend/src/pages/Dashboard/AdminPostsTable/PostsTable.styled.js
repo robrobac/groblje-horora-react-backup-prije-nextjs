@@ -1,8 +1,14 @@
 import styled from "styled-components";
 
+export const PostsTableContainer = styled.div`
+    max-width: ${(props) => props.theme.dark.normalWidth};
+    width: 100%;
+`
+
 export const TableContainer = styled.div`
     display: flex;
     flex-direction: column;
+    padding: 0 ${(props) => props.theme.dark.contentPadding};
 
     > :nth-child(even) {
         background-color: #ffffff09;

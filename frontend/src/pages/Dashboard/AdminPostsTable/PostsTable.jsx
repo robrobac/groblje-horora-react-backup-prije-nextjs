@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { TableContainer, TableItem } from './PostsTable.styled'
+import { PostsTableContainer, TableContainer, TableItem } from './PostsTable.styled'
 import Rating from '../../../components/Rating'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import { Link } from 'react-router-dom';
@@ -20,12 +20,15 @@ export default function PostsTable() {
         sort,
         order,
         handleSortAndOrder,
+        handleFilter,
+        filter,
         reviews,
         totalPages,
         handlePageChange,
         page,
         handleRefresh,
-        totalItems
+        totalItems,
+        loading
     } = useFetchReviewsWithParams('dashboard', SORT_OPTIONS.CREATED, 'desc', 10)
 
 
@@ -68,9 +71,8 @@ export default function PostsTable() {
     }
 
     return (
-        <PageContainer>
-            <PageSection>
-                <Search controls={false} handleSearch={handleSearch} search={search} sort={sort} order={order} handleSortAndOrder={handleSortAndOrder}/>
+            <PostsTableContainer>
+                <Search controls={true} handleSearch={handleSearch} search={search} sort={sort} order={order} handleSortAndOrder={handleSortAndOrder} handleFilter={handleFilter} filter={filter}/>
                 <TableContainer>
                     <TableItem className="tableItem">
                         <div
@@ -129,7 +131,7 @@ export default function PostsTable() {
                     <Pagination currentPage={page} totalPages={totalPages} handlePageChange={handlePageChange}/>
                 </div>
                 
-            </PageSection>
-        </PageContainer>
+            </PostsTableContainer>
+
     )
 }
