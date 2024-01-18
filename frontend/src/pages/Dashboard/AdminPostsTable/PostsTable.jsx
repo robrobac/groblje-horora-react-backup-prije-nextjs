@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { TableContainer, TableItem } from './PostsTable.styled'
 import Rating from '../../../components/Rating'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
@@ -28,38 +28,42 @@ export default function PostsTable() {
         totalItems
     } = useFetchReviewsWithParams('dashboard', SORT_OPTIONS.CREATED, 'desc', 10)
 
+
     const handleDelete = async (review) => {
-        let imagesToDelete = []
 
-        if (review.contentImages) {
-            review.contentImages.forEach((image) => {
-                imagesToDelete.push(image.path)
-            })
-        }
-        if (review.movies) {
-            review.movies.forEach((movie) => {
-                imagesToDelete.push(movie.coverImagePath)
-            })
-        }
+        if (window.confirm("Koja BRT ako ovo prihvatis objava odlazi na vjecna lovista, bez mogucnosti povratka MF.") === true) {
+            let imagesToDelete = []
 
-        try {
-            const deleteResponse = await fetch(`http://localhost:4000/api/reviews/${review._id}`, {
-                method: 'DELETE',
-            });
-            const deleteJson = await deleteResponse.json();
-            if (deleteResponse.ok) {
-                console.log('Review Deleted', deleteJson);
-
-                imagesToDelete.forEach(async (image) => {
-                    await deleteImageFromFirebaseStorage(image)
-                    console.log("image deleted from firebase")
+            if (review.contentImages) {
+                review.contentImages.forEach((image) => {
+                    imagesToDelete.push(image.path)
                 })
-                console.log("all images removed from firebase")
-
-                handleRefresh()
             }
-        } catch (err) {
-            console.log(err)
+            if (review.movies) {
+                review.movies.forEach((movie) => {
+                    imagesToDelete.push(movie.coverImagePath)
+                })
+            }
+
+            try {
+                const deleteResponse = await fetch(`http://localhost:4000/api/reviews/${review._id}`, {
+                    method: 'DELETE',
+                });
+                const deleteJson = await deleteResponse.json();
+                if (deleteResponse.ok) {
+                    console.log('Review Deleted', deleteJson);
+
+                    imagesToDelete.forEach(async (image) => {
+                        await deleteImageFromFirebaseStorage(image)
+                        console.log("image deleted from firebase")
+                    })
+                    console.log("all images removed from firebase")
+
+                    handleRefresh()
+                }
+            } catch (err) {
+                console.log(err)
+            }
         }
     }
 

@@ -21,6 +21,7 @@ import { FormSection, PageContainer } from '../Pages.styles';
 import { useNavigate } from 'react-router-dom';
 import HelmetSettings from '../../components/HelmetSettings';
 
+
 export default function NewForm({ numberOfMovies }) {
     const [reviewTitle, setReviewTitle] = useState(numberOfMovies === 1 ? 'Not required for single movie review' : '');
     const [contentImages, setContentImages] = useState([]);
@@ -39,6 +40,20 @@ export default function NewForm({ numberOfMovies }) {
     const [loading, setLoading] = useState(false)
     
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const handleBeforeUnload = (event) => {
+          // Perform actions before the component unloads
+          console.log('izlazimmmmmmmmmmmmmmmmmmmmm')
+          event.preventDefault();
+          event.returnValue = '';
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, []);
     
     // Creating State for Preview Screen before Submitting the Form
     useEffect(() => {

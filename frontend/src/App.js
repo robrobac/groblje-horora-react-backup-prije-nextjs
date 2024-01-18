@@ -27,6 +27,7 @@ import { createContext, useEffect, useState } from 'react';
 import VerifyEmail from './pages/Auth/VerifyEmail';
 import { auth } from './firebase/config';
 import Footer from './components/footer/Footer';
+import PageNotFound from './pages/PageNotFound/PageNotFound';
 
 
 export const AuthContext = createContext();
@@ -70,6 +71,8 @@ function App() {
 
                                     <Route path='/login/' element={<Login />} />
                                     <Route path='/register/' element={<Register />} />
+
+                                    <Route path="*" element={<PageNotFound />} />
                                 </Routes>
                                 <Footer />
                             </AppPage>
