@@ -148,7 +148,7 @@ export default function ImageRepo({handleContentImages, contentImages, formSubmi
             <RepoImages>
             {compressedImages.map((image, index) => (
                 
-                    <img className='compressedImage' key={index} src={URL.createObjectURL(image)} alt='CompressedImage' onClick={() => handleDeleteCompressed(image)}/>
+                <img className='compressedImage' key={`image${index}`} src={URL.createObjectURL(image)} alt='CompressedImage' onClick={() => handleDeleteCompressed(image)}/>
                 
             ))}
             </RepoImages>
@@ -160,7 +160,7 @@ export default function ImageRepo({handleContentImages, contentImages, formSubmi
             {contentImages.length !== 0 ? (
                 <RepoImages>
                 {contentImages.map((image, index) => (
-                    <UploadedImage image={image} index={index} handleDeleteUploaded={handleDeleteUploaded}/>
+                    <UploadedImage key={`uploadedimage${index}`} image={image} index={index} handleDeleteUploaded={handleDeleteUploaded}/>
                 ))}
                 </RepoImages>
             ) : ''}

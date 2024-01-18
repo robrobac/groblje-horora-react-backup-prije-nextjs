@@ -60,6 +60,7 @@ export const PageForm = styled.form`
 export const PageInput = styled.input`
     width: 42%;
     -moz-appearance: textfield;
+    appearance: textfield;
     border: unset;
     background-color: ${(props) => props.theme.dark.colorWHITE02};
     font-size: ${(props) => props.theme.dark.textL};
