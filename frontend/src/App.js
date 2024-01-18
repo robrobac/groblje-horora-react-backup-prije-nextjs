@@ -26,6 +26,7 @@ import useAuthCheck from './hooks/useAuthCheck';
 import { createContext, useEffect, useState } from 'react';
 import VerifyEmail from './pages/Auth/VerifyEmail';
 import { auth } from './firebase/config';
+import Footer from './components/footer/Footer';
 
 
 export const AuthContext = createContext();
@@ -70,6 +71,7 @@ function App() {
                                     <Route path='/login/' element={<Login />} />
                                     <Route path='/register/' element={<Register />} />
                                 </Routes>
+                                <Footer />
                             </AppPage>
                         </LoadingContext.Provider>
                     </AuthContext.Provider>
