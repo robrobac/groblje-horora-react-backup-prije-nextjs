@@ -147,8 +147,8 @@ export default function Comments({post}) {
                     :
                         ''
                     }
-                    {post?.comments.map((comment) => (
-                        <Comment>
+                    {post?.comments.map((comment, index) => (
+                        <Comment key={`comment${index}`}>
                             <div className="commentAuthor">{comment?.authorName} @ <span>{format(new Date(comment?.createdAt), 'dd.MM.yyyy HH:mm:ss')}</span></div>
                             {userData?.role === 'admin' || userData?.username === comment.authorName || userData?.email === comment.authorEmail ?
                                 <button className="removeComment" onClick={() => handleDeleteComment(comment._id)}>X</button>

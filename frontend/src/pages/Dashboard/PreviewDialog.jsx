@@ -73,8 +73,8 @@ export default function PreviewDialog({postPreview, formFailed, loading}) {
                     </>
                 ) : ('')}
                 
-                {post?.movies.map((movie) => (
-                    <MovieContainer>
+                {post?.movies.map((movie, index) => (
+                    <MovieContainer key={`movie${index}`}>
                     {reviewType === 'single' ? (
                         <MovieInfo id={movie._id}>
                             <MovieImage>

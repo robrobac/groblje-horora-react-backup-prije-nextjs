@@ -32,12 +32,17 @@ export const StyledButton = styled.button`
             background-color: ${(props) => props.theme.dark.colorRED}
         }
     }
+
+    @media (max-width: 425px) {
+            width: 100%;
+    }
 `
 export const TextButton = styled(StyledButton)`
     font-size: ${(props) => props.theme.dark.textM};
     background-color: transparent;
     color: ${(props) => props.theme.dark.colorWHITE};
     padding: 0;
+    width: unset;
 
     @media (hover: hover) {
         &:hover {

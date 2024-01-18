@@ -9,8 +9,8 @@ import { SORT_OPTIONS } from '../../../helpers/sortOptions';
 import useFetchReviewsWithParams from '../../../hooks/useFetchReviewsWithParams';
 import {ReactComponent as DeleteIcon} from '../../../images/deleteicon.svg'
 import {ReactComponent as EditIcon} from '../../../images/editicon.svg'
-import Pagination from '../../../components/pagination/Pagination';
 import { deleteImageFromFirebaseStorage } from '../../../helpers/firebaseUtils';
+import Pagination from '../../../components/pagination/Pagination';
 
 export default function PostsTable() {
 
@@ -100,8 +100,8 @@ export default function PostsTable() {
                                 Date Edited <span>{sort === 'updatedAt' && !search ? (order === 'desc' ? '🔽' : '🔼') : ''}</span>
                         </div>
                     </TableItem>
-                    {reviews?.map((review) => (
-                        <TableItem className="tableItem">
+                    {reviews?.map((review, index) => (
+                        <TableItem className="tableItem" key={`item${index}`}>
                             <div className='title'>
                                 <Link to={`/recenzije/${review.slug}`}>{review.reviewTitle}</Link>
                                 <div className='icons'>
@@ -121,7 +121,10 @@ export default function PostsTable() {
                         </TableItem>
                     ))}
                 </TableContainer>
-                <Pagination itemsPerPage={10} items={reviews} totalItems={totalItems} handlePageChange={handlePageChange}/>
+                <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+                    <Pagination currentPage={page} totalPages={totalPages} handlePageChange={handlePageChange}/>
+                </div>
+                
             </PageSection>
         </PageContainer>
     )

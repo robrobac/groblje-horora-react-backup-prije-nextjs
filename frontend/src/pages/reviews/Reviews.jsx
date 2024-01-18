@@ -3,12 +3,9 @@ import useFetchReviewsWithParams from '../../hooks/useFetchReviewsWithParams'
 import { SORT_OPTIONS } from '../../helpers/sortOptions'
 import Search from '../../components/searchBar/Search'
 import { ReviewsContainer, ReviewsTitleContainer } from './Reviews.styled'
-import Pagination from '../../components/pagination/Pagination'
 import PostsFlex from '../../components/postsFlex/PostsFlex'
-import Loading from '../../components/loading/Loading'
 import HelmetSettings from '../../components/HelmetSettings'
-import LoadingButton from '../../components/buttons/LoadingButton/LoadingButton'
-import Pagination2 from '../../components/pagination/Pagination2'
+import Pagination from '../../components/pagination/Pagination'
 
 // Styled Components
 
@@ -28,7 +25,7 @@ export default function Reviews() {
         page,
         totalItems,
         loading
-    } = useFetchReviewsWithParams('recenzije', SORT_OPTIONS.CREATED, 'desc', 6)
+    } = useFetchReviewsWithParams('recenzije', SORT_OPTIONS.CREATED, 'desc', 30)
 
     console.log(page, totalItems, totalPages)
     
@@ -53,8 +50,7 @@ export default function Reviews() {
                 <Search controls={true} handleSearch={handleSearch} search={search} sort={sort} order={order} handleSortAndOrder={handleSortAndOrder} handleFilter={handleFilter} filter={filter}/>
                 
                 <PostsFlex posts={reviews} loading={loading}/>
-                <Pagination itemsPerPage={6} items={reviews} totalItems={totalItems} handlePageChange={handlePageChange}/>
-                <Pagination2 currentPage={page} totalPages={totalPages} handlePageChange={handlePageChange}/>
+                <Pagination currentPage={page} totalPages={totalPages} handlePageChange={handlePageChange}/>
             </ReviewsContainer>
         </>
     )

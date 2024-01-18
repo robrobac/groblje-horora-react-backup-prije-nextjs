@@ -6,7 +6,7 @@ export default function SinglePostCover({post}) {
         <SinglePostCoverWrap>
         <SinglePostCoverContainer>
             {post?.movies.map((movie, index) => (
-                <QuadImageContainer key={movie._id}>
+                <QuadImageContainer key={`movieImage${index + 1}`}>
                     {movie.coverImage ? (
                         <img className={`image${index}`} src={movie.coverImage} alt='movie-cover'></img>
                     ) : (

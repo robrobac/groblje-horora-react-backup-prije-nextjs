@@ -399,12 +399,12 @@ export default function EditForm() {
                         <Tabs>
                             <TabList>
                                 {movies.map((movie, index) => (
-                                    <Tab $isActive={selectedTab === `movie${index + 1}`} onClick={() => setSelectedTab(`movie${index + 1}`)}>Movie {index + 1}</Tab>
+                                    <Tab key={`movie${index + 1}`} $isActive={selectedTab === `movie${index + 1}`} onClick={() => setSelectedTab(`movie${index + 1}`)}>Movie {index + 1}</Tab>
                                 ))}
                             </TabList>
                         </Tabs>
                         {movies.map((movie, index) => (
-                            <TabPanel $isActive={selectedTab === `movie${index + 1}`}>
+                            <TabPanel key={`movie${index + 1}`} $isActive={selectedTab === `movie${index + 1}`}>
                                 <h3>Movie {index + 1}</h3>
                             <FormContainer>
                             <FormImage>

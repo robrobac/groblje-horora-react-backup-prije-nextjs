@@ -21,7 +21,7 @@ export default function ButtonStandard({path, content, type, span}) {
     else {
         return (
             // <StyledButton onClick={routeChange}>{content} <span>{span}</span></StyledButton>
-            <Link to={path}>
+            <Link style={{width: '100%'}} to={path}>
                 <StyledButton>{content} <span>{span}</span></StyledButton>
             </Link>
         )
