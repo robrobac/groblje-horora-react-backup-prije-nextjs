@@ -18,6 +18,14 @@ export default function ButtonStandard({path, content, type, span}) {
         )
     }
 
+    if (type === 'right') {
+        return (
+            <Link to={path}>
+                <StyledButton>{content} <span>{span}</span></StyledButton>
+            </Link>
+        )
+    }
+
     else {
         return (
             // <StyledButton onClick={routeChange}>{content} <span>{span}</span></StyledButton>

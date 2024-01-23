@@ -13,7 +13,7 @@ export const DashboardSidebar = styled.div`
     flex-direction: column;
     align-items: end;
     flex: 1;
-    min-width: 20%;
+    min-width: 500px;
     gap: 50px;
     padding: 0 ${(props) => props.theme.dark.contentPadding};
 `

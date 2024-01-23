@@ -17,7 +17,7 @@ export default function DraftReviews() {
                     
                 </div>
                 <div className="draft">
-                    <p>Draft1</p>
+                    <p>Draft1231241356</p>
                     <p>Kratki Pregled</p>
                     <p>18.02.1994</p>
                     <div className="deleteIcon">

@@ -14,7 +14,7 @@ export default function RecenzijeHomeCover() {
             <img className='coverImage' src={recenzijeHomeCoverImage} alt='movie-cover'></img>
             <div className="coverContent">
                 <h2>Recenzije</h2>
-                <ButtonStandard path={`/recenzije`} content='Pogledaj sve' span={`(${count?.numberOfMovies})`}/>
+                <ButtonStandard type='right' path={`/recenzije`} content='Pogledaj sve' span={`(${count?.numberOfMovies})`}/>
             </div>
         </RecenzijeHomeCoverContainer>
     )

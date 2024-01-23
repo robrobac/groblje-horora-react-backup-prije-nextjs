@@ -64,5 +64,12 @@ export const RecenzijeHomeCoverContainer = styled.div`
                 padding: 0;
                 gap: 20px;
         }
+
+        a {
+            @media (max-width: 768px) {
+                align-items: flex-start;
+                width: 100%;
+            }
+        }
     }
 `
