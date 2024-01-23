@@ -6,28 +6,14 @@ export default function Rating({rating, detailed}) {
     
 
     const formatRating = (number) => {
-        if (isNaN(number)) {
-            return 'rating0'
+        const validRatings = [1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5];
+    
+        if (!validRatings.includes(number)) {
+            return 'rating0';
         }
-
-        if (number > 5) {
-            return 'rating0'
-        }
-
-        if (typeof number !== 'number') {
-            return 'rating0'
-        }
-
-        if (number === 5) {
-            return 'rating5';
-        }
-
-        
-
-        const numberString = number.toString();
-        const replaced = numberString.replace('.', '')
-        return "rating" + replaced
-    }
+    
+        return 'rating' + number.toString().replace('.', '');
+    };
 
     const image = images(`./${formatRating(rating)}.png`)
 
