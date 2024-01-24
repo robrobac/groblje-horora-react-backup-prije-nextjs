@@ -72,8 +72,12 @@ function App() {
                                     <Route path='/login/' element={<Login />} />
                                     <Route path='/register/' element={<Register />} />
 
-                                    <Route path="*" element={<PageNotFound />} />
+                                    <Route path="/*" element={<PageNotFound />} />
+                                    <Route path='/recenzije/*/' element={<PageNotFound />} />
+
+
                                 </Routes>
+
                                 <Footer />
                             </AppPage>
                         </LoadingContext.Provider>

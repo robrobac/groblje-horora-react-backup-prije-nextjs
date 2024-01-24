@@ -17,6 +17,7 @@ export const LikeHead = styled.div`
     display: flex;
     gap: 5px;
     align-items: center;
+    padding-right: 10px;
 
     svg {
         cursor: pointer;
@@ -24,6 +25,12 @@ export const LikeHead = styled.div`
 
         &.liked {
             fill: ${(props) => props.theme.dark.colorREDbright};
+        }
+
+        @media (hover: hover) {
+            &:hover {
+                fill: ${(props) => props.theme.dark.colorREDbright};
+            }
         }
     }
 

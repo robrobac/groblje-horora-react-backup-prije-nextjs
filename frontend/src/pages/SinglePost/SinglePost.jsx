@@ -9,11 +9,13 @@ import io from 'socket.io-client';
 import HelmetSettings from '../../components/HelmetSettings'
 import Comments from '../../components/comments/Comments'
 import Loading from '../../components/loading/Loading'
+import PageNotFound from '../PageNotFound/PageNotFound'
 
 export default function SinglePost() {
     const { slug } = useParams()
     const [post, setPost] = useState(null)
     const [loading, setLoading] = useState(true)
+    const [pageNotFound, setPageNotFound] = useState(false)
     
     useEffect(() => {
         const socket = io('http://localhost:4000'); // Replace with your server URL and port
@@ -35,6 +37,12 @@ export default function SinglePost() {
             if (response.ok) {
                 setPost(data)
                 setLoading(false)
+                setPageNotFound(false)
+            }
+
+            if (!response.ok) {
+                setLoading(false)
+                setPageNotFound(true)
             }
         }
 
@@ -57,6 +65,9 @@ export default function SinglePost() {
                 url={`https://www.groblje-horora.com/o-blogu`}
                 image={`%PUBLIC_URL%/images/groblje-horora-og-image.webp`}
             />
+            {pageNotFound ? (
+                <PageNotFound />
+            ) : (
             <SinglePostContainer>
                 {loading ? <Loading /> : ''}
                 {post?.reviewType === 'quad' ? (
@@ -76,6 +87,7 @@ export default function SinglePost() {
                 ))}
                 <Comments post={post} setLoading={setLoading}/>
             </SinglePostContainer>
+            )}
         </>
     )
 }
