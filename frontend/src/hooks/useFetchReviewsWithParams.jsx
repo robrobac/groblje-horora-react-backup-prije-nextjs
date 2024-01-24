@@ -3,33 +3,49 @@ import { SORT_OPTIONS } from '../helpers/sortOptions';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 export default function useFetchReviewsWithParams(pageName, initialSort, initialOrder, initialPerPage) {
+    console.log('----------')
+    const navigate = useNavigate();
+
     const [refresh, setRefresh] = useState(false)
     const [reviews, setReviews] = useState([])
-
     const [loading, setLoading] = useState(false)
 
     const [searchParams] = useSearchParams();
-    const navigate = useNavigate();
+    console.log('searchParams: ', {
+        paramsObject: searchParams,
+        page: searchParams.get('page'),
+        search: searchParams.get('search'),
+        sort: searchParams.get('sort'),
+        order: searchParams.get('order'),
+        filter: searchParams.get('filter'),
+    })
 
     // Page States and Params
     const urlPage = searchParams.get('page');
     const [page, setPage] = useState(urlPage ? parseInt(urlPage) : 1);
-    // eslint-disable-next-line no-unused-vars
-    const [perPage, setPerPage] = useState(initialPerPage);
-    const [totalItems, setTotalItems] = useState()
-    const [totalPages, setTotalPages] = useState([])
+    console.log('page: ', page)
 
     // Search State and Params
     const urlSearch = searchParams.get('search')
     const [search, setSearch] = useState(urlSearch ? urlSearch : '')
+    console.log('search: ', search)
 
     const urlSort = searchParams.get('sort');
     const [sort, setSort] = useState(urlSort ? urlSort : initialSort)
+    console.log('sort: ', sort)
+
     const urlOrder = searchParams.get('order');
     const [order, setOrder] = useState(urlOrder ? urlOrder : initialOrder)
+    console.log('order: ', order)
 
     const urlFilter = searchParams.get('filter')
     const [filter, setFilter] = useState(urlFilter ? urlFilter : '')
+    console.log('filter: ', filter)
+
+    // eslint-disable-next-line no-unused-vars
+    const [perPage, setPerPage] = useState(initialPerPage);
+    const [totalItems, setTotalItems] = useState()
+    const [totalPages, setTotalPages] = useState([])
 
     useEffect(() => {
         const fetchReviews = async () => {

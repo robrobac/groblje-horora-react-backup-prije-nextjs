@@ -6,7 +6,6 @@ export default function useAuthCheck() {
     const [userData, setUserData] = useState(null)
     const [loggingIn, setLoggingIn] = useState(false)
     const [firebaseUser, setFirebaseUser] = useState(null)
-    console.log('AAAUUUUUUUTTTTTTHHHHHH', auth)
 
     // Effect hook to subscribe to authentication state changes
     useEffect(() => {

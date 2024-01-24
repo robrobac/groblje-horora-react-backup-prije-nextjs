@@ -36,7 +36,7 @@ export const LoadingContext = createContext()
 
 function App() {
     const { userData, firebaseUser } = useAuthCheck()
-    console.log('auth', useAuthCheck())
+    // console.log('auth', useAuthCheck()) 
     const [loading, setLoading] = useState(true)
     const handleLoading = (loadingState) => {
         setLoading(loadingState)

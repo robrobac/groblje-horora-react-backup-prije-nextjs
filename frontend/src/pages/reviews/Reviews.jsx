@@ -27,7 +27,7 @@ export default function Reviews() {
         loading
     } = useFetchReviewsWithParams('recenzije', SORT_OPTIONS.CREATED, 'desc', 30)
 
-    console.log(page, totalItems, totalPages)
+    // console.log(page, totalItems, totalPages)
     
     
     return (
