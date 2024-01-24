@@ -12,7 +12,7 @@ export default function PostCard({post}) {
                 <PostImage post={post}/>
                 <PostDescription post={post}/>
             </PostCardDetails>
-            <ButtonStandard path={`/recenzije/${post?.slug}`} content='Pročitaj više →' type='textOnly'/>
+            <ButtonStandard path={`/recenzije/${post?.slug}`} content='Pročitaj više →' type='textOnly' newTab={true}/>
         </PostCardContainer>
     )
 }

@@ -32,7 +32,7 @@ export default function PostDescription({post}) {
                             <p>{post?.comments.length}</p> <CommentIcon />
                         </CommentIconContainer>
                     </CommentsAndLikes>
-                    <Link to={`/recenzije/${post?.slug}`}>
+                    <Link to={`/recenzije/${post?.slug}`} target='_blank'>
                         <PostTitle>{post?.movies[0].title} <span>({post?.movies[0].year})</span></PostTitle>
                     </Link>
                     <Rating rating={post?.movies[0].rating} detailed={false}/>
@@ -50,7 +50,7 @@ export default function PostDescription({post}) {
                             <p>{post?.comments.length}</p> <CommentIcon />
                         </CommentIconContainer>
                     </CommentsAndLikes>
-                    <Link to={`/recenzije/${post?.slug}`}>
+                    <Link to={`/recenzije/${post?.slug}`} target='_blank'>
                         <PostTitle>{post?.reviewTitle}</PostTitle>
                     </Link>
                     <PostSubTitle>

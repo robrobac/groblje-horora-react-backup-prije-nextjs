@@ -58,17 +58,17 @@ export default function LatestRecenzija() {
                 </RecenzijaSubTitle>
                 <div className="titleAndRating">
                     <RecenzijaTitle>
-                        <Link to={`/recenzije/${review?.slug}`}>
+                        <Link to={`/recenzije/${review?.slug}`} target='_blank'>
                             {review?.movies[0].title} <span>({review?.movies[0].year})</span>
                         </Link>
                     </RecenzijaTitle>
                     <Rating rating={review?.movies[0].rating} detailed={true} />
                     <RecenzijaDescription dangerouslySetInnerHTML={{__html: reviewDescription}}/>
                 </div>
-                <ButtonStandard path={`/recenzije/${review?.slug}`} content='Pročitaj više'/>
+                <ButtonStandard path={`/recenzije/${review?.slug}`} content='Pročitaj više' newTab={true}/>
             </div>
                 <LatestSingleImage>
-                    <Link to={`/recenzije/${review?.slug}`}>
+                    <Link to={`/recenzije/${review?.slug}`} target='_blank'>
                         <img src={review?.movies[0].coverImage} alt='movie-cover' ></img>
                     </Link>
                 </LatestSingleImage>
@@ -82,13 +82,13 @@ export default function LatestRecenzija() {
             <div className='latestSingleInfo'>
             
             <LatestSingleImage>
-                <Link to={`/recenzije/${review?.slug}`} style={{display: 'flex'}}>
+                <Link to={`/recenzije/${review?.slug}`} style={{display: 'flex'}} target='_blank'>
                     <img src={review?.movies[0].coverImage} alt='movie-cover' ></img>
                 </Link>
             </LatestSingleImage>
             <div className="titleAndRating">
                 <RecenzijaTitle>
-                    <Link to={`/recenzije/${review?.slug}`}>
+                    <Link to={`/recenzije/${review?.slug}`} target='_blank'>
                         {review?.movies[0].title} <span>({review?.movies[0].year})</span>
                     </Link>
                 </RecenzijaTitle>
@@ -96,7 +96,7 @@ export default function LatestRecenzija() {
                 <RecenzijaDescription dangerouslySetInnerHTML={{__html: reviewDescription}}/>
             </div>
             <div className='buttonContainer'>
-                <ButtonStandard path={`/recenzije/${review?.slug}`} content='Pročitaj više'/>
+                <ButtonStandard path={`/recenzije/${review?.slug}`} content='Pročitaj više' newTab={true}/>
             </div>
             
         </div>

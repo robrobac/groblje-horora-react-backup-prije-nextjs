@@ -50,7 +50,7 @@ export default function LatestPregled() {
                 </PregledSubTitle>
                 
                 <PregledTitle>
-                    <Link to={`/recenzije/${review?.slug}`}>
+                    <Link to={`/recenzije/${review?.slug}`} target='_blank'>
                         {review?.reviewTitle}
                     </Link>
                 </PregledTitle>
@@ -59,7 +59,7 @@ export default function LatestPregled() {
                     {review?.movies[0].title} <span>({review?.movies[0].year})</span>, {review?.movies[1].title} <span>({review?.movies[1].year})</span>, {review?.movies[2].title} <span>({review?.movies[2].year})</span>, {review?.movies[3].title} <span>({review?.movies[3].year})</span>
                 </PregledDescription>
             </div>
-            <Link to={`/recenzije/${review?.slug}`}>
+            <Link to={`/recenzije/${review?.slug}`} target='_blank'>
                 <QuadCoverContainer>
                     {review?.movies.map((movie, index) => (
                         <QuadCoverImageContainer key={movie._id}>
@@ -68,7 +68,7 @@ export default function LatestPregled() {
                     ))}
                 </QuadCoverContainer>
             </Link>
-            <ButtonStandard path={`/recenzije/${review?.slug}`} content='Pročitaj više'/>
+            <ButtonStandard path={`/recenzije/${review?.slug}`} content='Pročitaj više' newTab={true}/>
         </LatestPregledContainer>
 
         {/* MOBILE VERSION, component reordered only. */}
@@ -78,7 +78,7 @@ export default function LatestPregled() {
                     Najnoviji Kratki Pregled <span>{createdDate}</span>
                 </PregledSubTitle>
             </div>
-            <Link to={`/recenzije/${review?.slug}`}>
+            <Link to={`/recenzije/${review?.slug}`} target='_blank'>
                 <QuadCoverContainer>
                     {review?.movies.map((movie, index) => (
                         <QuadCoverImageContainer key={movie._id}>
@@ -89,7 +89,7 @@ export default function LatestPregled() {
             </Link>
             <div className='latestPregledInfo'>
                 <PregledTitle>
-                    <Link to={`/recenzije/${review?.slug}`}>
+                    <Link to={`/recenzije/${review?.slug}`} target='_blank'>
                         {review?.reviewTitle}
                     </Link>
                 </PregledTitle>
@@ -99,7 +99,7 @@ export default function LatestPregled() {
                 </PregledDescription>
             </div>
             <div className='buttonContainer'>
-                <ButtonStandard path={`/recenzije/${review?.slug}`} content='Pročitaj više'/>
+                <ButtonStandard path={`/recenzije/${review?.slug}`} content='Pročitaj više' newTab={true}/>
             </div>
         </LatestPregledContainer>
         </>

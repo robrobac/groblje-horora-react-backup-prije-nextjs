@@ -44,7 +44,11 @@ export const RecenzijeHomeCoverContainer = styled.div`
             transition: .1s;
             text-shadow: 0px 0px 18px #141414;
 
-            
+            @media (hover: hover) {
+                &:hover {
+                    color: ${(props) => props.theme.dark.colorRED};
+                }
+            }
 
             @media (max-width: 360px) {
                 font-size: ${(props) => props.theme.dark.textXXL};

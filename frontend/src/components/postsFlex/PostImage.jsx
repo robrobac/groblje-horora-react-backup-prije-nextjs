@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 export default function PostImage({post}) {
     return (
-        <Link to={`/recenzije/${post?.slug}`}>
+        <Link to={`/recenzije/${post?.slug}`} target='_blank'>
             {post?.movies.length === 4 ? (
                 <QuadImageContainer>
                     <QuadImage>
