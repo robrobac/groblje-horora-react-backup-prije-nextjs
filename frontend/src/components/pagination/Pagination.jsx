@@ -28,9 +28,9 @@ export default function Pagination({currentPage, totalPages, handlePageChange}) 
             <PageForm onSubmit={handlePageInput}>
                 <PageInput type='number' value={inputPage} onChange={(e) => setInputPage(e.target.value)} min={1} max={totalPages.length}/>
                 <p>/</p>
-                <p>{totalPages.length}</p>
+                <p>{totalPages.length || 1}</p>
             </PageForm>
-            <PaginationButton onClick={() => changePage(page + 1)} className={page === totalPages.length ? 'disabled' : ''} disabled={page === totalPages.length}>{`>`}</PaginationButton>
+            <PaginationButton onClick={() => changePage(page + 1)} className={page === totalPages.length || totalPages.length === 0 ? 'disabled' : ''} disabled={page === totalPages.length}>{`>`}</PaginationButton>
         </StyledPagination>
     )
 }

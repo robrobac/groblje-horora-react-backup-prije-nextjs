@@ -19,6 +19,7 @@ const getReviews = async (req, res) => {
     const skip = (page - 1) * perPage
 
     if (search) {
+        console.log('dadada')
         const reviewsQuery = {
             $or: [
                 { $text: { $search: search } },

@@ -18,8 +18,8 @@ export default function Search({ search, handleSearch, sort, order, handleSortAn
         <SearchContainer>
             <SearchIcon htmlFor='adminSearch'>
                 <SearchIconSVG />
-                </SearchIcon>
-            <SearchBar id='adminSearch' type='search' placeholder='Search' value={search} onChange={(e) => handleSearch(e.target.value)}/>
+            </SearchIcon>
+            <SearchBar id='adminSearch' type='search' placeholder='Search' value={search} onChange={(e) => handleSearch(e.target.value || '')}/>
         </SearchContainer>
         {controls ? (
             <SearchControls>

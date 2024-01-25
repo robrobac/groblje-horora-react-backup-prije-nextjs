@@ -20,7 +20,7 @@ export default function MobileNav({menuOpen, setMenuOpen}) {
                     <ul>
                         <MobileNavItem className='headerLink' to='/' onClick={() => setMenuOpen(false)}>Naslovna</MobileNavItem>
                         <MobileNavItem className='headerLink' to='/top25' onClick={() => setMenuOpen(false)}>Top 25</MobileNavItem>
-                        <MobileNavItem className='headerLink' to='/recenzije' onClick={() => setMenuOpen(false)}>Recenzije</MobileNavItem>
+                        <MobileNavItem className='headerLink' to='/recenzije?page=1&sort=createdAt&order=desc' onClick={() => setMenuOpen(false)}>Recenzije</MobileNavItem>
                         <MobileNavItem className='headerLink' to='/top20smeca' onClick={() => setMenuOpen(false)}>Top 20 Smeća</MobileNavItem>
                         <MobileNavItem className='headerLink' to='/o-blogu' onClick={() => setMenuOpen(false)}>O Blogu</MobileNavItem>
                         <br></br>

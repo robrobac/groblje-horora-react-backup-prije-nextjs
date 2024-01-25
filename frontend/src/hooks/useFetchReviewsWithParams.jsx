@@ -10,14 +10,14 @@ export default function useFetchReviewsWithParams(pageName, initialSort, initial
     const [reviews, setReviews] = useState([])
     const [loading, setLoading] = useState(false)
 
-    const [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
     console.log('searchParams: ', {
         paramsObject: searchParams,
-        page: searchParams.get('page'),
-        search: searchParams.get('search'),
-        sort: searchParams.get('sort'),
-        order: searchParams.get('order'),
-        filter: searchParams.get('filter'),
+        page: searchParams.get('page') || '',
+        search: searchParams.get('search') || '',
+        sort: searchParams.get('sort') || '',
+        order: searchParams.get('order') || '',
+        filter: searchParams.get('filter') || '',
     })
 
     // Page States and Params
@@ -47,31 +47,27 @@ export default function useFetchReviewsWithParams(pageName, initialSort, initial
     const [totalItems, setTotalItems] = useState()
     const [totalPages, setTotalPages] = useState([])
 
-    useEffect(() => {
-        const fetchReviews = async () => {
-            setLoading(true)
-            try {
-                const response = await fetch(`http://localhost:4000/api/reviews?search=${search}&sort=${sort}&order=${order}&page=${page}&perPage=${perPage}&filter=${filter}`);
-                const json = await response.json();
+    const fetchReviews = async () => {
+        setLoading(true)
+        try {
+            const response = await fetch(`http://localhost:4000/api/reviews?search=${search}&sort=${sort}&order=${order}&page=${page}&perPage=${perPage}&filter=${filter}`);
+            const json = await response.json();
 
-                if (response.ok) {
-                    setReviews(json.reviews);
-                    const pagesArray = Array.from({ length: json.totalPages }, (_, index) => index + 1);
-                    setTotalPages(pagesArray);
-                    setTotalItems(json.totalItems)
-                }
-            } catch (err) {
-                console.log(err)
-            } finally {
-                setLoading(false)
+            if (response.ok) {
+                setReviews(json.reviews);
+                const pagesArray = Array.from({ length: json.totalPages }, (_, index) => index + 1);
+                setTotalPages(pagesArray);
+                setTotalItems(json.totalItems)
             }
-            
-        };
 
-        fetchReviews();
-    }, [refresh, navigate, order, sort, search, page, perPage, filter]);
+        } catch (err) {
+            console.log(err)
+        } finally {
+            setLoading(false)
+        }
+    };
 
-    useEffect(() => {
+    const generateURL = () => {
         let url = `/${pageName}?page=${page}`;
 
         if (search) {
@@ -83,22 +79,90 @@ export default function useFetchReviewsWithParams(pageName, initialSort, initial
         if (!(sort === initialSort && order === initialOrder && filter === '')) {
             url += `&sort=${sort}&order=${order}`
         }
+
+        return url
+    }
+
+    useEffect(() => {
+        fetchReviews();
+    }, [page, filter, sort, order, search]);
+
+
+    useEffect(() => {
+        const pageNumber = parseInt(searchParams.get('page'), 10) || 1;
+        const filterValue = searchParams.get('filter') || '';
+        const sortValue = searchParams.get('sort') || '';
+        const orderValue = searchParams.get('order') || '';
+        const searchValue = searchParams.get('search') || '';
+        setPage(pageNumber);
+        setFilter(filterValue);
+        setSort(sortValue)
+        setOrder(orderValue)
+        setSearch(searchValue)
         
-        navigate(url)
-    }, [filter, initialOrder, initialSort, navigate, order, page, pageName, search, sort])
+    }, [searchParams.get('page'), searchParams.get('filter'), searchParams.get('sort'), searchParams.get('order'), searchParams.get('search')])
+
 
     const handlePageChange = (num) => {
         setPage(num)
+
+        // Create a new URLSearchParams object before modifying it
+        const newSearchParams = new URLSearchParams(searchParams);
+        // Update the 'page' parameter
+        newSearchParams.set('page', num);
+        newSearchParams.delete('search');
+        // Use setSearchParams to apply the changes
+        setSearchParams(newSearchParams);
     }
 
     const handleFilter = (value) => {
         setFilter(value)
         setPage(1)
+        console.log('aaaaaaaaaaaaaaaaaaaaaaa', value)
+
+        // Create a new URLSearchParams object before modifying it
+        const newSearchParams = new URLSearchParams(searchParams);
+
+        if (value) {
+            
+            // Update the 'page' parameter
+            newSearchParams.set('filter', value);
+            newSearchParams.set('page', 1);
+            newSearchParams.delete('search');
+            // Use setSearchParams to apply the changes
+            setSearchParams(newSearchParams);
+        } else {
+            // Update the 'page' parameter
+            newSearchParams.delete('filter');
+            newSearchParams.set('page', 1);
+            newSearchParams.delete('search');
+            // Use setSearchParams to apply the changes
+            setSearchParams(newSearchParams);
+        }
+
+        
     }
 
     const handleSearch = (value) => {
         setSearch(value)
         setPage(1)
+
+        // Create a new URLSearchParams object before modifying it
+        const newSearchParams = new URLSearchParams(searchParams);
+
+        if (value) {
+            // Update the 'page' parameter
+            newSearchParams.set('search', value);
+            newSearchParams.set('page', 1);
+        }
+        if (!value) {
+            // Update the 'page' parameter
+            newSearchParams.delete('search');
+            newSearchParams.set('page', 1);
+        }
+        // Use setSearchParams to apply the changes
+        setSearchParams(newSearchParams);
+
     }
 
     const handleSortAndOrder = (sortVal, orderVal) => {
@@ -106,27 +170,69 @@ export default function useFetchReviewsWithParams(pageName, initialSort, initial
             if (orderVal === 'desc') {
                 setOrder('asc')
                 setPage(1)
+
+                // Create a new URLSearchParams object before modifying it
+                const newSearchParams = new URLSearchParams(searchParams);
+                // Update the 'page' parameter
+                newSearchParams.set('order', 'asc');
+                newSearchParams.set('page', 1);
+                newSearchParams.delete('search');
+                // Use setSearchParams to apply the changes
+                setSearchParams(newSearchParams);
             }
             if (orderVal === 'asc') {
                 setOrder('desc')
                 setPage(1)
+
+                // Create a new URLSearchParams object before modifying it
+                const newSearchParams = new URLSearchParams(searchParams);
+                // Update the 'page' parameter
+                newSearchParams.set('order', 'desc');
+                newSearchParams.set('page', 1);
+                newSearchParams.delete('search');
+                // Use setSearchParams to apply the changes
+                setSearchParams(newSearchParams);
             }
         } else {
             setSort(sortVal)
 
+            // Create a new URLSearchParams object before modifying it
+            const newSearchParams = new URLSearchParams(searchParams);
+            newSearchParams.set('sort', sortVal);
+            newSearchParams.delete('search');
+
             if (sortVal === SORT_OPTIONS.TITLE) {
                 setOrder('asc')
                 setPage(1)
+
+                // Update the 'page' parameter
+                newSearchParams.set('order', 'asc');
+                newSearchParams.set('page', 1);
+                // Use setSearchParams to apply the changes
+                setSearchParams(newSearchParams);
                 return
             }
             if (sortVal === SORT_OPTIONS.CATEGORY) {
                 setOrder('asc')
                 setPage(1)
+
+                // Update the 'page' parameter
+                newSearchParams.set('order', 'asc');
+                newSearchParams.set('page', 1);
+                // Use setSearchParams to apply the changes
+                setSearchParams(newSearchParams);
                 return
             }
             setOrder('desc')
             setPage(1)
-        } 
+
+            // Update the 'page' parameter
+            newSearchParams.set('order', 'desc');
+            newSearchParams.set('page', 1);
+            // Use setSearchParams to apply the changes
+            setSearchParams(newSearchParams);
+        }
+
     }
 
     const handleRefresh = () => {
