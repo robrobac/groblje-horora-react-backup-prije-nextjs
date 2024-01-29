@@ -28,6 +28,7 @@ import VerifyEmail from './pages/Auth/VerifyEmail';
 import { auth } from './firebase/config';
 import Footer from './components/footer/Footer';
 import PageNotFound from './pages/PageNotFound/PageNotFound';
+import BackToTopButton from './components/buttons/backToTopButton/BackToTopButton';
 
 
 export const AuthContext = createContext();
@@ -50,7 +51,9 @@ function App() {
                     <AuthContext.Provider value={{ userData, firebaseUser }}>
                         <LoadingContext.Provider value={{ loading, handleLoading }}>
                             <AppPage>
+
                                 <Header />
+
                                 {firebaseUser && !firebaseUser.emailVerified && <VerifyEmail />}
                                 <Routes>
                                     <Route path='/' element={<Home />} />
@@ -76,8 +79,9 @@ function App() {
                                     <Route path='/recenzije/*/' element={<PageNotFound />} />
 
 
-                                </Routes>
 
+                                </Routes>
+                                <BackToTopButton />
                                 <Footer />
                             </AppPage>
                         </LoadingContext.Provider>
