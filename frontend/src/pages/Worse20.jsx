@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { ReviewsContainer } from './reviews/Reviews.styled'
+import { ReviewsContainer, ReviewsTitleContainer } from './reviews/Reviews.styled'
 import PostsFlex from '../components/postsFlex/PostsFlex'
 import { LoadingContext } from '../App'
 import Loading from '../components/loading/Loading'
@@ -43,6 +43,12 @@ export default function Worse20() {
             />
             <ReviewsContainer>
                 {loading ? <Loading /> : ''}
+                <ReviewsTitleContainer>
+                    <h1>Top 20 smeća</h1>
+                    <p>
+                        Filmovi na ovoj top listi su najveće smeće ikada.
+                    </p>
+                </ReviewsTitleContainer>
                 <PostsFlex posts={reviews}/>
             </ReviewsContainer>
         </>

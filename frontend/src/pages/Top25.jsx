@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { ReviewsContainer } from './reviews/Reviews.styled'
+import { ReviewsContainer, ReviewsTitleContainer } from './reviews/Reviews.styled'
 import PostsFlex from '../components/postsFlex/PostsFlex'
 import { LoadingContext } from '../App'
 import Loading from '../components/loading/Loading'
@@ -43,6 +43,12 @@ export default function Top25() {
             />
             <ReviewsContainer>
                 {loading ? <Loading /> : ''}
+                <ReviewsTitleContainer>
+                    <h1>Top 25 Preporuka</h1>
+                    <p>
+                        Filmovi na ovoj top listi mijenjaju se kako dođe neki novi naslov na blogu koji zaslužuje jednaku pažnju ili ocjenu. Linkove na recenzije možete pronaći na Top 25 popisu.
+                    </p>
+                </ReviewsTitleContainer>
                 <PostsFlex posts={reviews}/>
             </ReviewsContainer>
         </>
