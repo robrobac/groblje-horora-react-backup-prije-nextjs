@@ -1,9 +1,9 @@
 import React from 'react'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { FilterControl, SearchBar, SearchComp, SearchContainer, SearchControls, SearchIcon, SortControl } from './Search.styled';
 import { ReactComponent as SearchIconSVG } from '../../images/search-icon.svg';
 import { SORT_OPTIONS } from '../../helpers/sortOptions';
-import { FilterButton, SortButton } from '../buttons/Buttons.styled';
+
 import useCountReviews from '../../hooks/useCountReviews';
 import Filter from './Filter';
 import Sort from './Sort';

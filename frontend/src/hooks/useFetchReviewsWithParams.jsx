@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react'
 import { SORT_OPTIONS } from '../helpers/sortOptions';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 export default function useFetchReviewsWithParams(pageName, initialSort, initialOrder, initialPerPage) {
     console.log('----------')
-    const navigate = useNavigate();
 
     const [refresh, setRefresh] = useState(false)
     const [reviews, setReviews] = useState([])
@@ -47,6 +46,34 @@ export default function useFetchReviewsWithParams(pageName, initialSort, initial
     const [totalItems, setTotalItems] = useState()
     const [totalPages, setTotalPages] = useState([])
 
+    // Setting initial states
+    useEffect(() => {
+        // Initialize new search parameters
+        const newSearchParams = new URLSearchParams(searchParams);
+
+        // Set default values if not present in the URL
+        if (!newSearchParams.has('page')) {
+            newSearchParams.set('page', '1');
+            setPage(1)
+        }
+
+        // Set default values if not present in the URL
+        if (!newSearchParams.has('sort')) {
+            newSearchParams.set('sort', initialSort);
+            setSort(initialSort)
+        }
+
+        // Set default values if not present in the URL
+        if (!newSearchParams.has('order')) {
+            newSearchParams.set('order', initialOrder);
+            setOrder(initialOrder)
+        }
+
+        // Update searchParams with default values if needed
+        setSearchParams(newSearchParams);
+    }, []); // Empty dependency array ensures the effect runs only once when the component mounts
+
+
     const fetchReviews = async () => {
         setLoading(true)
         try {
@@ -66,22 +93,6 @@ export default function useFetchReviewsWithParams(pageName, initialSort, initial
             setLoading(false)
         }
     };
-
-    const generateURL = () => {
-        let url = `/${pageName}?page=${page}`;
-
-        if (search) {
-            url += `&search=${search}`
-        }
-        if (filter !== '') {
-            url += `&filter=${filter}`
-        }
-        if (!(sort === initialSort && order === initialOrder && filter === '')) {
-            url += `&sort=${sort}&order=${order}`
-        }
-
-        return url
-    }
 
     useEffect(() => {
         fetchReviews();
