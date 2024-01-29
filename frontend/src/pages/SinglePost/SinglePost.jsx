@@ -74,7 +74,7 @@ export default function SinglePost() {
                 {post?.reviewType === 'quad' ? (
                     <>
                     <SinglePostCover post={post}/>
-                    <EditDeleteButtons post={post}/>
+                    <EditDeleteButtons post={post} target='_blank'/>
                     <div className="movieAndDate">
                         <MovieDate>
                             {format(new Date(post?.createdAt), 'dd.MM.yyyy')}

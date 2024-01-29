@@ -28,6 +28,7 @@ import Footer from './components/footer/Footer';
 import PageNotFound from './pages/PageNotFound/PageNotFound';
 import BackToTopButton from './components/buttons/backToTopButton/BackToTopButton';
 import ScrollAfterRouteChange from './components/scrollAfterRouteChange/ScrollAfterRouteChange';
+import Loading from './components/loading/Loading';
 
 
 export const AuthContext = createContext();
@@ -35,7 +36,7 @@ export const LoadingContext = createContext()
 
 
 function App() {
-    const { userData, firebaseUser } = useAuthCheck()
+    const { userData, firebaseUser, loadingUser } = useAuthCheck()
     // console.log('auth', useAuthCheck()) 
     const [loading, setLoading] = useState(true)
     const handleLoading = (loadingState) => {
@@ -59,14 +60,40 @@ function App() {
                                     <Route path='/recenzije/' element={<Reviews />} />
                                     <Route path='/recenzije/:slug/' element={<SinglePost />} />
 
-                                    {/* Restricted */} <Route path='/recenzije/:slug/edit' element={userData?.role === 'admin' ? <EditForm /> : <Navigate to='/' />} />
-
-
                                     <Route path='/top20smeca/' element={<Worse20 />} />
                                     <Route path='/o-blogu/' element={<About />} />
 
-                                    {/* Restricted */} <Route path='/dashboard/nova-recenzija' element={userData ? <NewForm numberOfMovies={1} /> : <Navigate to='/' />} />
-                                    {/* Restricted */} <Route path='/dashboard/novi-kratki-pregled' element={userData?.role === 'admin' ? <NewForm numberOfMovies={4} /> : <Navigate to='/' />} />
+                                    <Route
+                                        path='/recenzije/:slug/edit'
+                                        element={
+                                            loadingUser
+                                                ? <div style={{ height: '100vh' }}></div>
+                                                : userData?.role === "admin"
+                                                    ? <EditForm />
+                                                    : <Navigate to='/' />
+                                        }
+                                    />
+
+                                    <Route
+                                        path='/dashboard/nova-recenzija'
+                                        element={
+                                            loadingUser
+                                                ? <div style={{ height: '100vh' }}></div>
+                                                : userData?.role === "admin"
+                                                    ? <NewForm numberOfMovies={1} />
+                                                    : <Navigate to='/' />
+                                        }
+                                    />
+                                    <Route
+                                        path='/dashboard/novi-kratki-pregled'
+                                        element={
+                                            loadingUser
+                                                ? <div style={{ height: '100vh' }}></div>
+                                                : userData?.role === "admin"
+                                                    ? <NewForm numberOfMovies={4} />
+                                                    : <Navigate to='/' />
+                                        }
+                                    />
 
                                     <Route path='/login/' element={<Login />} />
                                     <Route path='/register/' element={<Register />} />

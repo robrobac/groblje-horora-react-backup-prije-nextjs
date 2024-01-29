@@ -52,10 +52,10 @@ export default function Reviews() {
                 </ReviewsTitleContainer>
                 {userData?.role === 'admin' && firebaseUser ? (
                     <ButtonsWrap>
-                        <Link to={'/dashboard/nova-recenzija'}>
+                        <Link to={'/dashboard/nova-recenzija'} target='_blank'>
                             <SmallButton>Nova Recenzija</SmallButton>
                         </Link>
-                        <Link to={'/dashboard/novi-kratki-pregled'}>
+                        <Link to={'/dashboard/novi-kratki-pregled'} target='_blank'>
                             <SmallButton>Novi Kratki Pregled</SmallButton>
                         </Link>
                     </ButtonsWrap>

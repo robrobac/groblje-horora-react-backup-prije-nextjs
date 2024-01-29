@@ -96,9 +96,18 @@ const ReviewSchema = new Schema({
     timestamps: true
 })
 
-ReviewSchema.index({
-    reviewTitle: 'text',
-    'movies.title': 'text',
-})
+ReviewSchema.index(
+    {
+        reviewTitle: 'text',
+        'movies.title': 'text',
+    },
+    {
+        weights:
+        {
+            reviewTitle: 2,
+            'movies.title': 1,
+        }
+    }
+)
 
 module.exports = mongoose.model('Review', ReviewSchema)

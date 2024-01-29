@@ -6,6 +6,7 @@ export default function useAuthCheck() {
     const [userData, setUserData] = useState(null)
     const [loggingIn, setLoggingIn] = useState(false)
     const [firebaseUser, setFirebaseUser] = useState(null)
+    const [loadingUser, setLoadingUser] = useState(true)
 
     // Effect hook to subscribe to authentication state changes
     useEffect(() => {
@@ -23,20 +24,25 @@ export default function useAuthCheck() {
                         // Set user data if the fetch is successful
                         setUserData(json)
                         setFirebaseUser(auth.currentUser)
+                        setLoadingUser(false)
 
                         if (json === null) {
                             setLoggingIn(!loggingIn)
+                            setLoadingUser(false)
                         }
                     } else {
+                        setLoadingUser(false)
                         console.log('error fetchin user', json)
                     }
                 } catch (err) {
+                    setLoadingUser(false)
                     console.log('error ferching user', err)
                 }
             } else {
                 // Reset user data if not authenticated
                 setUserData(null)
                 setFirebaseUser(null)
+                setLoadingUser(false)
             }
         })
 
@@ -50,6 +56,7 @@ export default function useAuthCheck() {
     return {
         userData,
         firebaseUser,
+        loadingUser
     }
 }
 

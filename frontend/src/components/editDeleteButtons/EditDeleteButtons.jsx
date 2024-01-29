@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {ReactComponent as DeleteIcon} from '../../images/deleteicon.svg'
 import {ReactComponent as EditIcon} from '../../images/editicon.svg'
 import { deleteImageFromFirebaseStorage } from '../../helpers/firebaseUtils'
 import { Link } from 'react-router-dom'
 import { EditDeleteButtonsContainer } from './EditDeleteButtons.styled'
+import { AuthContext } from '../../App'
 
-export default function EditDeleteButtons({post, handleRefresh}) {
+export default function EditDeleteButtons({post, handleRefresh, targetBlank}) {
+
+    const { userData, firebaseUser } = useContext(AuthContext)
 
     const handleDelete = async (review) => {
 
@@ -45,16 +48,22 @@ export default function EditDeleteButtons({post, handleRefresh}) {
         }
     }
 
-    return (
-        <EditDeleteButtonsContainer>
-            <div className="adminBtn" onClick={() => handleDelete(post)}>
-                <DeleteIcon/>
-            </div>
-            <Link to={`/recenzije/${post.slug}/edit`}>
-                <div className="adminBtn">
-                    <EditIcon />                       
+    if (userData?.role === 'admin' && firebaseUser) {
+        return (
+            <EditDeleteButtonsContainer>
+                <div className="adminBtn" onClick={() => handleDelete(post)}>
+                    <DeleteIcon/>
                 </div>
-            </Link>
-        </EditDeleteButtonsContainer>
-    )
+                <Link to={`/recenzije/${post.slug}/edit`} target={targetBlank ? '_blank' : ''}>
+                    <div className="adminBtn">
+                        <EditIcon />                       
+                    </div>
+                </Link>
+            </EditDeleteButtonsContainer>
+        )
+    } else {
+        return null
+    }
+
+    
 }

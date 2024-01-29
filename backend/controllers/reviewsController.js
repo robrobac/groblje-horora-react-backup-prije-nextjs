@@ -19,7 +19,7 @@ const getReviews = async (req, res) => {
     const skip = (page - 1) * perPage
 
     if (search) {
-        console.log('dadada')
+
         const reviewsQuery = {
             $or: [
                 { $text: { $search: search } },
@@ -30,8 +30,8 @@ const getReviews = async (req, res) => {
         const reviews = await Review.find(reviewsQuery)
             .skip(skip)
             .limit(perPage)
-            .sort([['createdAt', -1],])
-            .sort()  // Sort by relevance
+            // .sort([['createdAt', -1]])
+            .sort({ score: { $meta: "textScore" } })  // Sort by relevance
         const totalReviewsCount = await Review.countDocuments(reviewsQuery)
 
         return res.status(200).json({

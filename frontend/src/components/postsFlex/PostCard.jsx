@@ -12,7 +12,7 @@ export default function PostCard({post, handleRefresh}) {
         <PostCardContainer>
             <PostCardDetails>
                 <PostImage post={post}/>
-                <EditDeleteButtons post={post} handleRefresh={handleRefresh}/>
+                <EditDeleteButtons post={post} handleRefresh={handleRefresh} targetBlank={true}/>
                 <PostDescription post={post}/>
             </PostCardDetails>
             <ButtonStandard path={`/recenzije/${post?.slug}`} content='Pročitaj više →' type='textOnly' newTab={true}/>
