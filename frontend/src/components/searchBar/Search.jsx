@@ -1,4 +1,5 @@
 import React from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { FilterControl, SearchBar, SearchComp, SearchContainer, SearchControls, SearchIcon, SortControl } from './Search.styled';
 import { ReactComponent as SearchIconSVG } from '../../images/search-icon.svg';
 import { SORT_OPTIONS } from '../../helpers/sortOptions';
@@ -13,13 +14,43 @@ export default function Search({ search, handleSearch, sort, order, handleSortAn
         count
     } = useCountReviews()
 
+    const inputRef = useRef(null)
+
+    //  event listeners for closing the virtual keyboard on touch outside the input field
+    useEffect(() => {
+        // Attach scroll event listener when component mounts
+        window.addEventListener('touchstart', handleOutsideClick);
+        
+        // Detach scroll event listener when component unmounts
+        return () => {
+            window.removeEventListener('touchstart', handleOutsideClick);
+        };
+    }, []);
+        
+    //  function that handles tapping outside the input value in order to close virtual keyboard
+    const handleOutsideClick = (e) => {
+        console.log('Tap outside')
+        // Blur input if the click is outside of the input element
+        if (inputRef.current && !inputRef.current.contains(e.target)) {
+            inputRef.current.blur();
+        }
+    };
+        
+    //  close virtual keyboard on enter
+    const onEnter = (e) => {
+        console.log('On Enter')
+        if (e.key === "Enter") {
+            e.target.blur();
+        }
+    };
+
     return (
         <SearchComp>
         <SearchContainer>
             <SearchIcon htmlFor='adminSearch'>
                 <SearchIconSVG />
             </SearchIcon>
-            <SearchBar id='adminSearch' type='search' placeholder='Search' value={search} onChange={(e) => handleSearch(e.target.value || '')}/>
+            <SearchBar ref={inputRef} onKeyUp={onEnter} id='adminSearch' type='search' placeholder='Search' value={search} onChange={(e) => handleSearch(e.target.value || '')}/>
         </SearchContainer>
         {controls ? (
             <SearchControls>
