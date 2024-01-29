@@ -22,3 +22,11 @@ export const ReviewsTitleContainer = styled.div`
         max-width: ${(props) => props.theme.dark.smallWidth};
     }
 `
+
+export const ButtonsWrap = styled.div`
+    display: flex;
+    width: 100%;
+    max-width: ${(props) => props.theme.dark.normalWidth};
+    gap: 16px;
+    padding: 0 ${(props) => props.theme.dark.contentPadding};
+`

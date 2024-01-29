@@ -20,9 +20,6 @@ export default function DesktopNav() {
                         <DesktopNavItem className='headerLink' to='/recenzije?page=1&sort=createdAt&order=desc'>Recenzije</DesktopNavItem>
                         <DesktopNavItem className='headerLink' to='/top20smeca'>Top 20 Smeća</DesktopNavItem>
                         <DesktopNavItem className='headerLink' to='/o-blogu'>O Blogu</DesktopNavItem>
-                        {userData?.role === 'admin' ? (
-                            <DesktopNavItem className='headerLink' to='/dashboard'>Dashboard</DesktopNavItem>
-                        ) : ''}
                     </ul>
                     <ul>
                         {userData ? (

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'; // Import HelmetProvider
 import styled from "styled-components";
 
@@ -17,19 +17,16 @@ import Theme from './Theme';
 
 import GlobalStyles from './Global.styles';
 import Header from './components/header/Header';
-import Dashboard from './pages/Dashboard/Dashboard';
 import NewForm from './pages/Dashboard/NewForm';
 import EditForm from './pages/Dashboard/EditForm';
 import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
 import useAuthCheck from './hooks/useAuthCheck';
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useState } from 'react';
 import VerifyEmail from './pages/Auth/VerifyEmail';
-import { auth } from './firebase/config';
 import Footer from './components/footer/Footer';
 import PageNotFound from './pages/PageNotFound/PageNotFound';
 import BackToTopButton from './components/buttons/backToTopButton/BackToTopButton';
-import scrollToTop from './helpers/scrollToTop';
 import ScrollAfterRouteChange from './components/scrollAfterRouteChange/ScrollAfterRouteChange';
 
 
@@ -68,8 +65,6 @@ function App() {
                                     <Route path='/top20smeca/' element={<Worse20 />} />
                                     <Route path='/o-blogu/' element={<About />} />
 
-                                    {/* Restricted */} <Route path='/dashboard/' element={userData?.role === 'admin' ? <Dashboard /> : <Navigate to='/' />} />
-                                    {/* Restricted */} <Route path='/dashboard/add-new' element={userData?.role === 'admin' ? <NewForm /> : <Navigate to='/' />} />
                                     {/* Restricted */} <Route path='/dashboard/nova-recenzija' element={userData ? <NewForm numberOfMovies={1} /> : <Navigate to='/' />} />
                                     {/* Restricted */} <Route path='/dashboard/novi-kratki-pregled' element={userData?.role === 'admin' ? <NewForm numberOfMovies={4} /> : <Navigate to='/' />} />
 

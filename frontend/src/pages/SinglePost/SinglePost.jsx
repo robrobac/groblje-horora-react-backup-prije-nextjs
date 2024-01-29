@@ -10,6 +10,7 @@ import HelmetSettings from '../../components/HelmetSettings'
 import Comments from '../../components/comments/Comments'
 import Loading from '../../components/loading/Loading'
 import PageNotFound from '../PageNotFound/PageNotFound'
+import EditDeleteButtons from '../../components/editDeleteButtons/EditDeleteButtons'
 
 export default function SinglePost() {
     const { slug } = useParams()
@@ -73,6 +74,7 @@ export default function SinglePost() {
                 {post?.reviewType === 'quad' ? (
                     <>
                     <SinglePostCover post={post}/>
+                    <EditDeleteButtons post={post}/>
                     <div className="movieAndDate">
                         <MovieDate>
                             {format(new Date(post?.createdAt), 'dd.MM.yyyy')}

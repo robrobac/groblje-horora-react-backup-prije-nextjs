@@ -96,7 +96,7 @@ export default function useFetchReviewsWithParams(pageName, initialSort, initial
 
     useEffect(() => {
         fetchReviews();
-    }, [page, filter, sort, order, search]);
+    }, [page, filter, sort, order, search, refresh]);
 
 
     useEffect(() => {

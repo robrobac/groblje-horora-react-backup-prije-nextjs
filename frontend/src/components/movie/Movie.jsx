@@ -3,6 +3,7 @@ import Rating from '../Rating'
 import draftToHtml from 'draftjs-to-html'
 import { MovieContainer, MovieDate, MovieImage, MovieInfo, ReadingContent, ReadingSection, TitleH1, TitleH2 } from './Movie.styled'
 import { format } from 'date-fns'
+import EditDeleteButtons from '../editDeleteButtons/EditDeleteButtons'
 
 export default function Movie({ post, movie, type}) {
     const [reviewContent, setReviewContent] = useState({})
@@ -27,6 +28,7 @@ export default function Movie({ post, movie, type}) {
                     <MovieImage>
                         <img src={movie.coverImage} alt='movie-cover'></img>
                     </MovieImage>
+                    <EditDeleteButtons post={post}/>
                     <MovieDate>
                         {format(new Date(post?.createdAt), 'dd.MM.yyyy')}
                     </MovieDate>

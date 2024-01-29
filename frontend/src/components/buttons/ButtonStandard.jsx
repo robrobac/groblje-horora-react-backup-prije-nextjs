@@ -12,7 +12,7 @@ export default function ButtonStandard({path, content, type, span, newTab}) {
 
     if (type === 'textOnly') {
         return (
-            <Link to={path} target={newTab ? '_blank' : '_self'}>
+            <Link to={path} target={newTab ? '_blank' : '_self'} style={{textAlign: 'right'}}>
                 <TextButton>{content}</TextButton>
             </Link>
         )
