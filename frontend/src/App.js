@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'; // Import HelmetProvider
 import styled from "styled-components";
 
@@ -29,6 +29,8 @@ import { auth } from './firebase/config';
 import Footer from './components/footer/Footer';
 import PageNotFound from './pages/PageNotFound/PageNotFound';
 import BackToTopButton from './components/buttons/backToTopButton/BackToTopButton';
+import scrollToTop from './helpers/scrollToTop';
+import ScrollAfterRouteChange from './components/scrollAfterRouteChange/ScrollAfterRouteChange';
 
 
 export const AuthContext = createContext();
@@ -51,9 +53,8 @@ function App() {
                     <AuthContext.Provider value={{ userData, firebaseUser }}>
                         <LoadingContext.Provider value={{ loading, handleLoading }}>
                             <AppPage>
-
+                                <ScrollAfterRouteChange />
                                 <Header />
-
                                 {firebaseUser && !firebaseUser.emailVerified && <VerifyEmail />}
                                 <Routes>
                                     <Route path='/' element={<Home />} />
@@ -77,9 +78,6 @@ function App() {
 
                                     <Route path="/*" element={<PageNotFound />} />
                                     <Route path='/recenzije/*/' element={<PageNotFound />} />
-
-
-
                                 </Routes>
                                 <BackToTopButton />
                                 <Footer />
