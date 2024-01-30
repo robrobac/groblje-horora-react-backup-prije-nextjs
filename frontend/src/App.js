@@ -28,7 +28,6 @@ import Footer from './components/footer/Footer';
 import PageNotFound from './pages/PageNotFound/PageNotFound';
 import BackToTopButton from './components/buttons/backToTopButton/BackToTopButton';
 import ScrollAfterRouteChange from './components/scrollAfterRouteChange/ScrollAfterRouteChange';
-import Loading from './components/loading/Loading';
 
 
 export const AuthContext = createContext();
